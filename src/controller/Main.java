@@ -8,26 +8,41 @@ import model.*;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-        /*
-         Press Alt+Enter with your caret at the highlighted text to see how
-         IntelliJ IDEA suggests fixing it.
-                System.out.printf("Hello and welcome!");
-
-
-
-
-                // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-                for (int i = 1; i <= 5; i++) {
-
-                    // Press Shift+F9 to start debugging your code. We have set one breakpoint
-                    // for you, but you can always add more by pressing Ctrl+F8.
-                    System.out.println("i = " + i);
-                }
-        */
 
 
         // crea la view
-        Finestra f = new Finestra();
+        //Finestra f = new Finestra();
+
+
+        // crea un model
+        Counter c=new Counter();
+        ApplicationManager.modelInstance=c;
+
+        // crea la view
+        Finestra f=new Finestra();
+
+        // innesca il meccanismo Observer Observable
+        c.addObserver(f.getPannelloSpaziale());
+
+        // FARE COSE
+        c.reset();
+
+        while (true)
+        {
+
+            if (ApplicationManager.automatic)
+                c.inc();
+
+            try {
+
+                Thread.sleep(1000);
+                c.inc();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 }
