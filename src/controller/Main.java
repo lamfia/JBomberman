@@ -10,9 +10,6 @@ public class Main {
     public static void main(String[] args) {
 
 
-        // crea la view
-        //Finestra f = new Finestra();
-
 
         // crea un model
         Counter c=new Counter();
