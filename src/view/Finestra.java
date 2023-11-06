@@ -35,7 +35,7 @@ public class Finestra extends JFrame {
 
         JButton bInc = new JButton("PROVA BUTTON");
         add(bInc);
-        bInc.setBounds(50, 140, 40, 40);
+        bInc.setBounds(200, 140, 40, 40);
         bInc.addActionListener(new IncrementoListener());
         setVisible(true);
     }

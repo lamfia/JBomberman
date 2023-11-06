@@ -8,14 +8,28 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-public class PannelloSpaziale extends JPanel implements Observer {
+public class PannelloSpaziale extends JPanel implements Observer , Runnable {
 
     private String testoPannello = "ciao";
     private Image image1;
 
 
+    Thread gameThread;
+
+    public void startGameThread(){
+            gameThread= new Thread(this);
+
+            gameThread.start();
+
+    }
+    @Override
+    public void run() {
+
+        //Gameloop
+
+    }
     public PannelloSpaziale()  {
-        setBackground(Color.lightGray);
+        setBackground(Color.blue);
 
         try {
 
@@ -25,8 +39,6 @@ public class PannelloSpaziale extends JPanel implements Observer {
         }catch (IOException ex){
 
         }
-
-
 
 
     }
@@ -42,10 +54,11 @@ public class PannelloSpaziale extends JPanel implements Observer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.drawImage(image1, 0, 0, 40, 40, this);
-        g2.setColor(Color.WHITE);
+        g2.drawImage(image1, 40, 0, 40, 40, this);
+        g2.setColor(Color.white);
         g2.drawString(testoPannello, 20, 20);
 
     }
+
 
 }

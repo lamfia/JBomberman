@@ -6,7 +6,7 @@ package model;
  * il quale è controllato dal giocatore
  * @author Gabriel Guerra
  */
-public class WhiteBomberman extends  Personaggio{
+public class Giocatore extends  Personaggio{
 
     @Override
     public void Movimento() {
