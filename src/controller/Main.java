@@ -9,6 +9,9 @@ import model.*;
 public class Main {
     public static void main(String[] args) {
 
+        PannelloSpaziale p= new PannelloSpaziale();
+
+        p.startGameThread();
 
         // crea un model
         Counter counter=new Counter();
@@ -25,10 +28,9 @@ public class Main {
 
         while (true)
         {
-            if (ApplicationManager.automatic)
-                counter.inc();
-
             try {
+
+
                 Thread.sleep(1000);
                 counter.inc();
 

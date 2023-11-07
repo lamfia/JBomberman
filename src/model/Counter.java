@@ -32,7 +32,8 @@ public class Counter extends Observable {
   {
 	  return valore;
   }
- 
+
+  //Notifica agli observers
   private void notifica()
   {
 	  setChanged();
