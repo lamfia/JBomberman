@@ -9,13 +9,16 @@ import model.*;
 public class Main {
     public static void main(String[] args) {
 
-        PannelloSpaziale p= new PannelloSpaziale();
+        GamePanel p= new GamePanel();
 
-        p.startGameThread();
+       // p.startGameThread();
 
         // crea un model
         Counter counter=new Counter();
-        ApplicationManager.modelInstance=counter;
+        Movimento Movimento=new Movimento(0,0);
+//
+        ApplicationManager.counter=counter;
+        ApplicationManager.movimento=Movimento;
 
         // crea la view
         Finestra f=new Finestra();
@@ -23,21 +26,23 @@ public class Main {
         // innesca il meccanismo Observer Observable
         counter.addObserver(f.getPannelloSpaziale());
 
+        Movimento.addObserver(f.getPannelloSpaziale());
+
         // FARE COSE
-        counter.reset();
+        //counter.reset();
 
-        while (true)
-        {
-            try {
-
-
-                Thread.sleep(1000);
-                counter.inc();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        while (true)
+//        {
+//            try {
+//
+//
+//                Thread.sleep(1000);
+//                counter.inc();
+//
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
     }

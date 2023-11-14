@@ -4,7 +4,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import controller.IncrementoListener;
-
+import controller.KeyHandler;
 
 
 /**
@@ -13,7 +13,7 @@ import controller.IncrementoListener;
  */
 public class Finestra extends JFrame {
 
-    private PannelloSpaziale pannelloSpaziale;
+    private GamePanel gamePanel;
 
     public Finestra() {
 
@@ -29,19 +29,25 @@ public class Finestra extends JFrame {
         //setResizable(false); //disable resize dello schermo
 
         //pannello
-        pannelloSpaziale = new PannelloSpaziale();
-        add(pannelloSpaziale);
-        pannelloSpaziale.setBounds(20, 20, 180, 100);
+        gamePanel = new GamePanel();
+        add(gamePanel);
+        gamePanel.setBounds(20, 20, 180, 100);
 
         JButton bInc = new JButton("PROVA BUTTON");
         add(bInc);
         bInc.setBounds(200, 140, 40, 40);
         bInc.addActionListener(new IncrementoListener());
+
+
+        this.addKeyListener( new KeyHandler());
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(false);
+
         setVisible(true);
     }
 
-    public PannelloSpaziale getPannelloSpaziale() {
-        return pannelloSpaziale;
+    public GamePanel getPannelloSpaziale() {
+        return gamePanel;
     }
 
 }
