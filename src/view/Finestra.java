@@ -3,7 +3,7 @@ package view;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import controller.IncrementoListener;
+
 import controller.KeyHandler;
 
 
@@ -33,10 +33,10 @@ public class Finestra extends JFrame {
         add(gamePanel);
         gamePanel.setBounds(20, 20, 180, 100);
 
-        JButton bInc = new JButton("PROVA BUTTON");
-        add(bInc);
-        bInc.setBounds(200, 140, 40, 40);
-        bInc.addActionListener(new IncrementoListener());
+//        JButton bInc = new JButton("PROVA BUTTON");
+//        add(bInc);
+//        bInc.setBounds(200, 140, 40, 40);
+//        bInc.addActionListener(new IncrementoListener());
 
 
         this.addKeyListener( new KeyHandler());

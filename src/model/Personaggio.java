@@ -10,9 +10,10 @@ public abstract class Personaggio {
     /**
      * Azione per il movimento del personnaggio della partita
      */
-    public abstract void Movimento();
+    public Movimento movimento ;
 
     public  int Salute;
+
 
 
 

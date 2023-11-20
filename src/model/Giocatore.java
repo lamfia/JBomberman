@@ -8,8 +8,11 @@ package model;
  */
 public class Giocatore extends  Personaggio{
 
-    @Override
-    public void Movimento() {
+
+    public Giocatore(){
+
 
     }
+
+
 }

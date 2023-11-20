@@ -1,30 +1,31 @@
 package view;
 
 
+import model.Time;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 public class GamePanel extends JPanel implements Observer {
 
-    private String testoPannello = "ciao";
+    private String TempoGioco = "00:00:00";
     private Image image1;
 
-    private int posGiocatoreX=0;
-    private int posGiocatoreY=0;
+    private int posGiocatoreX;
+    private int posGiocatoreY;
     private int GiocatoreVelocita=0;
 
     Thread gameThread;
 
     //Questo è il construttore
     public GamePanel()  {
-        setBackground(Color.blue);
+        setBackground(Color.gray);
         try {
             image1 = ImageIO.read(new File("bomberman.png"));
             //this.addKeyListener(new KeyHandler());
@@ -61,7 +62,9 @@ public class GamePanel extends JPanel implements Observer {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(image1, posGiocatoreX, posGiocatoreY, 40, 40, this);
         g2.setColor(Color.white);
-        g2.drawString(testoPannello, 50, 50);
+
+        g2.drawString(TempoGioco, 10, 20);
+
         g2.fillRect(100,100,48,48);
 
     }
@@ -69,11 +72,18 @@ public class GamePanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg ) {
 
-        //testoPannello += "a";
 
-        ArrayList<Integer> pos= (ArrayList<Integer>) arg;
-        posGiocatoreX= pos.get(0);
-        posGiocatoreY= pos.get(1);
+
+        if (o instanceof Time){
+
+            TempoGioco = (String) arg;
+
+        }else {
+            ArrayList<Integer> pos= (ArrayList<Integer>) arg;
+            posGiocatoreX= pos.get(0); //X
+            posGiocatoreY= pos.get(1); //Y
+        }
+
 
         repaint();
     }

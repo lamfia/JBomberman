@@ -11,38 +11,31 @@ public class Main {
 
         GamePanel p= new GamePanel();
 
-       // p.startGameThread();
+        //Crea i model
+        var Movimento=new Movimento(0,0);
+        var time =new Time();
 
-        // crea un model
-        Counter counter=new Counter();
-        Movimento Movimento=new Movimento(0,0);
-//
-        ApplicationManager.counter=counter;
         ApplicationManager.movimento=Movimento;
 
         // crea la view
         Finestra f=new Finestra();
 
-        // innesca il meccanismo Observer Observable
-        counter.addObserver(f.getPannelloSpaziale());
-
+        //Observer, observable
         Movimento.addObserver(f.getPannelloSpaziale());
 
-        // FARE COSE
-        //counter.reset();
+        time.addObserver(f.getPannelloSpaziale());
 
-//        while (true)
-//        {
-//            try {
-//
-//
-//                Thread.sleep(1000);
-//                counter.inc();
-//
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        //LOOP DEL GAME
+        while (true)
+        {
+            try {
+
+                time.notifyCurrentTime();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 
     }

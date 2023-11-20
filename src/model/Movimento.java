@@ -7,10 +7,9 @@ import java.util.Observable;
 
 public  class Movimento extends Observable {
 
-    private int pos_x;
+    public int pos_x;
 
-    private int pos_y;
-
+    public int pos_y;
 
     public Movimento(int posX, int posY) {
         pos_x = posX;
