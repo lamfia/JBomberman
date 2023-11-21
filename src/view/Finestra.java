@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 
 import controller.KeyHandler;
 
+import java.awt.*;
+
 
 /**
  * Finestra principale del gioco
@@ -28,10 +30,7 @@ public class Finestra extends JFrame {
         setLocationRelativeTo(null); //location schermo centro dello schermo
         //setResizable(false); //disable resize dello schermo
 
-        //pannello
-        gamePanel = new GamePanel();
-        add(gamePanel);
-        gamePanel.setBounds(20, 20, 180, 100);
+
 
 //        JButton bInc = new JButton("PROVA BUTTON");
 //        add(bInc);
@@ -39,11 +38,16 @@ public class Finestra extends JFrame {
 //        bInc.addActionListener(new IncrementoListener());
 
 
-        this.addKeyListener( new KeyHandler());
+        this.addKeyListener(new KeyHandler());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
 
         setVisible(true);
+
+        //pannello
+        gamePanel = new GamePanel(Color.gray);
+        add(gamePanel);
+        gamePanel.setBounds(20, 20,1100,600);
     }
 
     public GamePanel getPannelloSpaziale() {

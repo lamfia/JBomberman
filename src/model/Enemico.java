@@ -1,8 +1,8 @@
 package model;
 
-public  class Enemico extends Personaggio {
-
-
-
-
-}
+//public  class Enemico extends Personaggio {
+//
+//
+//
+//
+//}

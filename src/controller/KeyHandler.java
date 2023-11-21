@@ -8,11 +8,6 @@ import java.util.Observable;
 
 public class KeyHandler implements KeyListener  {
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
-    private int pos_x;
-
-    private int pos_y;
-
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -23,43 +18,36 @@ public class KeyHandler implements KeyListener  {
         int code= e.getKeyCode();
 
         if(code==KeyEvent.VK_W){
-           ApplicationManager.movimento.goUp();
+           ApplicationManager.movimento.goUp(false);
         }
         if(code==KeyEvent.VK_A){
-            leftPressed=true;
-            ApplicationManager.movimento.goLeft();
+            ApplicationManager.movimento.goLeft(false);
         }
         if(code==KeyEvent.VK_S){
-            downPressed=true;
-            ApplicationManager.movimento.goDown();
+            ApplicationManager.movimento.goDown(false);
         }
         if(code==KeyEvent.VK_D){
-            rightPressed=true;
-            ApplicationManager.movimento.goRight();
+            ApplicationManager.movimento.goRight(false);
         }
 
     }
-    public Map<Integer,Integer> getPos() {
-        Map<Integer, Integer> Pos = new HashMap<>();
-        Pos.put(pos_x,pos_y);
-        return Pos;
-    }
+
     @Override
     public void keyReleased(KeyEvent e) {
 
         int code= e.getKeyCode();
 
         if(code==KeyEvent.VK_W){
-            upPressed=false;
+            ApplicationManager.movimento.goUp(true);
         }
         if(code==KeyEvent.VK_A){
-            leftPressed=false;
+            ApplicationManager.movimento.goLeft(true);
         }
         if(code==KeyEvent.VK_S){
-            downPressed=false;
+            ApplicationManager.movimento.goDown(true);
         }
         if(code==KeyEvent.VK_D){
-            rightPressed=false;
+            ApplicationManager.movimento.goRight(true);
         }
 
     }

@@ -4,26 +4,36 @@ import view.*;
 
 import model.*;
 
+import java.io.IOException;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        GamePanel p= new GamePanel();
+
 
         //Crea i model
-        var Movimento=new Movimento(0,0);
+        //var Movimento=new Movimento(0,0);
+
         var time =new Time();
 
-        ApplicationManager.movimento=Movimento;
+        var giocatore= new Giocatore(200,20,100,1);
 
-        // crea la view
-        Finestra f=new Finestra();
+        ApplicationManager.movimento= giocatore.movimento;
+
+        //Crea la view
+        var f=new Finestra();
+        f.getPannelloSpaziale().addPersonaggio(giocatore);
 
         //Observer, observable
-        Movimento.addObserver(f.getPannelloSpaziale());
+        //Movimento.addObserver(f.getPannelloSpaziale());
 
         time.addObserver(f.getPannelloSpaziale());
+
+        giocatore.movimento.addObserver(f.getPannelloSpaziale());
+
+        f.getPannelloSpaziale().startGameThread();
 
         //LOOP DEL GAME
         while (true)
