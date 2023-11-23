@@ -44,6 +44,8 @@ public class Finestra extends JFrame {
 
         setVisible(true);
 
+
+
         //pannello
         gamePanel = new GamePanel(Color.gray);
         add(gamePanel);
