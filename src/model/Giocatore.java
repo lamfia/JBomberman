@@ -16,7 +16,7 @@ public class Giocatore extends  Personaggio{
         super(posX,posY,Salute,velocita);
 
 
-//         //Set degli sprites
+          //Set degli sprites
          var pathImages= new PathImages();
 
          var pathSource="src/view/res/giocatore/";

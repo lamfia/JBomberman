@@ -24,7 +24,7 @@ public class Finestra extends JFrame {
 
         //Configurazione schermo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(0, 0, 400, 600);
+        setBounds(0, 0, 800, 600);
         setLayout(null);
         setSize(1200,800);
         setLocationRelativeTo(null); //location schermo centro dello schermo
@@ -48,6 +48,7 @@ public class Finestra extends JFrame {
 
         //pannello
         gamePanel = new GamePanel(Color.gray);
+
         add(gamePanel);
         gamePanel.setBounds(20, 20,1100,600);
     }

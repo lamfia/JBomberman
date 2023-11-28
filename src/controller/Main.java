@@ -18,13 +18,14 @@ public class Main {
 
         var time =new Time();
 
-        var giocatore= new Giocatore(200,20,100,1);
+        var giocatore= new Giocatore(400,200,100,2);
 
         ApplicationManager.movimento= giocatore.movimento;
 
         //Crea la view
         var f=new Finestra();
         f.getPannelloSpaziale().addPersonaggio(giocatore);
+
 
         //Observer, observable
         //Movimento.addObserver(f.getPannelloSpaziale());
