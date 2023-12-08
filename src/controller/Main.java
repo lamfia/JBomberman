@@ -23,7 +23,7 @@ public class Main {
         ApplicationManager.movimento= giocatore.movimento;
 
         //Crea la view
-        var f=new Finestra();
+        var f=new Finestra(800,600);
         f.getPannelloSpaziale().addPersonaggio(giocatore);
 
 

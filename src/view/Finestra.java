@@ -17,7 +17,9 @@ public class Finestra extends JFrame {
 
     private GamePanel gamePanel;
 
-    public Finestra() {
+
+
+    public Finestra(int dimensionWidht, int dimensionHeight) {
 
         //Construttore
         super("JBomberman");
@@ -26,7 +28,7 @@ public class Finestra extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(0, 0, 800, 600);
         setLayout(null);
-        setSize(1200,800);
+        setSize(800,600);
         setLocationRelativeTo(null); //location schermo centro dello schermo
         //setResizable(false); //disable resize dello schermo
 
@@ -46,11 +48,11 @@ public class Finestra extends JFrame {
 
 
 
-        //pannello
-        gamePanel = new GamePanel(Color.gray);
+        //GamePanel
+        gamePanel = new GamePanel(Color.gray,dimensionWidht, dimensionHeight);
 
         add(gamePanel);
-        gamePanel.setBounds(20, 20,1100,600);
+        gamePanel.setBounds(0, 0,800,600);
     }
 
     public GamePanel getPannelloSpaziale() {

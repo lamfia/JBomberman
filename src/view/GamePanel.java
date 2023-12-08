@@ -23,15 +23,12 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 
     private Image map;
 
-
     private int posGiocatoreX;
     private int posGiocatoreY;
+
+    private int dimensionWidth;
+    private int dimensionHeight;
     private int GiocatoreVelocita=0;
-
-    private String pathImage;
-
-    private BufferedImage bufferedImage;
-
 
     Thread gameThread;
 
@@ -74,10 +71,12 @@ public class GamePanel extends JPanel implements Observer,Runnable {
     }
 
     //Questo è il construttore
-    public GamePanel( Color colorBackGround)  {
+    public GamePanel( Color colorBackGround, int dimensionWidth, int dimensionHeight)  {
 
 
 
+    this.dimensionHeight=dimensionHeight;
+    this.dimensionWidth=dimensionWidth;
 
 
 //
@@ -120,17 +119,19 @@ public class GamePanel extends JPanel implements Observer,Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         try {
+
             map = ImageIO.read(new File("src/view/maps/pirata.png"));
-            g2.drawImage(map,0,0,800,600,this);
+            g2.drawImage(map,0,0,dimensionWidth,dimensionHeight,this);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        //player
         g2.drawImage(image1, posGiocatoreX, posGiocatoreY, 40, 40, this);
 
-        g2.setColor(Color.white);
-
         //Timer del gioco
+        g2.setColor(Color.white);
         g2.drawString(TempoGioco, 10, 20);
 
     }
