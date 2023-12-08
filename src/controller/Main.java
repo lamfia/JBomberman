@@ -20,6 +20,7 @@ public class Main {
 
         var giocatore= new Giocatore(400,200,100,2);
 
+
         ApplicationManager.movimento= giocatore.movimento;
 
         //Crea la view
