@@ -2,6 +2,7 @@ package model;
 
 import controller.PathImages;
 
+import java.awt.*;
 import java.util.Observable;
 
 /**
@@ -17,6 +18,10 @@ public abstract class Personaggio  {
     public Movimento movimento ;
 
     public  int Salute;
+
+    public Rectangle solidArea;
+
+    public boolean collisionOn=false;
 
     /*
     Descrive la imaggine con un accesso alla data della stessa

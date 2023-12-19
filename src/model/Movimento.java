@@ -302,6 +302,9 @@ public class Movimento extends Observable {
     }
 
     private void notifica() {
+
+
+
         setChanged();
         notifyObservers(posizione);
     }

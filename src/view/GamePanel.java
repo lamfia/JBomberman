@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.CollisionChecker;
 import controller.Posizione;
 import controller.TileManager;
 import model.Movimento;
@@ -20,7 +21,7 @@ import java.util.Observer;
 public class GamePanel extends JPanel implements Observer,Runnable {
 
     //Tiles
-    final int originalTileSize= 16; //16x16 tile
+    final int originalTileSize= 20; //19x19 tile
     final int scale=3;
     public final int tileSize= originalTileSize*scale;
 
@@ -29,6 +30,9 @@ public class GamePanel extends JPanel implements Observer,Runnable {
     private Image image1;
 
     private Image map;
+
+
+    public CollisionChecker cChecker= new CollisionChecker(this);
 
     private int posGiocatoreX;
     private int posGiocatoreY;
