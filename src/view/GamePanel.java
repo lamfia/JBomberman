@@ -2,6 +2,7 @@ package view;
 
 
 import controller.Posizione;
+import controller.TileManager;
 import model.Movimento;
 import model.Personaggio;
 import model.Time;
@@ -18,6 +19,12 @@ import java.util.Observer;
 
 public class GamePanel extends JPanel implements Observer,Runnable {
 
+    //Tiles
+    final int originalTileSize= 16; //16x16 tile
+    final int scale=3;
+    public final int tileSize= originalTileSize*scale;
+
+    TileManager tileM= new TileManager(this);
     private String TempoGioco = "00:00:00";
     private Image image1;
 
@@ -119,9 +126,10 @@ public class GamePanel extends JPanel implements Observer,Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         try {
-
-            map = ImageIO.read(new File("src/view/maps/pirata.png"));
+            map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
             g2.drawImage(map,0,0,dimensionWidth,dimensionHeight,this);
+
+            tileM.draw(g2);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
