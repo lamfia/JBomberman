@@ -159,8 +159,13 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 
             var movimento= (Posizione) arg ;
 
-            posGiocatoreX= movimento.pos_x;
-            posGiocatoreY= movimento.pos_y;
+            //Aggiorna movimento se entra nei limiti
+
+                posGiocatoreX= movimento.pos_x;
+                posGiocatoreY= movimento.pos_y;
+
+
+
 
             try {
                 this.image1 = ImageIO.read(new File( movimento.ImageAttuale));
@@ -169,6 +174,8 @@ public class GamePanel extends JPanel implements Observer,Runnable {
             }
 
         }
+
+
             repaint();
 
     }
