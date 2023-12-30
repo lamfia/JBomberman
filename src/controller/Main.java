@@ -12,35 +12,39 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
 
+        //Crea il giocatore
+        var giocatore = new Giocatore(400, 200, 100, 2);
 
-        //Crea i model
-        //var Movimento=new Movimento(0,0);
-
-        var time =new Time();
-
-        var giocatore= new Giocatore(400,200,100,2);
-
-
-        ApplicationManager.movimento= giocatore.movimento;
+        ApplicationManager.movimento = giocatore.movimento;
 
         //Crea la view
-        var f=new Finestra(800,600);
-        f.getPannelloSpaziale().addPersonaggio(giocatore);
+        var f = new Finestra(800, 600);
+        f.getGamePanel().addPersonaggio(giocatore);
+
+        //Creo TileM e lo inietto dentro al GP
+        var tileM = new TileManager(f.getGamePanel());
+        f.getGamePanel().setTileM(tileM);
+
+        ApplicationManager.movimento.setTileM(tileM);
 
 
-        //Observer, observable
-        //Movimento.addObserver(f.getPannelloSpaziale());
 
-        time.addObserver(f.getPannelloSpaziale());
 
-        giocatore.movimento.addObserver(f.getPannelloSpaziale());
 
-        f.getPannelloSpaziale().startGameThread();
+
+        var time = new Time();
+        time.addObserver(f.getGamePanel());
+
+
+        giocatore.movimento.addObserver(f.getGamePanel());
+
 
         //LOOP DEL GAME
-        while (true)
-        {
+        while (true) {
             try {
+
+
+                //Implementare qui i movimenti degli enimici
 
                 time.notifyCurrentTime();
 

@@ -1,6 +1,5 @@
 package view;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
@@ -46,8 +45,6 @@ public class Finestra extends JFrame {
 
         setVisible(true);
 
-
-
         //GamePanel
         gamePanel = new GamePanel(Color.gray,dimensionWidht, dimensionHeight);
 
@@ -55,7 +52,7 @@ public class Finestra extends JFrame {
         gamePanel.setBounds(0, 0,800,600);
     }
 
-    public GamePanel getPannelloSpaziale() {
+    public GamePanel getGamePanel() {
         return gamePanel;
     }
 

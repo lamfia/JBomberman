@@ -3,6 +3,7 @@ package model;
 import controller.Direzione;
 import controller.PathImages;
 import controller.Posizione;
+import controller.TileManager;
 
 import javax.swing.*;
 import java.util.Map;
@@ -18,21 +19,22 @@ public class Movimento extends Observable {
     private final long imageChangeInterval = 150; // 0.15 secondi
     public int sprite = 0;
 
-    //double nextDrawTime= System.nanoTime()+drawInterval;
+    private TileManager tileM;
 
+    //double nextDrawTime= System.nanoTime()+drawInterval;
     public Movimento(int posX, int posY, int velocita) {
         posizione = new Posizione();
         posizione.pos_x = posX;
         posizione.pos_y = posY;
         this.velocita = velocita;
     }
-
     private long lastImageChangeTime = System.currentTimeMillis();
-
 
     public void goUp(Boolean isIdle) {
         if (posizione.pos_y < 0) {
+
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
+
         } else {
 
 
@@ -179,9 +181,10 @@ public class Movimento extends Observable {
 
     public void goLeft(Boolean isIdle) {
 
-        if (posizione.pos_x < 0) {
-            this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
+        //Controllo collisione
+        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione.pos_x, posizione.pos_y)) ) {
+            this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
         } else {
 
@@ -254,6 +257,7 @@ public class Movimento extends Observable {
     public void goRight(Boolean isIdle) {
 
         if (posizione.pos_x > 745) {
+
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 
 
@@ -331,8 +335,7 @@ public class Movimento extends Observable {
         System.out.println("pos X: " + posizione.pos_x);
         System.out.println("pos Y: " + posizione.pos_y);
 
-        //Se si può muovere allora notifica agli observers di aggiornare al movimento e pos
-
+        //Se si può muovere allora notifica agli observers di aggiornare la pos nella view
         setChanged();
         notifyObservers(posizione);
 
@@ -340,4 +343,11 @@ public class Movimento extends Observable {
     }
 
 
+    public TileManager getTileM() {
+        return tileM;
+    }
+
+    public void setTileM(TileManager tileM) {
+        this.tileM = tileM;
+    }
 }

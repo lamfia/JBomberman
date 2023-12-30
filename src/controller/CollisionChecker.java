@@ -17,7 +17,7 @@ public class CollisionChecker {
 
 
         //Vedere quando un pixel della classe rettangolo
-       // int personaggioLeftX=
+        //int personaggioLeftX=
 
 
     }

@@ -20,9 +20,6 @@ public class Giocatore extends Personaggio {
         //hitbox (rectangle area)
         solidArea = new Rectangle(3,17,13,13);
 
-
-
-
         //Set degli sprites
         var pathImages = new PathImages();
 

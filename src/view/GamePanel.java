@@ -18,39 +18,36 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GamePanel extends JPanel implements Observer,Runnable {
+public class GamePanel extends JPanel implements Observer, Runnable {
 
     //Tiles
-    final int originalTileSize= 20; //19x19 tile
-    final int scale=3;
-    public final int tileSize= originalTileSize*scale;
+    final int originalTileSize = 20; //19x19 tile
+    final int scale = 3;
+    public final int tileSize = originalTileSize * scale;
 
-    TileManager tileM= new TileManager(this);
+    private TileManager tileM;
     private String TempoGioco = "00:00:00";
     private Image image1;
-
     private Image map;
-
-
-    public CollisionChecker cChecker= new CollisionChecker(this);
-
+    private Graphics2D externalGraphics;
     private int posGiocatoreX;
     private int posGiocatoreY;
 
+
     private int dimensionWidth;
     private int dimensionHeight;
-    private int GiocatoreVelocita=0;
+    private int GiocatoreVelocita = 0;
 
     Thread gameThread;
 
-    public void startGameThread(){
-        gameThread= new Thread(this);
+    public void startGameThread() {
+        gameThread = new Thread(this);
         gameThread.start();
     }
 
     //private int FPS=30;
     @Override
-    public void run(){
+    public void run() {
 
 //        double drawInterval=1000000000/FPS;
 //        double nextDrawTime= System.nanoTime()+drawInterval;
@@ -81,13 +78,12 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 
     }
 
-    //Questo è il construttore
-    public GamePanel( Color colorBackGround, int dimensionWidth, int dimensionHeight)  {
+    //Constructor
+    public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight) {
 
 
-
-    this.dimensionHeight=dimensionHeight;
-    this.dimensionWidth=dimensionWidth;
+        this.dimensionHeight = dimensionHeight;
+        this.dimensionWidth = dimensionWidth;
 
 
 //
@@ -100,16 +96,17 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 //        }catch (IOException ex){
 //
 //        }
+
     }
 
     public void addPersonaggio(Personaggio personaggio) throws IOException {
 
-        this.posGiocatoreX= personaggio.movimento.posizione.pos_x;
-        this.posGiocatoreY= personaggio.movimento.posizione.pos_y;
+        this.posGiocatoreX = personaggio.movimento.posizione.pos_x;
+        this.posGiocatoreY = personaggio.movimento.posizione.pos_y;
 
         this.image1 = ImageIO.read(new File(personaggio.movimento.posizione.pathImages.downidle));
 
-       // .image1= personaggio.pathImages.down1;
+        // .image1= personaggio.pathImages.down1;
 
 
 //        var g = this.getGraphics();
@@ -125,22 +122,38 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 
     @Override
     public void paintComponent(Graphics g) {
+
         super.paintComponent(g);
 
-        Graphics2D g2 = (Graphics2D) g;
+        var g2 = (Graphics2D) g;
+
+        externalGraphics = g2;
 
         try {
             map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
-            g2.drawImage(map,0,0,dimensionWidth,dimensionHeight,this);
+            g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
-            tileM.draw(g2);
+            drawTiles();
+
+
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        //TileSquare
+        g.setColor(Color.BLUE);
+        g2.fillRect(172 , 190 , 60, 60);
+
         //player
-        g2.drawImage(image1, posGiocatoreX, posGiocatoreY, 40, 40, this);
+      //  g2.drawImage(image1, posGiocatoreX, posGiocatoreY, 40, 40, this);
+
+        //player square
+        g.setColor(Color.RED);
+        g2.fillRect(posGiocatoreX , posGiocatoreY , 40, 40);
+
+
 
         //Timer del gioco
         g2.setColor(Color.white);
@@ -148,38 +161,45 @@ public class GamePanel extends JPanel implements Observer,Runnable {
 
     }
 
-    @Override
-    public void update(Observable o, Object arg ) {
+    public void drawTiles() {
 
-        if (o instanceof Time){
+        tileM.draw(this.externalGraphics);
+    }
+
+    public void setTileM(TileManager tileM) {
+        this.tileM = tileM;
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        if (o instanceof Time) {
             TempoGioco = (String) arg;
         }
 
-        if ( o instanceof Movimento) {
+        if (o instanceof Movimento) {
 
-            var movimento= (Posizione) arg ;
+            var movimento = (Posizione) arg;
 
-            //Aggiorna movimento se entra nei limiti
-
-                posGiocatoreX= movimento.pos_x;
-                posGiocatoreY= movimento.pos_y;
+            //Aggiorna posizione dentro alla view
+            posGiocatoreX = movimento.pos_x;
+            posGiocatoreY = movimento.pos_y;
 
 
 
 
             try {
-                this.image1 = ImageIO.read(new File( movimento.ImageAttuale));
+                this.image1 = ImageIO.read(new File(movimento.ImageAttuale));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
         }
 
-
-            repaint();
+        repaint();
 
     }
-
 
 
 }
