@@ -42,7 +42,8 @@ public class TileManager {
             tile[0].x = 172;
             tile[0].y = 190;
 
-            tile[0].collisionRectangle= new Rectangle(172 , 190 , 60, 60);
+
+            tile[0].collisionRectangle = new Rectangle(172, 190, 60, 60);
 
 
         } catch (IOException e) {
@@ -59,9 +60,9 @@ public class TileManager {
      * @param y
      * @return true or false se è un tile con collission true
      */
-    public boolean isTileBlocked(int playerX, int playerY) {
+    public boolean isTileBlocked(Rectangle hitbox) {
 
-       // var isBlocked = Arrays.stream(tile).filter(i -> i.x == x && i.y == y).findFirst().orElse(false).get().collision;
+        // var isBlocked = Arrays.stream(tile).filter(i -> i.x == x && i.y == y).findFirst().orElse(false).get().collision;
 
 //        var isBlocked = Arrays.stream(tile)
 //                .filter(i -> i.x == x && i.y == y)
@@ -69,9 +70,29 @@ public class TileManager {
 //                .map(tile -> tile.collision)
 //                .orElse(false);
 
+
+        //TODO mettere hitbox variabile secondo personaggio?
+        //hitbox
+//        int finalX = playerX + 7;
+//        int finalY = playerY + 11;
+
+//        //Hitbox!
+//        g.setColor(Color.RED);
+//        g2.fillRect(posGiocatoreX+8 , posGiocatoreY +11, GiocatoreWidth-19, GiocatoreHeight-20);
+
+
+
+        //TODO Importante, da aggionare hitbox prima di fare controllo?
+        //
+
+        // var x = hitbox.
+
+        //Rectangle expandedHitbox = hitbox.getBounds();
+        // expandedHitbox.grow(5,5);
+
         var isBlocked = Arrays.stream(tile)
                 .filter(tile -> tile.collision)
-                .anyMatch(tile -> tile.collisionRectangle.intersects(playerX, playerY, 40, 40));
+                .anyMatch(tile -> tile.collisionRectangle.intersects(hitbox));
 
         return isBlocked;
     }

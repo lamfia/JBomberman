@@ -13,7 +13,7 @@ public class Main {
 
 
         //Crea il giocatore
-        var giocatore = new Giocatore(400, 200, 100, 2);
+        var giocatore = new Giocatore(400, 200, 100, 2, 40,40);
 
         ApplicationManager.movimento = giocatore.movimento;
 

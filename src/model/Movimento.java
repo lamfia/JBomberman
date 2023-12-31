@@ -22,16 +22,19 @@ public class Movimento extends Observable {
     private TileManager tileM;
 
     //double nextDrawTime= System.nanoTime()+drawInterval;
-    public Movimento(int posX, int posY, int velocita) {
-        posizione = new Posizione();
-        posizione.pos_x = posX;
-        posizione.pos_y = posY;
+    public Movimento(int posX, int posY, int velocita, int witdh, int height) {
+
+        posizione = new Posizione(posX,posY,witdh,height);
+
         this.velocita = velocita;
     }
     private long lastImageChangeTime = System.currentTimeMillis();
 
     public void goUp(Boolean isIdle) {
-        if (posizione.pos_y < 0) {
+
+
+
+        if (posizione.pos_y < 0  || (tileM.isTileBlocked(posizione.hitbox))  ) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
 
@@ -44,8 +47,10 @@ public class Movimento extends Observable {
 
             } else {
 
-                posizione.pos_y = posizione.pos_y - velocita;
-                posizione.direzione = Direzione.UP;
+//                posizione.pos_y = posizione.pos_y - velocita;
+//                posizione.direzione = Direzione.UP;
+
+                posizione.aggiornaPosizione(Direzione.UP, velocita);
 
                 //intervalo per cambiare l'immaggine
                 long currentTime = System.currentTimeMillis();
@@ -111,7 +116,7 @@ public class Movimento extends Observable {
     public void goDown(Boolean isIdle) {
 
 
-        if (posizione.pos_y > 520) {
+        if (posizione.pos_y > 520  || (tileM.isTileBlocked(posizione.hitbox))  ) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
         } else {
@@ -121,8 +126,10 @@ public class Movimento extends Observable {
                 this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
             } else {
-                posizione.pos_y = posizione.pos_y + velocita;
-                posizione.direzione = Direzione.DOWN;
+//                posizione.pos_y = posizione.pos_y + velocita;
+//                posizione.direzione = Direzione.DOWN;
+
+                posizione.aggiornaPosizione(Direzione.DOWN, velocita);
 
                 //intervalo per cambiare l'immaggine
                 long currentTime = System.currentTimeMillis();
@@ -183,20 +190,20 @@ public class Movimento extends Observable {
 
 
         //Controllo collisione
-        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione.pos_x, posizione.pos_y)) ) {
+        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione.hitbox)) ) {
+
             this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
         } else {
 
-
+            //Controlle se è idle
             if (isIdle) {
 
                 this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
             } else {
-                posizione.pos_x = posizione.pos_x - velocita;
-                posizione.direzione = Direzione.LEFT;
 
+                posizione.aggiornaPosizione(Direzione.LEFT, velocita);
 
                 //intervalo per cambiare l'immaggine
                 long currentTime = System.currentTimeMillis();
@@ -256,7 +263,7 @@ public class Movimento extends Observable {
 
     public void goRight(Boolean isIdle) {
 
-        if (posizione.pos_x > 745) {
+        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione.hitbox))   ) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 
@@ -269,8 +276,11 @@ public class Movimento extends Observable {
 
             } else {
 
-                posizione.pos_x = posizione.pos_x + velocita;
-                posizione.direzione = Direzione.RIGHT;
+//                posizione.pos_x = posizione.pos_x + velocita;
+//                posizione.direzione = Direzione.RIGHT;
+
+
+                posizione.aggiornaPosizione(Direzione.RIGHT, velocita);
 
                 //intervalo per cambiare l'immaggine
                 long currentTime = System.currentTimeMillis();
@@ -342,10 +352,6 @@ public class Movimento extends Observable {
 
     }
 
-
-    public TileManager getTileM() {
-        return tileM;
-    }
 
     public void setTileM(TileManager tileM) {
         this.tileM = tileM;

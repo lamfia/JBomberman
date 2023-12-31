@@ -27,12 +27,14 @@ public abstract class Personaggio  {
     Descrive la imaggine con un accesso alla data della stessa
      */
 
+    public Personaggio(int posX, int posY, int Salute,int velocita, int width, int height){
 
-    public Personaggio(int posX, int posY, int Salute,int velocita){
-
-       this.movimento = new Movimento(posX, posY,velocita);
+        //hitbox (rectangle area)
+       // solidArea = new Rectangle(posX,posY,width,height);
+       this.movimento = new Movimento(posX, posY,velocita, width,height);
 
        this.Salute= Salute;
+
 
     }
 

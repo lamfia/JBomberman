@@ -14,11 +14,11 @@ import java.awt.*;
 public class Giocatore extends Personaggio {
 
 
-    public Giocatore(int posX, int posY, int Salute, int velocita) {
-        super(posX, posY, Salute, velocita);
+    public Giocatore(int posX, int posY, int Salute, int velocita, int widht, int height) {
 
-        //hitbox (rectangle area)
-        solidArea = new Rectangle(3,17,13,13);
+        super(posX, posY, Salute, velocita,widht, height );
+
+
 
         //Set degli sprites
         var pathImages = new PathImages();

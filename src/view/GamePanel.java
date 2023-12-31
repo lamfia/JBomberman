@@ -30,13 +30,15 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
+
+    //TODO aggiungere una lista di personaggi (usare classe Personaggio)
     private int posGiocatoreX;
     private int posGiocatoreY;
-
+    private int GiocatoreWidth;
+    private int GiocatoreHeight;
 
     private int dimensionWidth;
     private int dimensionHeight;
-    private int GiocatoreVelocita = 0;
 
     Thread gameThread;
 
@@ -104,6 +106,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         this.posGiocatoreX = personaggio.movimento.posizione.pos_x;
         this.posGiocatoreY = personaggio.movimento.posizione.pos_y;
 
+        this.GiocatoreWidth = personaggio.movimento.posizione.width;
+        this.GiocatoreHeight = personaggio.movimento.posizione.height;
+
         this.image1 = ImageIO.read(new File(personaggio.movimento.posizione.pathImages.downidle));
 
         // .image1= personaggio.pathImages.down1;
@@ -135,9 +140,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             drawTiles();
 
-
-
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -147,12 +149,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.fillRect(172 , 190 , 60, 60);
 
         //player
-      //  g2.drawImage(image1, posGiocatoreX, posGiocatoreY, 40, 40, this);
+        g2.drawImage(image1, posGiocatoreX, posGiocatoreY, GiocatoreWidth, GiocatoreHeight, this);
 
         //player square
+        //Hitbox!
         g.setColor(Color.RED);
-        g2.fillRect(posGiocatoreX , posGiocatoreY , 40, 40);
+        g2.fillRect(posGiocatoreX+8 , posGiocatoreY +11, GiocatoreWidth-19, GiocatoreHeight-20);
 
+        //g2.fillRect(posGiocatoreX , posGiocatoreY , 25, 25);
 
 
         //Timer del gioco
@@ -185,9 +189,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             //Aggiorna posizione dentro alla view
             posGiocatoreX = movimento.pos_x;
             posGiocatoreY = movimento.pos_y;
-
-
-
 
             try {
                 this.image1 = ImageIO.read(new File(movimento.ImageAttuale));
