@@ -32,9 +32,9 @@ public class Movimento extends Observable {
 
     public void goUp(Boolean isIdle) {
 
+        posizione.direzione=Direzione.UP;
 
-
-        if (posizione.pos_y < 0  || (tileM.isTileBlocked(posizione.hitbox))  ) {
+        if (posizione.pos_y < 0  || (tileM.isTileBlocked(posizione))  ) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
 
@@ -115,8 +115,9 @@ public class Movimento extends Observable {
 
     public void goDown(Boolean isIdle) {
 
+        posizione.direzione=Direzione.DOWN;
 
-        if (posizione.pos_y > 520  || (tileM.isTileBlocked(posizione.hitbox))  ) {
+        if (posizione.pos_y > 520  || (tileM.isTileBlocked(posizione))  ) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
         } else {
@@ -188,9 +189,10 @@ public class Movimento extends Observable {
 
     public void goLeft(Boolean isIdle) {
 
+        posizione.direzione=Direzione.LEFT;
 
         //Controllo collisione
-        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione.hitbox)) ) {
+        if ( posizione.pos_x < 0  || (tileM.isTileBlocked(posizione))  ) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
@@ -263,7 +265,9 @@ public class Movimento extends Observable {
 
     public void goRight(Boolean isIdle) {
 
-        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione.hitbox))   ) {
+        posizione.direzione=Direzione.RIGHT;
+
+        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione))   ) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 

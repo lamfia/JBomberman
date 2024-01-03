@@ -21,9 +21,9 @@ import java.util.Observer;
 public class GamePanel extends JPanel implements Observer, Runnable {
 
     //Tiles
-    final int originalTileSize = 20; //19x19 tile
-    final int scale = 3;
-    public final int tileSize = originalTileSize * scale;
+//    final int originalTileSize = 20; //19x19 tile
+//    final int scale = 3;
+    public final int tileSize =60; // square 20*20
 
     private TileManager tileM;
     private String TempoGioco = "00:00:00";
@@ -36,7 +36,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private int posGiocatoreY;
     private int GiocatoreWidth;
     private int GiocatoreHeight;
-
     private int dimensionWidth;
     private int dimensionHeight;
 
@@ -145,18 +144,32 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         }
 
         //TileSquare
-        g.setColor(Color.BLUE);
-        g2.fillRect(172 , 190 , 60, 60);
+//        g.setColor(Color.BLUE);
+////        g2.fillRect(172 , 190 , 60, 60);
+//        g2.fillRect(172 , 190 , 60, 60);
 
         //player
         g2.drawImage(image1, posGiocatoreX, posGiocatoreY, GiocatoreWidth, GiocatoreHeight, this);
 
-        //player square
-        //Hitbox!
-        g.setColor(Color.RED);
-        g2.fillRect(posGiocatoreX+8 , posGiocatoreY +11, GiocatoreWidth-19, GiocatoreHeight-20);
+//        switch (posizione.direzione) {
+//            case UP:
+//                expandedHitbox.y=expandedHitbox.y-2;
+//                // expandedHitbox.grow(0, -2); // Espandi solo il lato superiore
+//                break;
+//            case DOWN:
+//                expandedHitbox.y=expandedHitbox.y+2;
+//                //expandedHitbox.grow(0, 2); // Espandi solo il lato inferiore
+//                break;
+//            case RIGHT:
+//                expandedHitbox.x=expandedHitbox.x+2;
+//                //  expandedHitbox.grow(2, 0); // Espandi solo il lato destro
+//                break;
+//            case LEFT:
+//                expandedHitbox.x=expandedHitbox.x-2;
+//                // expandedHitbox.grow(-2, 0); // Espandi solo il lato sinistro
+//                break;
+//        }
 
-        //g2.fillRect(posGiocatoreX , posGiocatoreY , 25, 25);
 
 
         //Timer del gioco

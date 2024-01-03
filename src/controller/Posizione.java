@@ -38,6 +38,7 @@ public class Posizione {
         this.width = width;
         this.height = height;
 
+//        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
         this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
 
     }
