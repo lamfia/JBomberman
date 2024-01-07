@@ -3,10 +3,9 @@ package controller;
 import model.Tile;
 import view.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TileManager {
@@ -14,9 +13,11 @@ public class TileManager {
 
     GamePanel gp;
 
-    Tile[] tile;
+    ArrayList<Tile> tiles;
 
-   Rectangle ExpendedeHitbox;
+    Rectangle ExpendedeHitbox;
+
+    boolean showHitboxes = false;
 
     final int tileSize = 20; //19x19 tile
 
@@ -24,7 +25,7 @@ public class TileManager {
 
         this.gp = gp;
 
-        tile = new Tile[1];
+        tiles = new ArrayList<>();
 
         try {
             getTileImage();
@@ -37,7 +38,10 @@ public class TileManager {
     public void getTileImage() throws IOException {
 
         var tile1 = new Tile(172, 190, 60, "src/view/maps/Pirate/Barrel.png", true);
-        tile[0] = tile1;
+        var tile2 = new Tile(400, 300, 60, "src/view/maps/Pirate/Barrel.png", true);
+
+        tiles.add(tile1);
+        tiles.add(tile2);
 
     }
 
@@ -59,26 +63,10 @@ public class TileManager {
 //                .map(tile -> tile.collision)
 //                .orElse(false);
 
-
         //TODO mettere hitbox variabile secondo personaggio?
-        //hitbox
-        //int finalX = playerX + 7;
-        //int finalY = playerY + 11;
 
-        //Hitbox!
-        //g.setColor(Color.RED);
-        //g2.fillRect(posGiocatoreX+8 , posGiocatoreY +11, GiocatoreWidth-19, GiocatoreHeight-20);
-
-        // var x = hitbox.
         //Se è una direzione diversa da quella che si vuole passare è OK
-
         Rectangle expandedHitbox = posizione.hitbox.getBounds();
-
-        System.out.println(posizione.hitbox.x );
-        System.out.println(posizione.hitbox.y );
-        System.out.println(posizione.hitbox.width );
-        System.out.println(posizione.hitbox.height );
-
 
         // Espandi solo il lato associato alla direzione
         switch (posizione.direzione) {
@@ -101,37 +89,46 @@ public class TileManager {
                 break;
         }
 
-        ExpendedeHitbox=expandedHitbox;
+        ExpendedeHitbox = expandedHitbox;
 
-        var isBlocked = Arrays.stream(tile)
+        var isBlocked = tiles.stream()
                 .filter(tile -> tile.collision)
                 .anyMatch(tile -> expandedHitbox.intersects(tile.collisionRectangle));
-
-//        var isBlocked = Arrays.stream(tile)
-//                .filter(tile -> tile.collision)
-//                .anyMatch(tile -> {
-//                    Rectangle tileRectangle = tile.collisionRectangle.getBounds();
-//                    return expandedHitbox.intersects(tileRectangle) && !expandedHitbox.intersection(tileRectangle).isEmpty();
-//                });
-
 
         return isBlocked;
     }
 
+
+    /**
+     * Metodo per fare i draw dei tiles
+     **/
     public void draw(Graphics g2) {
 
-        g2.drawImage(tile[0].image, tile[0].x, tile[0].y, 60,60, null);
 
-        g2.setColor(Color.blue);
-        g2.fillRect(tile[0].x, tile[0].y, 60, 60);
-
-        if (ExpendedeHitbox!=null){
-
-        g2.setColor(Color.orange);
-        g2.fillRect(ExpendedeHitbox.x,ExpendedeHitbox.y,ExpendedeHitbox.width,ExpendedeHitbox.height);
+        //Draw dei tiles
+        for (Tile tile : tiles) {
+            g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
         }
 
-        //g2.drawImage(tile[0].image, tile[0].x, tile[0].y, gp.tileSize, gp.tileSize, null);
+        if (showHitboxes == true) {
+
+            //hitbox del tile
+            g2.setColor(Color.blue);
+            for (Tile tile : tiles) {
+                g2.fillRect(tile.collisionRectangle.x, tile.collisionRectangle.y, tile.collisionRectangle.width, tile.collisionRectangle.height);
+            }
+
+            //hitbox del personaggio
+            if (ExpendedeHitbox != null) {
+
+                g2.setColor(Color.orange);
+                g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
+
+
+            }
+
+        }
+
     }
 
 

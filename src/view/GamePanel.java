@@ -143,34 +143,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             throw new RuntimeException(e);
         }
 
-        //TileSquare
-//        g.setColor(Color.BLUE);
-////        g2.fillRect(172 , 190 , 60, 60);
-//        g2.fillRect(172 , 190 , 60, 60);
-
         //player
         g2.drawImage(image1, posGiocatoreX, posGiocatoreY, GiocatoreWidth, GiocatoreHeight, this);
-
-//        switch (posizione.direzione) {
-//            case UP:
-//                expandedHitbox.y=expandedHitbox.y-2;
-//                // expandedHitbox.grow(0, -2); // Espandi solo il lato superiore
-//                break;
-//            case DOWN:
-//                expandedHitbox.y=expandedHitbox.y+2;
-//                //expandedHitbox.grow(0, 2); // Espandi solo il lato inferiore
-//                break;
-//            case RIGHT:
-//                expandedHitbox.x=expandedHitbox.x+2;
-//                //  expandedHitbox.grow(2, 0); // Espandi solo il lato destro
-//                break;
-//            case LEFT:
-//                expandedHitbox.x=expandedHitbox.x-2;
-//                // expandedHitbox.grow(-2, 0); // Espandi solo il lato sinistro
-//                break;
-//        }
-
-
 
         //Timer del gioco
         g2.setColor(Color.white);

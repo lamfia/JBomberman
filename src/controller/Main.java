@@ -11,9 +11,12 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+        //Variabili di avvio
+        Boolean showHitboxes = true;
+
 
         //Crea il giocatore
-        var giocatore = new Giocatore(400, 200, 100, 2, 40,40);
+        var giocatore = new Giocatore(400, 200, 100, 2, 40, 40);
 
         ApplicationManager.movimento = giocatore.movimento;
 
@@ -23,13 +26,10 @@ public class Main {
 
         //Creo TileM e lo inietto dentro al GP
         var tileM = new TileManager(f.getGamePanel());
+        tileM.showHitboxes=showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
         ApplicationManager.movimento.setTileM(tileM);
-
-
-
-
 
 
         var time = new Time();

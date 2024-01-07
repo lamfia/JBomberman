@@ -16,17 +16,20 @@ public class Tile {
 
     public int y;
 
+    public int tileSize;
+
     public Rectangle collisionRectangle;
 
     public Tile(int x, int y, int tileSize,String Pathimage , boolean collision) throws IOException {
 
         this.x=x;
         this.y=y;
-
-        this.collisionRectangle= new Rectangle(x,y,tileSize,tileSize);
-
         this.image= ImageIO.read(new File(Pathimage));
         this.collision=collision;
+        this.tileSize=tileSize;
+
+        int tileSizeHitbox=tileSize-19;
+        this.collisionRectangle= new Rectangle(x+8,y+16,tileSizeHitbox,tileSizeHitbox);
 
     }
 
