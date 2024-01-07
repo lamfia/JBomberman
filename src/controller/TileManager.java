@@ -74,26 +74,30 @@ public class TileManager {
 
         Rectangle expandedHitbox = posizione.hitbox.getBounds();
 
+        System.out.println(posizione.hitbox.x );
+        System.out.println(posizione.hitbox.y );
+        System.out.println(posizione.hitbox.width );
+        System.out.println(posizione.hitbox.height );
 
 
         // Espandi solo il lato associato alla direzione
         switch (posizione.direzione) {
             case UP:
+                // Espandi solo il lato superiore
                 expandedHitbox.y = expandedHitbox.y - 2;
-                // expandedHitbox.grow(0, -2); // Espandi solo il lato superiore
                 break;
             case DOWN:
+                // Espandi solo il lato inferiore
                 expandedHitbox.y = expandedHitbox.y + 2;
-                //expandedHitbox.grow(0, 2); // Espandi solo il lato inferiore
                 break;
 
             case RIGHT:
+                // Espandi solo il lato destro
                 expandedHitbox.x = expandedHitbox.x + 2;
-                //  expandedHitbox.grow(2, 0); // Espandi solo il lato destro
                 break;
             case LEFT:
+                // Espandi solo il lato sinistro
                 expandedHitbox.x = expandedHitbox.x - 2;
-                // expandedHitbox.grow(-2, 0); // Espandi solo il lato sinistro
                 break;
         }
 
@@ -123,23 +127,12 @@ public class TileManager {
 
         if (ExpendedeHitbox!=null){
 
-
         g2.setColor(Color.orange);
         g2.fillRect(ExpendedeHitbox.x,ExpendedeHitbox.y,ExpendedeHitbox.width,ExpendedeHitbox.height);
         }
 
         //g2.drawImage(tile[0].image, tile[0].x, tile[0].y, gp.tileSize, gp.tileSize, null);
     }
-
-//    public boolean isOverlapping(Rectangle comparedRectangle, Rectangle comparedRectangle2) {
-//        if (this.topRight.getY() < comparedRectangle.bottomLeft.getY() || this.bottomLeft.getY() > comparedRectangle.topRight.getY()) {
-//            return false;
-//        }
-//        if (this.topRight.getX() < comparedRectangle.bottomLeft.getX() || this.bottomLeft.getX() > comparedRectangle.topRight.getX()) {
-//            return false;
-//        }
-//        return true;
-//    }
 
 
 }

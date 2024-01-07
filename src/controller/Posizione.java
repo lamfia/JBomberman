@@ -38,13 +38,11 @@ public class Posizione {
         this.width = width;
         this.height = height;
 
-//        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
-        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
+        AggiornaHitbox();
 
     }
 
     public void aggiornaPosizione(Direzione direzione, int velocita) {
-
 
         switch (direzione) {
             case direzione.UP:
@@ -61,11 +59,10 @@ public class Posizione {
                 break;
 
         }
-
-        //Aggiorna anche la hitbox
-        this.hitbox = new Rectangle(this.pos_x + 8, this.pos_y + 11, this.width, this.height);
-
+        AggiornaHitbox();
     }
-
+    private void AggiornaHitbox(){
+        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
+    }
 
 }
