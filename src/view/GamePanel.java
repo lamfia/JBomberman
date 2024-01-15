@@ -4,6 +4,7 @@ package view;
 import controller.CollisionChecker;
 import controller.Posizione;
 import controller.TileManager;
+import model.Attaco;
 import model.Movimento;
 import model.Personaggio;
 import model.Time;
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //Tiles
 //    final int originalTileSize = 20; //19x19 tile
 //    final int scale = 3;
-    public final int tileSize =60; // square 20*20
+    public final int tileSize = 60; // square 20*20
 
     private TileManager tileM;
     private String TempoGioco = "00:00:00";
@@ -137,7 +138,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
             g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
+            //TODO aggiornare il g2 con l'immaggine della bomba
+            var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
+            g2.drawImage(bombimage, posGiocatoreX+30, posGiocatoreY+30, 36, 36, this);
+
+            //Aggiorna i tiles
             drawTiles();
+
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -149,6 +157,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Timer del gioco
         g2.setColor(Color.white);
         g2.drawString(TempoGioco, 10, 20);
+
 
     }
 
@@ -163,13 +172,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable observable, Object arg) {
 
-        if (o instanceof Time) {
+        if (observable instanceof Time) {
             TempoGioco = (String) arg;
         }
 
-        if (o instanceof Movimento) {
+        if (observable instanceof Movimento) {
 
             var movimento = (Posizione) arg;
 
@@ -179,10 +188,31 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             try {
                 this.image1 = ImageIO.read(new File(movimento.ImageAttuale));
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
+        }
+
+        if (observable instanceof Attaco) {
+
+            System.out.println(arg.toString());
+
+
+//            try {
+//
+////TODO
+//              // var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
+////                externalGraphics.drawImage(bombimage, 100, 100, 10, 10, this);
+//
+//                externalGraphics.setColor(Color.red);
+//                externalGraphics.fillRect(10,10, 40, 40);
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
         }
 
         repaint();

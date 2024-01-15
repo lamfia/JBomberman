@@ -30,6 +30,11 @@ public class KeyHandler implements KeyListener  {
             ApplicationManager.movimento.goRight(false);
         }
 
+        //Attack!
+        if(code==KeyEvent.VK_SPACE ){
+            ApplicationManager.attaco.Attacare();
+        }
+
     }
 
     @Override

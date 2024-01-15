@@ -20,6 +20,8 @@ public class Main {
 
         ApplicationManager.movimento = giocatore.movimento;
 
+        ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
+
         //Crea la view
         var f = new Finestra(800, 600);
         f.getGamePanel().addPersonaggio(giocatore);
@@ -33,10 +35,11 @@ public class Main {
 
 
         var time = new Time();
+
+        //binding tra observer ed observable
         time.addObserver(f.getGamePanel());
-
-
         giocatore.movimento.addObserver(f.getGamePanel());
+        giocatore.attaco.addObserver(f.getGamePanel());
 
 
         //LOOP DEL GAME

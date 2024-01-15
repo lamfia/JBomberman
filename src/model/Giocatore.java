@@ -14,12 +14,18 @@ import java.awt.*;
 public class Giocatore extends Personaggio {
 
 
+    public Attaco attaco ;
+
+
     public Giocatore(int posX, int posY, int Salute, int velocita, int widht, int height) {
 
         super(posX, posY, Salute, velocita,widht, height );
 
+        //TODO passare qualcosa al ctor?
+        this.attaco= new Attaco();
 
 
+        //TODO fare set degli sprites un metodo generico per tutti personaggi
         //Set degli sprites
         var pathImages = new PathImages();
 
