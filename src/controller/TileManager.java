@@ -1,9 +1,12 @@
 package controller;
 
+import model.Bomb;
 import model.Tile;
 import view.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +17,7 @@ public class TileManager {
     GamePanel gp;
 
     ArrayList<Tile> tiles;
+    ArrayList<Bomb> bombs = new ArrayList<>();
 
     Rectangle ExpendedeHitbox;
 
@@ -99,6 +103,19 @@ public class TileManager {
     }
 
 
+    public void AggiungiBomba (int x, int y){
+
+
+        //TODO aggiornare il g2 con l'immaggine della bomba
+        //var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
+        //g2.drawImage(bombimage, posGiocatoreX+30, posGiocatoreY+30, 36, 36, this);
+
+        var bomba= new Bomb(x,y,1);
+
+        this.bombs.add(bomba);
+
+    }
+
     /**
      * Metodo per fare i draw dei tiles
      **/
@@ -109,6 +126,15 @@ public class TileManager {
         for (Tile tile : tiles) {
             g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
         }
+
+        //Draw delle bombe
+
+        if (bombs!=null){
+            for (Bomb bomb : bombs) {
+                g2.drawImage(bomb.currentImage, bomb.x, bomb.y, bomb.width, bomb.height, null);
+            }
+        }
+
 
         if (showHitboxes == true) {
 

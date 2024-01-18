@@ -138,14 +138,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
             g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
-            //TODO aggiornare il g2 con l'immaggine della bomba
-            var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
-            g2.drawImage(bombimage, posGiocatoreX+30, posGiocatoreY+30, 36, 36, this);
 
             //Aggiorna i tiles
             drawTiles();
-
-
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -199,7 +194,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         if (observable instanceof Attaco) {
 
             System.out.println(arg.toString());
-
+            tileM.AggiungiBomba(posGiocatoreX+30, posGiocatoreY+30);
 
 //            try {
 //
