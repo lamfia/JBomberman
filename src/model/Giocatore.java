@@ -22,7 +22,7 @@ public class Giocatore extends Personaggio {
         super(posX, posY, Salute, velocita,widht, height );
 
         //TODO passare qualcosa al ctor?
-        this.attaco= new Attaco();
+        this.attaco= new Attaco(2);
 
 
         //TODO fare set degli sprites un metodo generico per tutti personaggi

@@ -19,9 +19,7 @@ public abstract class Personaggio  {
 
     public  int Salute;
 
-    public Rectangle solidArea;
-
-    public boolean collisionOn=false;
+   // public Hitbox hitbox;
 
     /*
     Descrive la imaggine con un accesso alla data della stessa
@@ -35,10 +33,15 @@ public abstract class Personaggio  {
 
        this.Salute= Salute;
 
+       // this.hitbox= new Hitbox(hitboxRec);
 
     }
 
-
-
+//    public void updateHitbox(int x, int y, int width, int height){
+//        this.hitbox.hitboxRec= new Rectangle(x,y,width,height);
+//    }
+//    public void updateHitbox(Rectangle hitboxRec){
+//        this.hitbox.hitboxRec= hitboxRec;
+//    }
 
 }

@@ -27,7 +27,7 @@ public class Main {
         f.getGamePanel().addPersonaggio(giocatore);
 
         //Creo TileM e lo inietto dentro al GP
-        var tileM = new TileManager(f.getGamePanel());
+        var tileM = new TileManager(f.getGamePanel(),giocatore);
         tileM.showHitboxes=showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
@@ -50,6 +50,8 @@ public class Main {
                 //Implementare qui i movimenti degli enimici
 
                 time.notifyCurrentTime();
+
+                f.getGamePanel().repaintTask();
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

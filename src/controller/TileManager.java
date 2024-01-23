@@ -1,6 +1,7 @@
 package controller;
 
 import model.Bomb;
+import model.Giocatore;
 import model.Tile;
 import view.GamePanel;
 
@@ -17,17 +18,21 @@ public class TileManager {
     GamePanel gp;
 
     ArrayList<Tile> tiles;
-    ArrayList<Bomb> bombs = new ArrayList<>();
+
 
     Rectangle ExpendedeHitbox;
+
+    Giocatore giocatore;
 
     boolean showHitboxes = false;
 
     final int tileSize = 20; //19x19 tile
 
-    public TileManager(GamePanel gp) {
+    public TileManager(GamePanel gp, Giocatore giocatore) {
 
         this.gp = gp;
+
+        this.giocatore= giocatore;
 
         tiles = new ArrayList<>();
 
@@ -101,19 +106,8 @@ public class TileManager {
 
         return isBlocked;
     }
-
-
     public void AggiungiBomba (int x, int y){
-
-
-        //TODO aggiornare il g2 con l'immaggine della bomba
-        //var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
-        //g2.drawImage(bombimage, posGiocatoreX+30, posGiocatoreY+30, 36, 36, this);
-
-        var bomba= new Bomb(x,y,1);
-
-        this.bombs.add(bomba);
-
+        giocatore.attaco.Aggiungibomba(x,y);
     }
 
     /**
@@ -128,13 +122,14 @@ public class TileManager {
         }
 
         //Draw delle bombe
+        if ( giocatore.attaco.getActiveBombs()!=null){
 
-        if (bombs!=null){
-            for (Bomb bomb : bombs) {
+            for (Bomb bomb : giocatore.attaco.getActiveBombs()) {
+
                 g2.drawImage(bomb.currentImage, bomb.x, bomb.y, bomb.width, bomb.height, null);
+
             }
         }
-
 
         if (showHitboxes == true) {
 
@@ -149,7 +144,6 @@ public class TileManager {
 
                 g2.setColor(Color.orange);
                 g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
-
 
             }
 

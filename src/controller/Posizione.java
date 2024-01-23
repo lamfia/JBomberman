@@ -42,27 +42,29 @@ public class Posizione {
 
     }
 
+    private void AggiornaHitbox(){
+        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
+    }
+
     public void aggiornaPosizione(Direzione direzione, int velocita) {
 
         switch (direzione) {
-            case direzione.UP:
+            case UP:
                 this.pos_y = this.pos_y - velocita;
                 break;
-            case direzione.DOWN:
+            case DOWN:
                 this.pos_y = this.pos_y + velocita;
                 break;
-            case direzione.LEFT:
+            case LEFT:
                 this.pos_x = this.pos_x - velocita;
                 break;
-            case direzione.RIGHT:
+            case RIGHT:
                 this.pos_x = this.pos_x + velocita;
                 break;
 
         }
         AggiornaHitbox();
     }
-    private void AggiornaHitbox(){
-        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
-    }
+
 
 }

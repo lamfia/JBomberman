@@ -8,10 +8,14 @@ import java.util.TimerTask;
 public class Bomb extends Oggetto {
     public int x;
     public int y;
-    public int width=36;
-    public int height=36;
+    public int width = 36;
+    public int height = 36;
     public int explosionRange;
+    public boolean explodes;
 
+
+    //Questa è una lista di tutte le bombe che sono presenti.
+    private static ArrayList<Bomb> allBombs = new ArrayList<>();
 
     public Bomb(int x, int y, int explosionRange) {
         this.x = x;
@@ -19,48 +23,51 @@ public class Bomb extends Oggetto {
         this.explosionRange = explosionRange;
         var pathSource = "src/view/res/miscellaneous/";
 
-        ArrayList<String> pathImages= new ArrayList<>();
+        ArrayList<String> pathImages = new ArrayList<>();
         pathImages.add(pathSource + "Bomb1.png");
         pathImages.add(pathSource + "Bomb2.png");
         pathImages.add(pathSource + "Bomb3.png");
-        pathImages.add(pathSource + "Bomb4.png");
-        super.pathSprites=pathImages;
-        super.secondiCambioSprite=1;
+        //pathImages.add(pathSource + "Bomb4.png");
+        super.pathSprites = pathImages;
+        super.secondiCambioSprite = 1;
         super.CambiaSprite = new CambiaSprite(this);
 
-//        // Inizializza l'immagine corrente
-//        // (assicurati di implementare il codice per caricare un'immagine appropriata)
-//        this.currentImage = loadInitialImage();
-//
-//        // Avvia il timer per cambiare l'immagine ogni tot millisecondi
-//        Timer timer = new Timer(true);
-//        timer.scheduleAtFixedRate(new ImageChangeTask(this), 0, 2000); // Cambia ogni 2000 millisecondi (2 secondi)
+        this.explodes = false;
+
+        allBombs.add(this);
+
+        // Pianifica un'attività che imposta explodes a true dopo X secondi
+        Timer timer = new Timer(true);
+        timer.schedule(new ExplosionTask(this), 3000); // 3 secondi
     }
 
-//    private BufferedImage loadInitialImage() {
-//        // Implementa il codice per caricare l'immagine iniziale
-//        // Restituisci l'immagine iniziale
-//        return null;
-//    }
-//
-//    private class ImageChangeTask extends TimerTask {
-//        private Bomb bombInstance;
-//
-//        public ImageChangeTask(Bomb bombInstance) {
-//            this.bombInstance = bombInstance;
-//        }
-//
-//        @Override
-//        public void run() {
-//            // Implementa il codice per cambiare l'immagine
-//            // (assicurati di implementare il codice per caricare un'immagine appropriata)
-//            bombInstance.currentImage = loadNextImage();
-//        }
-//
-//        private BufferedImage loadNextImage() {
-//            // Implementa il codice per caricare la prossima immagine
-//            // Restituisci l'immagine successiva
-//            return null;
-//        }
-//    }
+
+    public static ArrayList<Bomb> getAllBombs() {
+        return allBombs;
+    }
+
+    private class ExplosionTask extends TimerTask {
+
+        private Bomb bombInstance;
+
+        public ExplosionTask(Bomb bombInstance) {
+            this.bombInstance = bombInstance;
+        }
+
+        @Override
+        public void run() {
+            // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
+            bombInstance.explodes = true;
+
+            //TODO mettere qui lo sprite della explosion?
+
+            System.out.println("Bomb exploded!");
+
+            //Mettere qui logica di remove della bomba di "allbombs" e cambio sprite di esplosione
+
+            allBombs.remove(this.bombInstance);
+        }
+    }
+
+
 }

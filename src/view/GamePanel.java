@@ -15,9 +15,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
+import java.util.Timer;
 
 public class GamePanel extends JPanel implements Observer, Runnable {
 
@@ -99,7 +98,27 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 //
 //        }
 
+//        java.util.Timer timer = new Timer(true);
+//        timer.schedule(new ExplosionTask(), 1000); // 1 secondi
+
     }
+
+    public void repaintTask(){
+        repaint();
+    }
+
+//    private class ExplosionTask extends TimerTask {
+//        @Override
+//        public void run() {
+//            // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
+//            explodes = true;
+//
+//            //TODO mettere qui lo sprite della explosion?
+//
+//            System.out.println("Bomb exploded!");
+//        }
+//    }
+//
 
     public void addPersonaggio(Personaggio personaggio) throws IOException {
 
@@ -169,10 +188,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     @Override
     public void update(Observable observable, Object arg) {
 
+        //Tempo!
         if (observable instanceof Time) {
             TempoGioco = (String) arg;
         }
 
+        //Movimento!
         if (observable instanceof Movimento) {
 
             var movimento = (Posizione) arg;
@@ -191,28 +212,21 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         }
 
+        //Attack!
         if (observable instanceof Attaco) {
 
             System.out.println(arg.toString());
-            tileM.AggiungiBomba(posGiocatoreX+30, posGiocatoreY+30);
+            tileM.AggiungiBomba(posGiocatoreX, posGiocatoreY+5);
 
-//            try {
-//
-////TODO
-//              // var bombimage = ImageIO.read(new File("src/view/res/miscellaneous/Bomb1.png"));
-////                externalGraphics.drawImage(bombimage, 100, 100, 10, 10, this);
-//
-//                externalGraphics.setColor(Color.red);
-//                externalGraphics.fillRect(10,10, 40, 40);
-//
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+
         }
 
         repaint();
 
     }
+
+
+
 
 
 }

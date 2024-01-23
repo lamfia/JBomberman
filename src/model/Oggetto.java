@@ -20,6 +20,9 @@ public abstract class Oggetto {
 
     CambiaSprite CambiaSprite ;
 
+    //Mettere attributo Hitbox
+    //CambiaSprite CambiaSprite ;
+
     public void setCurrentImage(String path){
 
         try {
