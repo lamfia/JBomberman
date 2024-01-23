@@ -20,8 +20,7 @@ public abstract class Oggetto {
 
     CambiaSprite CambiaSprite ;
 
-    //Mettere attributo Hitbox
-    //CambiaSprite CambiaSprite ;
+    //Mettere attributo Hitbox ad ogni oggetto?
 
     public void setCurrentImage(String path){
 

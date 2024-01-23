@@ -346,8 +346,8 @@ public class Movimento extends Observable {
 
     private void notifica() {
 
-        System.out.println("pos X: " + posizione.pos_x);
-        System.out.println("pos Y: " + posizione.pos_y);
+      //  System.out.println("pos X: " + posizione.pos_x);
+//        System.out.println("pos Y: " + posizione.pos_y);
 
         //Se si può muovere allora notifica agli observers di aggiornare la pos nella view
         setChanged();
