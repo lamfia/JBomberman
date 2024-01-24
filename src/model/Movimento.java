@@ -24,17 +24,18 @@ public class Movimento extends Observable {
     //double nextDrawTime= System.nanoTime()+drawInterval;
     public Movimento(int posX, int posY, int velocita, int witdh, int height) {
 
-        posizione = new Posizione(posX,posY,witdh,height);
+        posizione = new Posizione(posX, posY, witdh, height);
 
         this.velocita = velocita;
     }
+
     private long lastImageChangeTime = System.currentTimeMillis();
 
     public void goUp(Boolean isIdle) {
 
-        posizione.direzione=Direzione.UP;
+        posizione.direzione = Direzione.UP;
 
-        if (posizione.pos_y < 0  || (tileM.isTileBlocked(posizione))  ) {
+        if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
 
@@ -115,9 +116,9 @@ public class Movimento extends Observable {
 
     public void goDown(Boolean isIdle) {
 
-        posizione.direzione=Direzione.DOWN;
+        posizione.direzione = Direzione.DOWN;
 
-        if (posizione.pos_y > 520  || (tileM.isTileBlocked(posizione))  ) {
+        if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione))) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
         } else {
@@ -189,85 +190,91 @@ public class Movimento extends Observable {
 
     public void goLeft(Boolean isIdle) {
 
-        posizione.direzione=Direzione.LEFT;
+        posizione.direzione = Direzione.LEFT;
 
-        //Controllo collisione
-        if ( posizione.pos_x < 0  || (tileM.isTileBlocked(posizione))  ) {
+        //notificare finche idle sia false
 
-            this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
+        //fare do finche isIdle sia true
 
-        } else {
 
-            //Controlle se è idle
-            if (isIdle) {
+
+            //Controllo collisione
+            if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione))) {
 
                 this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
             } else {
 
-                posizione.aggiornaPosizione(Direzione.LEFT, velocita);
+                //Controlle se è idle
+                if (isIdle) {
 
-                //intervalo per cambiare l'immaggine
-                long currentTime = System.currentTimeMillis();
+                    this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
-                if (currentTime - lastImageChangeTime >= imageChangeInterval) {
-                    switch (sprite) {
-                        case 0:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left1;
-                            sprite++;
-                            break;
-
-                        case 1:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left2;
-                            sprite++;
-                            break;
-
-                        case 2:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left3;
-                            sprite++;
-                            break;
-
-                        case 3:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left4;
-                            sprite = 0;
-                            break;
-                    }
-                    // Aggiorna il tempo dell'ultimo cambio di immagine
-                    lastImageChangeTime = currentTime;
                 } else {
 
-                    switch (sprite) {
-                        case 0:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left1;
-                            break;
+                    posizione.aggiornaPosizione(Direzione.LEFT, velocita);
 
-                        case 1:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left2;
-                            break;
+                    //intervalo per cambiare l'immaggine
+                    long currentTime = System.currentTimeMillis();
 
-                        case 2:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left3;
-                            break;
+                    if (currentTime - lastImageChangeTime >= imageChangeInterval) {
+                        switch (sprite) {
+                            case 0:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left1;
+                                sprite++;
+                                break;
 
-                        case 3:
-                            this.posizione.ImageAttuale = this.posizione.pathImages.left4;
-                            break;
+                            case 1:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left2;
+                                sprite++;
+                                break;
+
+                            case 2:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left3;
+                                sprite++;
+                                break;
+
+                            case 3:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left4;
+                                sprite = 0;
+                                break;
+                        }
+                        // Aggiorna il tempo dell'ultimo cambio di immagine
+                        lastImageChangeTime = currentTime;
+                    } else {
+
+                        switch (sprite) {
+                            case 0:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left1;
+                                break;
+
+                            case 1:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left2;
+                                break;
+
+                            case 2:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left3;
+                                break;
+
+                            case 3:
+                                this.posizione.ImageAttuale = this.posizione.pathImages.left4;
+                                break;
+                        }
+
                     }
 
+
                 }
-
-
             }
-        }
+            notifica();
 
-        notifica();
     }
 
     public void goRight(Boolean isIdle) {
 
-        posizione.direzione=Direzione.RIGHT;
+        posizione.direzione = Direzione.RIGHT;
 
-        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione))   ) {
+        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 
@@ -279,9 +286,6 @@ public class Movimento extends Observable {
                 this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 
             } else {
-
-//                posizione.pos_x = posizione.pos_x + velocita;
-//                posizione.direzione = Direzione.RIGHT;
 
 
                 posizione.aggiornaPosizione(Direzione.RIGHT, velocita);
@@ -345,9 +349,6 @@ public class Movimento extends Observable {
     }
 
     private void notifica() {
-
-      //  System.out.println("pos X: " + posizione.pos_x);
-//        System.out.println("pos Y: " + posizione.pos_y);
 
         //Se si può muovere allora notifica agli observers di aggiornare la pos nella view
         setChanged();
