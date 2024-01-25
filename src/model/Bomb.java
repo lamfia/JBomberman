@@ -1,28 +1,39 @@
 package model;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Bomb extends Oggetto {
-    public int x;
-    public int y;
-    public int width = 36;
-    public int height = 36;
+
     public int explosionRange;
     public boolean explodes;
 
 
-    //Questa è una lista di tutte le bombe che sono presenti.
+    public Rectangle explosion_x;
+    public Rectangle explosion_y;
+
+    public BufferedImage explosion_x_sprite;
+    public BufferedImage explosion_y_sprite;
+
+    //Questa è una lista di tutte le bombe che sono presenti in tutto il gioco.
     private static ArrayList<Bomb> allBombs = new ArrayList<>();
 
     public Bomb(int x, int y, int explosionRange) {
         this.x = x;
         this.y = y;
         this.explosionRange = explosionRange;
-        var pathSource = "src/view/res/miscellaneous/";
+        super.width = 36;
+        super.height = 36;
 
+        super.hitbox = new Hitbox(x + 5, y + 12, width - 15, height - 15);
+
+        var pathSource = "src/view/res/miscellaneous/";
         ArrayList<String> pathImages = new ArrayList<>();
         pathImages.add(pathSource + "Bomb1.png");
         pathImages.add(pathSource + "Bomb2.png");
@@ -33,6 +44,17 @@ public class Bomb extends Oggetto {
         super.CambiaSprite = new CambiaSprite(this);
 
         this.explodes = false;
+
+
+        //sprite delle esplosions
+        try {
+            this.explosion_x_sprite= ImageIO.read(new File(pathSource + "ExplosionX.png"));
+
+            this.explosion_y_sprite= ImageIO.read(new File(pathSource + "ExplosionY.png"));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         allBombs.add(this);
 
@@ -57,17 +79,44 @@ public class Bomb extends Oggetto {
         @Override
         public void run() {
             // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
-            bombInstance.explodes = true;
+
+             bombInstance.explodes = true;
 
             //TODO mettere qui lo sprite della explosion?
+            //TODO mettere explosion X e Y ed espandere la hitbox in X e Y della explosion
+            var hitboxrec_old = bombInstance.hitbox.hitboxRec;
+
+            bombInstance.explosion_y =
+                    new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height), hitboxrec_old.width, hitboxrec_old.height * explosionRange);
+
+            bombInstance.explosion_x =
+                    new Rectangle(hitboxrec_old.x - (hitboxrec_old.width), hitboxrec_old.y, hitboxrec_old.width * explosionRange, hitboxrec_old.height);
 
             System.out.println("Bomb exploded!");
 
-            //Mettere qui logica di remove della bomba di "allbombs" e cambio sprite di esplosione
+             //Mettere qui logica di remove della bomba di "allbombs" e cambio sprite di esplosione
 
-            allBombs.remove(this.bombInstance);
+
+
+            //Remove della bomba dopo 1 secondo della explosione
+            Timer timer = new Timer(true);
+            timer.schedule(new removeBombTask(bombInstance), 1000); // 1 secondi
+
         }
     }
 
+    private class  removeBombTask extends TimerTask{
+
+        private Bomb bombInstance;
+
+        public removeBombTask(Bomb bombInstance) {
+            this.bombInstance = bombInstance;
+        }
+        @Override
+        public void run() {
+          //  allBombs.remove(this.bombInstance);
+        }
+
+    }
 
 }

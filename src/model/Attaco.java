@@ -19,7 +19,7 @@ public class Attaco extends Observable {
 
     //Fare questo attributo "propio" del momento e non dipendente della classe "bomb"
     //Cosi ogni bomba nel corso del tempo, avra il suo explosion range del momento della sua creazione
-    int explosionRange;
+    int explosionRange=3;
 
     public ArrayList<Bomb> getBombs() {
         return bombs;

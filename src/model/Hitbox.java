@@ -3,16 +3,14 @@ package model;
 import java.awt.*;
 
 public class Hitbox {
-
-
     public Rectangle hitboxRec;
+    public Hitbox(int x, int y, int width, int height, int distanza_esterna) {
 
-
-    public Hitbox(Rectangle hitboxRec) {
-
-        // this.hitboxRec = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
-
-        this.hitboxRec = hitboxRec;
-
+        this.hitboxRec = new Rectangle(x+distanza_esterna, y+distanza_esterna, width-(distanza_esterna*2),height-(distanza_esterna*2));
     }
+    public Hitbox(int x, int y, int width, int height) {
+
+        this.hitboxRec = new Rectangle(x, y, width,height);
+    }
+
 }

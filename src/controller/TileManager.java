@@ -5,12 +5,9 @@ import model.Giocatore;
 import model.Tile;
 import view.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TileManager {
 
@@ -32,7 +29,7 @@ public class TileManager {
 
         this.gp = gp;
 
-        this.giocatore= giocatore;
+        this.giocatore = giocatore;
 
         tiles = new ArrayList<>();
 
@@ -106,8 +103,9 @@ public class TileManager {
 
         return isBlocked;
     }
-    public void AggiungiBomba (int x, int y){
-        giocatore.attaco.Aggiungibomba(x,y);
+
+    public void AggiungiBomba(int x, int y) {
+        giocatore.attaco.Aggiungibomba(x, y);
     }
 
     /**
@@ -122,13 +120,56 @@ public class TileManager {
         }
 
         //Draw delle bombe
-        if ( giocatore.attaco.getActiveBombs()!=null){
+        if (giocatore.attaco.getActiveBombs() != null) {
 
             for (Bomb bomb : giocatore.attaco.getActiveBombs()) {
 
                 g2.drawImage(bomb.currentImage, bomb.x, bomb.y, bomb.width, bomb.height, null);
+                if (bomb.explodes == true) {
+
+                    if (showHitboxes == true) {
+                        g2.setColor(Color.red);
+                        g2.fillRect(bomb.explosion_x.x, bomb.explosion_x.y, bomb.explosion_x.width, bomb.explosion_x.height);
+                        g2.fillRect(bomb.explosion_y.x, bomb.explosion_y.y, bomb.explosion_y.width, bomb.explosion_y.height);
+                    }
+
+//TODO mettere bello gli sprites, forse una logica di ripetere ogni immagine a quadri invece di espandere?
+
+//                    g2.drawImage(bomb.explosion_x_sprite, bomb.explosion_x.x, bomb.explosion_x.y,
+//                            bomb.explosion_x.width,  bomb.explosion_x.height, null);
+//
+//                    g2.drawImage(bomb.explosion_y_sprite, bomb.explosion_y.x, bomb.explosion_y.y,
+//                            bomb.explosion_y.width,  bomb.explosion_y.height, null);
+
+
+                    // Larghezza di ciascuna sprite di esplosione
+                    int explosionNewX = bomb.explosion_x.x;
+
+                    int explosionNewY = bomb.explosion_y.y;
+
+                    for (int i = 0; i <  bomb.explosionRange; i++) {
+
+                        // Disegna la sprite di esplosione in X
+                        g2.drawImage(bomb.explosion_x_sprite, explosionNewX, bomb.hitbox.hitboxRec.y,
+                                bomb.hitbox.hitboxRec.width,  bomb.hitbox.hitboxRec.height, null);
+
+                        // Disegna la sprite di esplosione in Y
+                        g2.drawImage(bomb.explosion_y_sprite, bomb.hitbox.hitboxRec.x, explosionNewY,
+                                bomb.hitbox.hitboxRec.width,  bomb.hitbox.hitboxRec.height, null);
+
+
+
+                        // Calcola la posizione x per ogni sprite di esplosione
+                        explosionNewX = explosionNewX + bomb.hitbox.hitboxRec.width;
+
+                        explosionNewY = explosionNewY + bomb.hitbox.hitboxRec.height;
+                    }
+
+
+                }
 
             }
+
         }
 
         if (showHitboxes == true) {

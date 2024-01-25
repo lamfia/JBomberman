@@ -11,31 +11,30 @@ import java.io.IOException;
 
 public abstract class Oggetto {
 
-
+    public int x;
+    public int y;
+    public int width;
+    public int height;
     public int secondiCambioSprite;
 
-    public  BufferedImage currentImage;
+    public BufferedImage currentImage;
 
-   ArrayList<String>  pathSprites;
+    ArrayList<String> pathSprites;
 
-    CambiaSprite CambiaSprite ;
+    CambiaSprite CambiaSprite;
+
+    public Hitbox hitbox;
 
     //Mettere attributo Hitbox ad ogni oggetto?
 
-    public void setCurrentImage(String path){
+    public void setCurrentImage(String path) {
 
         try {
-            this.currentImage= ImageIO.read(new File(path));
+            this.currentImage = ImageIO.read(new File(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
-
-
 
 
 }
