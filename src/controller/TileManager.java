@@ -114,10 +114,6 @@ public class TileManager {
     public void draw(Graphics g2) {
 
 
-        //Draw dei tiles
-        for (Tile tile : tiles) {
-            g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
-        }
 
         //Draw delle bombe
         if (giocatore.attaco.getActiveBombs() != null) {
@@ -125,22 +121,19 @@ public class TileManager {
             for (Bomb bomb : giocatore.attaco.getActiveBombs()) {
 
                 g2.drawImage(bomb.currentImage, bomb.x, bomb.y, bomb.width, bomb.height, null);
+
                 if (bomb.explodes == true) {
+
+                   // tiles.remove(0);
+
+                    //TODO FARE LOGICA QUI DI REMOVE TILES
+                    //SE IL REC DEL TILE intersect rec di explosion X or explosion Y allora fare remove del tile
 
                     if (showHitboxes == true) {
                         g2.setColor(Color.red);
                         g2.fillRect(bomb.explosion_x.x, bomb.explosion_x.y, bomb.explosion_x.width, bomb.explosion_x.height);
                         g2.fillRect(bomb.explosion_y.x, bomb.explosion_y.y, bomb.explosion_y.width, bomb.explosion_y.height);
                     }
-
-//TODO mettere bello gli sprites, forse una logica di ripetere ogni immagine a quadri invece di espandere?
-
-//                    g2.drawImage(bomb.explosion_x_sprite, bomb.explosion_x.x, bomb.explosion_x.y,
-//                            bomb.explosion_x.width,  bomb.explosion_x.height, null);
-//
-//                    g2.drawImage(bomb.explosion_y_sprite, bomb.explosion_y.x, bomb.explosion_y.y,
-//                            bomb.explosion_y.width,  bomb.explosion_y.height, null);
-
 
                     // Larghezza di ciascuna sprite di esplosione
                     int explosionNewX = bomb.explosion_x.x;
@@ -157,15 +150,10 @@ public class TileManager {
                         g2.drawImage(bomb.explosion_y_sprite, bomb.hitbox.hitboxRec.x, explosionNewY,
                                 bomb.hitbox.hitboxRec.width,  bomb.hitbox.hitboxRec.height, null);
 
-
-
                         // Calcola la posizione x per ogni sprite di esplosione
                         explosionNewX = explosionNewX + bomb.hitbox.hitboxRec.width;
-
                         explosionNewY = explosionNewY + bomb.hitbox.hitboxRec.height;
                     }
-
-
                 }
 
             }
@@ -188,6 +176,12 @@ public class TileManager {
 
             }
 
+        }
+
+
+        //Draw dei tiles
+        for (Tile tile : tiles) {
+            g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
         }
 
     }

@@ -13,8 +13,6 @@ public class Bomb extends Oggetto {
 
     public int explosionRange;
     public boolean explodes;
-
-
     public Rectangle explosion_x;
     public Rectangle explosion_y;
 
@@ -33,7 +31,8 @@ public class Bomb extends Oggetto {
 
         super.hitbox = new Hitbox(x + 5, y + 12, width - 15, height - 15);
 
-        var pathSource = "src/view/res/miscellaneous/";
+        var pathSource = super.pathSource + "miscellaneous/";
+
         ArrayList<String> pathImages = new ArrayList<>();
         pathImages.add(pathSource + "Bomb1.png");
         pathImages.add(pathSource + "Bomb2.png");
@@ -48,9 +47,9 @@ public class Bomb extends Oggetto {
 
         //sprite delle esplosions
         try {
-            this.explosion_x_sprite= ImageIO.read(new File(pathSource + "ExplosionX.png"));
+            this.explosion_x_sprite = ImageIO.read(new File(pathSource + "ExplosionX.png"));
 
-            this.explosion_y_sprite= ImageIO.read(new File(pathSource + "ExplosionY.png"));
+            this.explosion_y_sprite = ImageIO.read(new File(pathSource + "ExplosionY.png"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -80,7 +79,7 @@ public class Bomb extends Oggetto {
         public void run() {
             // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
 
-             bombInstance.explodes = true;
+            bombInstance.explodes = true;
 
             //TODO mettere qui lo sprite della explosion?
             //TODO mettere explosion X e Y ed espandere la hitbox in X e Y della explosion
@@ -94,8 +93,9 @@ public class Bomb extends Oggetto {
 
             System.out.println("Bomb exploded!");
 
-             //Mettere qui logica di remove della bomba di "allbombs" e cambio sprite di esplosione
 
+            //Questo perchè devo cancellare l'immagine della bomba che sta dietro al range dell'esplosione
+            bombInstance.currentImage = null;
 
 
             //Remove della bomba dopo 1 secondo della explosione
@@ -105,16 +105,17 @@ public class Bomb extends Oggetto {
         }
     }
 
-    private class  removeBombTask extends TimerTask{
+    private class removeBombTask extends TimerTask {
 
         private Bomb bombInstance;
 
         public removeBombTask(Bomb bombInstance) {
             this.bombInstance = bombInstance;
         }
+
         @Override
         public void run() {
-          //  allBombs.remove(this.bombInstance);
+            allBombs.remove(this.bombInstance);
         }
 
     }

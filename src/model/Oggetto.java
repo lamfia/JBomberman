@@ -27,6 +27,8 @@ public abstract class Oggetto {
 
     //Mettere attributo Hitbox ad ogni oggetto?
 
+    public  String pathSource="src/view/res/";
+
     public void setCurrentImage(String path) {
 
         try {
