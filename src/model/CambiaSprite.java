@@ -19,6 +19,7 @@ public class CambiaSprite {
         this.secondiCambioSprite = OggettoInstance.secondiCambioSprite;
         this.currentIndex = 0;
 
+
         // Avvia il timer per cambiare l'immagine ogni tot millisecondi
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(new ImageChangeTask(), 0, secondiCambioSprite * 1000);
