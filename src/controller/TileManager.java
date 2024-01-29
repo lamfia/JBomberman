@@ -43,8 +43,11 @@ public class TileManager {
 
     public void getTileImage() throws IOException {
 
-        var tile1 = new Tile(172, 190, 60, "src/view/maps/Pirate/Barrel.png", true);
-        var tile2 = new Tile(400, 300, 60, "src/view/maps/Pirate/Barrel.png", true);
+        var pathImageTiles = "src/view/maps/Pirate/";
+
+
+        var tile1 = new Tile(172, 190, 50, pathImageTiles + "LifeSave1_2.png", true);
+        var tile2 = new Tile(400, 300, 50, pathImageTiles + "LifeSave1_2.png", true);
 
         tiles.add(tile1);
         tiles.add(tile2);
@@ -114,7 +117,6 @@ public class TileManager {
     public void draw(Graphics g2) {
 
 
-
         //Draw delle bombe
         if (giocatore.attaco.getActiveBombs() != null) {
 
@@ -124,10 +126,13 @@ public class TileManager {
 
                 if (bomb.explodes == true) {
 
-                   // tiles.remove(0);
-
-                    //TODO FARE LOGICA QUI DI REMOVE TILES
-                    //SE IL REC DEL TILE intersect rec di explosion X or explosion Y allora fare remove del tile
+                    //Logica di rimozione dei tiles STREAM
+                    var ExplodedTile = tiles.stream()
+                            .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle) || bomb.explosion_y.intersects(tile.collisionRectangle))
+                            .findFirst();
+                    ExplodedTile.ifPresent(explodedTile -> {
+                        tiles.remove(ExplodedTile.get());
+                    });
 
                     if (showHitboxes == true) {
                         g2.setColor(Color.red);
@@ -140,15 +145,15 @@ public class TileManager {
 
                     int explosionNewY = bomb.explosion_y.y;
 
-                    for (int i = 0; i <  bomb.explosionRange; i++) {
+                    for (int i = 0; i < bomb.explosionRange; i++) {
 
                         // Disegna la sprite di esplosione in X
                         g2.drawImage(bomb.explosion_x_sprite, explosionNewX, bomb.hitbox.hitboxRec.y,
-                                bomb.hitbox.hitboxRec.width,  bomb.hitbox.hitboxRec.height, null);
+                                bomb.hitbox.hitboxRec.width, bomb.hitbox.hitboxRec.height, null);
 
                         // Disegna la sprite di esplosione in Y
                         g2.drawImage(bomb.explosion_y_sprite, bomb.hitbox.hitboxRec.x, explosionNewY,
-                                bomb.hitbox.hitboxRec.width,  bomb.hitbox.hitboxRec.height, null);
+                                bomb.hitbox.hitboxRec.width, bomb.hitbox.hitboxRec.height, null);
 
                         // Calcola la posizione x per ogni sprite di esplosione
                         explosionNewX = explosionNewX + bomb.hitbox.hitboxRec.width;
