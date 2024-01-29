@@ -17,6 +17,9 @@ public class TileManager {
     ArrayList<Tile> tiles;
 
 
+    ArrayList<Tile> WalkingTiles;
+
+
     Rectangle ExpendedeHitbox;
 
     Giocatore giocatore;
@@ -32,6 +35,9 @@ public class TileManager {
         this.giocatore = giocatore;
 
         tiles = new ArrayList<>();
+
+
+        WalkingTiles = new ArrayList<>();
 
         try {
             getTileImage();
@@ -52,6 +58,10 @@ public class TileManager {
         tiles.add(tile1);
         tiles.add(tile2);
 
+
+        WalkingTiles.add(new Tile(350, 190,100,600));
+
+
     }
 
     /**
@@ -63,14 +73,6 @@ public class TileManager {
      * @return true or false se è un tile con collission true
      */
     public boolean isTileBlocked(Posizione posizione) {
-
-        // var isBlocked = Arrays.stream(tile).filter(i -> i.x == x && i.y == y).findFirst().orElse(false).get().collision;
-
-//        var isBlocked = Arrays.stream(tile)
-//                .filter(i -> i.x == x && i.y == y)
-//                .findFirst()
-//                .map(tile -> tile.collision)
-//                .orElse(false);
 
         //TODO mettere hitbox variabile secondo personaggio?
 
@@ -104,7 +106,19 @@ public class TileManager {
                 .filter(tile -> tile.collision)
                 .anyMatch(tile -> expandedHitbox.intersects(tile.collisionRectangle));
 
-        return isBlocked;
+//
+//        var isBlocked2 = WalkingTiles.stream()
+//                    .anyMatch(WalkingTiles -> expandedHitbox.intersects(WalkingTiles.collisionRectangle));
+
+        var isBlocked2 = WalkingTiles.stream()
+                .anyMatch(WalkingTiles -> WalkingTiles.collisionRectangle.contains(expandedHitbox));
+
+        //se fa collission un tile collision true OPPURE NON va in intersection a un walkingtile
+
+                                                    //OPPURE non sia piu overlaping
+
+
+        return isBlocked  ||  !isBlocked2;
     }
 
     public void AggiungiBomba(int x, int y) {
@@ -188,6 +202,15 @@ public class TileManager {
         for (Tile tile : tiles) {
             g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
         }
+
+
+        //Draw dei walking tiles
+        for (Tile WalkingTile : WalkingTiles) {
+            g2.setColor(WalkingTile.color);
+            g2.fillRect( WalkingTile.x, WalkingTile.y,
+                    WalkingTile.collisionRectangle.width, WalkingTile.collisionRectangle.height);
+        }
+
 
     }
 

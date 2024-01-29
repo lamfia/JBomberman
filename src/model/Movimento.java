@@ -194,79 +194,75 @@ public class Movimento extends Observable {
 
         //notificare finche idle sia false
 
-        //fare do finche isIdle sia true
+        //Controllo collisione
+        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione))) {
 
+            this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
+        } else {
 
-            //Controllo collisione
-            if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione))) {
+            //Controlle se è idle
+            if (isIdle) {
 
                 this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
             } else {
 
-                //Controlle se è idle
-                if (isIdle) {
+                posizione.aggiornaPosizione(Direzione.LEFT, velocita);
 
-                    this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
+                //intervalo per cambiare l'immaggine
+                long currentTime = System.currentTimeMillis();
 
+                if (currentTime - lastImageChangeTime >= imageChangeInterval) {
+                    switch (sprite) {
+                        case 0:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left1;
+                            sprite++;
+                            break;
+
+                        case 1:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left2;
+                            sprite++;
+                            break;
+
+                        case 2:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left3;
+                            sprite++;
+                            break;
+
+                        case 3:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left4;
+                            sprite = 0;
+                            break;
+                    }
+                    // Aggiorna il tempo dell'ultimo cambio di immagine
+                    lastImageChangeTime = currentTime;
                 } else {
 
-                    posizione.aggiornaPosizione(Direzione.LEFT, velocita);
+                    switch (sprite) {
+                        case 0:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left1;
+                            break;
 
-                    //intervalo per cambiare l'immaggine
-                    long currentTime = System.currentTimeMillis();
+                        case 1:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left2;
+                            break;
 
-                    if (currentTime - lastImageChangeTime >= imageChangeInterval) {
-                        switch (sprite) {
-                            case 0:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left1;
-                                sprite++;
-                                break;
+                        case 2:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left3;
+                            break;
 
-                            case 1:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left2;
-                                sprite++;
-                                break;
-
-                            case 2:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left3;
-                                sprite++;
-                                break;
-
-                            case 3:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left4;
-                                sprite = 0;
-                                break;
-                        }
-                        // Aggiorna il tempo dell'ultimo cambio di immagine
-                        lastImageChangeTime = currentTime;
-                    } else {
-
-                        switch (sprite) {
-                            case 0:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left1;
-                                break;
-
-                            case 1:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left2;
-                                break;
-
-                            case 2:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left3;
-                                break;
-
-                            case 3:
-                                this.posizione.ImageAttuale = this.posizione.pathImages.left4;
-                                break;
-                        }
-
+                        case 3:
+                            this.posizione.ImageAttuale = this.posizione.pathImages.left4;
+                            break;
                     }
 
-
                 }
+
+
             }
-            notifica();
+        }
+        notifica();
 
     }
 
