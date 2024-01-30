@@ -12,11 +12,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Variabili di avvio
-        Boolean showHitboxes = true;
+        Boolean showHitboxes = false;
 
 
         //Crea il giocatore
-        var giocatore = new Giocatore(400, 200, 100, 2, 40, 40);
+        var giocatore = new Giocatore(380, 200, 100, 2, 40, 40);
 
         ApplicationManager.movimento = giocatore.movimento;
 

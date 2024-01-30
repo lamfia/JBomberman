@@ -13,7 +13,7 @@ public class Attaco extends Observable {
 
     ArrayList<Bomb> bombs = new ArrayList<>();
 
-    int quantitaMaxBombe;
+    int quantitaExtraBombe;
 
     int contBombeAttive;
 
@@ -29,10 +29,21 @@ public class Attaco extends Observable {
         return Bomb.getAllBombs();
     }
 
-    public Attaco(int quantitaMaxBombe) {
+    public Attaco(int quantitaExtraBombe) {
 
-        this.quantitaMaxBombe = quantitaMaxBombe;
+        this.quantitaExtraBombe = quantitaExtraBombe;
 
+    }
+
+    /**
+     * Aumenta la explosion range in 1 quantita
+     */
+    public void AumentaExplosionRange(){
+        this.explosionRange+=2;
+    }
+
+    public void AumentaQuantitaBombe(){
+        this.quantitaExtraBombe +=1;
     }
 
     public void Aggiungibomba(int x, int y ){
@@ -56,7 +67,7 @@ public class Attaco extends Observable {
         //attacare solo se ci sono meno bombe attive che la quantita massima
 
         contBombeAttive=  this.bombs.size();
-        if (contBombeAttive<=quantitaMaxBombe){
+        if (contBombeAttive<= quantitaExtraBombe){
             notifica();
         }
 

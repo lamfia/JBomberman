@@ -202,6 +202,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             posGiocatoreX = movimento.pos_x;
             posGiocatoreY = movimento.pos_y;
 
+            //Fare qui la gestione della azione che viene comunicata
+            //nel senso, se ha presso un attaco da una bomba oppure da un enemico allora
+            //mostrare una view di "Game Over"
+            //Oppure anche in caso di Win, allora passare all'altro livello
+
             try {
                 this.image1 = ImageIO.read(new File(movimento.ImageAttuale));
 

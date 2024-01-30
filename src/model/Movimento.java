@@ -31,9 +31,25 @@ public class Movimento extends Observable {
 
     private long lastImageChangeTime = System.currentTimeMillis();
 
+    private void GestioneAzione(){
+        //TODO da passare enum di azione
+
+
+    }
+
     public void goUp(Boolean isIdle) {
 
         posizione.direzione = Direzione.UP;
+
+        //TODO
+        //Chiamare a tile manager, fare un metodo generico che gli passo in input la posizione del personaggio (hitbox)
+        //fa dei controlli, se ha fatto overlaping (prendendo) powerups, sta ricevendo un "danno" da un'altra hitbox sia attaco enemico
+        // o dalla hitbox di explosion della bomba.
+        //Tutte quelle hitbox stanno dentro il TileManager, quindi non ci devonon essere problemi
+        //Ritorno?
+        //Magari un ritorno una enum?
+        tileM.AzioneListener(posizione);
+
 
         if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione))) {
 

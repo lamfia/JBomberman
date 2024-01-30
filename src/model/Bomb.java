@@ -81,13 +81,13 @@ public class Bomb extends Oggetto {
 
             bombInstance.explodes = true;
 
-            //TODO mettere qui lo sprite della explosion?
-            //TODO mettere explosion X e Y ed espandere la hitbox in X e Y della explosion
+            //TODO attenzione, in caso di explosion, solo fare range di explosion negli spazi di "walking tiles" cosi non vanno oltre ai muri
+            //Importante? dopo vediamo
+
             var hitboxrec_old = bombInstance.hitbox.hitboxRec;
 
             bombInstance.explosion_y =
                     new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height), hitboxrec_old.width, hitboxrec_old.height * explosionRange);
-
             bombInstance.explosion_x =
                     new Rectangle(hitboxrec_old.x - (hitboxrec_old.width), hitboxrec_old.y, hitboxrec_old.width * explosionRange, hitboxrec_old.height);
 

@@ -1,8 +1,6 @@
 package controller;
 
-import model.Bomb;
-import model.Giocatore;
-import model.Tile;
+import model.*;
 import view.GamePanel;
 
 import java.awt.*;
@@ -16,10 +14,8 @@ public class TileManager {
 
     ArrayList<Tile> tiles;
 
-
     ArrayList<Tile> WalkingTiles;
-
-
+    ArrayList<PowerUpTile> PowerUpTiles;
     Rectangle ExpendedeHitbox;
 
     Giocatore giocatore;
@@ -36,8 +32,9 @@ public class TileManager {
 
         tiles = new ArrayList<>();
 
-
         WalkingTiles = new ArrayList<>();
+
+        PowerUpTiles = new ArrayList<>();
 
         try {
             getTileImage();
@@ -53,15 +50,13 @@ public class TileManager {
         //Settings del Pirate Map
         var pathImageTiles = "src/view/maps/Pirate/";
 
+
+
         //Tiles collision true , destructibles
 
 //        tiles.add(new Tile(172, 190, 60, pathImageTiles + "LifeSave1.png", true));
-//        tiles.add(new Tile(370, 275, 60, pathImageTiles + "LifeSave1.png", true));
 
-//        tiles.add(new Tile(377, 285, 46, 46, new Rectangle(380, 288, 40, 40),
-//                pathImageTiles + "LifeSave1.png", true));
-//
-                tiles.add(new Tile(377, 285, 46, 46,
+        tiles.add(new Tile(377, 285, 46, 46,
                 pathImageTiles + "LifeSave1.png", true));
 
 
@@ -88,6 +83,11 @@ public class TileManager {
 
         WalkingTiles.add(new Tile(680, 360, 40, 170)); //Bottom right corner column
         WalkingTiles.add(new Tile(680, 80, 40, 170)); //Top right corner column
+
+        //PowerUps Tiles
+        PowerUpTiles.add(new PowerUpTile(680, 80,PowerUp.ExtraBomb));
+        PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
+        PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
 
     }
 
@@ -218,6 +218,19 @@ public class TileManager {
             g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
         }
 
+        //Draw dei PowerUpds
+        for (Tile PowerUpTile : PowerUpTiles) {
+            g2.drawImage(PowerUpTile.image, PowerUpTile.x, PowerUpTile.y, PowerUpTile.width, PowerUpTile.height, null);
+
+            //hitbox del powerup
+            if (showHitboxes == true) {
+                g2.setColor(Color.orange);
+                g2.fillRect(PowerUpTile.collisionRectangle.x, PowerUpTile.collisionRectangle.y,
+                        PowerUpTile.collisionRectangle.width, PowerUpTile.collisionRectangle.height);
+            }
+        }
+
+
         if (showHitboxes == true) {
 
             //hitbox del tile
@@ -236,6 +249,23 @@ public class TileManager {
 
         }
 
+
+    }
+
+    public void AzioneListener(Posizione posizione){
+
+        //Se posizione sta dentro overlap di powerup di aumenta range explosion, allora
+        //this.giocatore.attaco.AumentaExplosionRange();
+
+        //in caso di powerup di velocita allora
+        //this.giocatore.movimento.velocita+=2;
+
+
+        //In caso di powerUp di aumenta quantita bombe
+        //this.giocatore.attaco.AumentaQuantitaBombe();
+
+        //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
+        // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso
 
     }
 
