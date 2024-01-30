@@ -49,18 +49,38 @@ public class TileManager {
 
     public void getTileImage() throws IOException {
 
+
+        //Settings del Pirate Map
         var pathImageTiles = "src/view/maps/Pirate/";
 
-
-        var tile1 = new Tile(172, 190, 50, pathImageTiles + "LifeSave1_2.png", true);
-        var tile2 = new Tile(400, 300, 50, pathImageTiles + "LifeSave1_2.png", true);
-
-        tiles.add(tile1);
-        tiles.add(tile2);
+        //Tiles collision true , destructibles
+        tiles.add(new Tile(172, 190, 50, pathImageTiles + "LifeSave1_2.png", true));
+        tiles.add(new Tile(400, 300, 50, pathImageTiles + "LifeSave1_2.png", true));
 
 
-        WalkingTiles.add(new Tile(350, 190,100,600));
+        //Walking tiles
+        WalkingTiles.add(new Tile(375, 0, 52, 600)); //left column
+        WalkingTiles.add(new Tile(171, 95, 52, 430)); //center column
+        WalkingTiles.add(new Tile(575, 95, 52, 430));//right column
 
+
+        WalkingTiles.add(new Tile(325, 245, 150, 40));//center  small row
+        WalkingTiles.add(new Tile(325, 325, 150, 40));//center  small row
+
+        WalkingTiles.add(new Tile(80, 171, 640, 40)); //top large row
+        WalkingTiles.add(new Tile(80, 410, 640, 40)); //botton large row
+
+        WalkingTiles.add(new Tile(80, 80, 195, 40)); //top left small row
+        WalkingTiles.add(new Tile(80, 490, 195, 40)); //botton left small row
+
+        WalkingTiles.add(new Tile(525, 490, 190, 40)); //botton right small row
+        WalkingTiles.add(new Tile(525, 80, 190, 40)); //top right small row
+
+        WalkingTiles.add(new Tile(80, 80, 40, 170)); //Top left corner column
+        WalkingTiles.add(new Tile(80, 360, 40, 170)); //Bottom left corner column
+
+        WalkingTiles.add(new Tile(680, 360, 40, 170)); //Bottom right corner column
+        WalkingTiles.add(new Tile(680, 80, 40, 170)); //Top right corner column
 
     }
 
@@ -115,10 +135,10 @@ public class TileManager {
 
         //se fa collission un tile collision true OPPURE NON va in intersection a un walkingtile
 
-                                                    //OPPURE non sia piu overlaping
+        //OPPURE non sia piu overlaping
 
 
-        return isBlocked  ||  !isBlocked2;
+        return isBlocked || !isBlocked2;
     }
 
     public void AggiungiBomba(int x, int y) {
@@ -130,6 +150,15 @@ public class TileManager {
      **/
     public void draw(Graphics g2) {
 
+        //Draw dei walking tiles
+
+        if (showHitboxes == true) {
+            for (Tile WalkingTile : WalkingTiles) {
+                g2.setColor(WalkingTile.color);
+                g2.fillRect(WalkingTile.x, WalkingTile.y,
+                        WalkingTile.collisionRectangle.width, WalkingTile.collisionRectangle.height);
+            }
+        }
 
         //Draw delle bombe
         if (giocatore.attaco.getActiveBombs() != null) {
@@ -201,14 +230,6 @@ public class TileManager {
         //Draw dei tiles
         for (Tile tile : tiles) {
             g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
-        }
-
-
-        //Draw dei walking tiles
-        for (Tile WalkingTile : WalkingTiles) {
-            g2.setColor(WalkingTile.color);
-            g2.fillRect( WalkingTile.x, WalkingTile.y,
-                    WalkingTile.collisionRectangle.width, WalkingTile.collisionRectangle.height);
         }
 
 

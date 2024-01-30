@@ -33,7 +33,6 @@ public class Main {
 
         ApplicationManager.movimento.setTileM(tileM);
 
-
         var time = new Time();
 
         //binding tra observer ed observable
