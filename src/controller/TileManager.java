@@ -54,8 +54,15 @@ public class TileManager {
         var pathImageTiles = "src/view/maps/Pirate/";
 
         //Tiles collision true , destructibles
-        tiles.add(new Tile(172, 190, 50, pathImageTiles + "LifeSave1_2.png", true));
-        tiles.add(new Tile(400, 300, 50, pathImageTiles + "LifeSave1_2.png", true));
+
+//        tiles.add(new Tile(172, 190, 60, pathImageTiles + "LifeSave1.png", true));
+//        tiles.add(new Tile(370, 275, 60, pathImageTiles + "LifeSave1.png", true));
+
+//        tiles.add(new Tile(377, 285, 46, 46, new Rectangle(380, 288, 40, 40),
+//                pathImageTiles + "LifeSave1.png", true));
+//
+                tiles.add(new Tile(377, 285, 46, 46,
+                pathImageTiles + "LifeSave1.png", true));
 
 
         //Walking tiles
@@ -88,8 +95,6 @@ public class TileManager {
      * USATO STREAM QUI
      * Utilizzato gli stream per ottenere il valore di collisione in base alle coordinate x e y
      *
-     * @param x
-     * @param y
      * @return true or false se è un tile con collission true
      */
     public boolean isTileBlocked(Posizione posizione) {
@@ -208,6 +213,11 @@ public class TileManager {
 
         }
 
+        //Draw dei tiles
+        for (Tile tile : tiles) {
+            g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
+        }
+
         if (showHitboxes == true) {
 
             //hitbox del tile
@@ -224,12 +234,6 @@ public class TileManager {
 
             }
 
-        }
-
-
-        //Draw dei tiles
-        for (Tile tile : tiles) {
-            g2.drawImage(tile.image, tile.x, tile.y, tile.tileSize, tile.tileSize, null);
         }
 
 

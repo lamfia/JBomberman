@@ -15,6 +15,10 @@ public class Tile {
     public int x;
 
     public int y;
+    public int width;
+
+
+    public int height;
 
     public int tileSize;
 
@@ -31,7 +35,47 @@ public class Tile {
         this.tileSize = tileSize;
 
         int tileSizeHitbox = tileSize - 19;
-        this.collisionRectangle = new Rectangle(x + 8, y + 16, tileSizeHitbox, tileSizeHitbox);
+        this.collisionRectangle = new Rectangle(x + 9, y + 9, tileSizeHitbox, tileSizeHitbox);
+
+    }
+//     tiles.add(new Tile(377, 285, 46, 46, new Rectangle(380, 288, 40, 40),
+//    pathImageTiles + "LifeSave1.png", true));
+
+    /**
+     * Questo l'ho usato per creare i tiles destructitibles dellla mappa pirata
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param Pathimage
+     * @param collision
+     * @throws IOException
+     */
+    public Tile(int x, int y, int width, int height, String Pathimage, boolean collision) throws IOException {
+
+        this.x = x;
+        this.y = y;
+        this.image = ImageIO.read(new File(Pathimage));
+        this.collision = collision;
+
+        this.width=width;
+        this.height=height;
+
+        this.collisionRectangle = new Rectangle(x+3,y+3,40,40);
+
+    }
+
+    public Tile(int x, int y, int width, int height , Rectangle collisionRectangle, String Pathimage, boolean collision) throws IOException {
+
+        this.x = x;
+        this.y = y;
+        this.image = ImageIO.read(new File(Pathimage));
+        this.collision = collision;
+
+        this.width=width;
+        this.height=height;
+
+        this.collisionRectangle =collisionRectangle;
 
     }
 
