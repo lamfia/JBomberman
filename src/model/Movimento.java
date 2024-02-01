@@ -134,6 +134,9 @@ public class Movimento extends Observable {
 
         posizione.direzione = Direzione.DOWN;
 
+        tileM.AzioneListener(posizione);
+
+
         if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione))) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
@@ -208,7 +211,7 @@ public class Movimento extends Observable {
 
         posizione.direzione = Direzione.LEFT;
 
-        //notificare finche idle sia false
+        tileM.AzioneListener(posizione);
 
         //Controllo collisione
         if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione))) {
@@ -285,6 +288,8 @@ public class Movimento extends Observable {
     public void goRight(Boolean isIdle) {
 
         posizione.direzione = Direzione.RIGHT;
+
+        tileM.AzioneListener(posizione);
 
         if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione))) {
 

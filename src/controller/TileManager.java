@@ -6,6 +6,7 @@ import view.GamePanel;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TileManager {
 
@@ -22,7 +23,6 @@ public class TileManager {
 
     boolean showHitboxes = false;
 
-    final int tileSize = 20; //19x19 tile
 
     public TileManager(GamePanel gp, Giocatore giocatore) {
 
@@ -49,7 +49,6 @@ public class TileManager {
 
         //Settings del Pirate Map
         var pathImageTiles = "src/view/maps/Pirate/";
-
 
 
         //Tiles collision true , destructibles
@@ -85,7 +84,7 @@ public class TileManager {
         WalkingTiles.add(new Tile(680, 80, 40, 170)); //Top right corner column
 
         //PowerUps Tiles
-        PowerUpTiles.add(new PowerUpTile(680, 80,PowerUp.ExtraBomb));
+        PowerUpTiles.add(new PowerUpTile(680, 80, PowerUp.ExtraBomb));
         PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
         PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
 
@@ -252,17 +251,60 @@ public class TileManager {
 
     }
 
-    public void AzioneListener(Posizione posizione){
+    public void AzioneListener(Posizione posizione) {
 
         //Se posizione sta dentro overlap di powerup di aumenta range explosion, allora
-        //this.giocatore.attaco.AumentaExplosionRange();
+
+
+        var hitbox = posizione.hitbox.getBounds();
+
+//        var pickPowerUp =  PowerUpTiles.stream()
+//                .anyMatch(PowerUpTile -> PowerUpTile.collisionRectangle.contains(hitbox));
+//
+//        if (pickPowerUp==true){
+//
+////            var powerUp = PowerUpTiles.stream()
+////                    .anyMatch(PowerUpTile -> PowerUpTile.collisionRectangle.contains(hitbox)).
+//
+//            //fare get del powerup corrispondente
+//
+//            System.out.println("Ha presso un power up!");
+//        }
+
+        Optional<PowerUpTile> pickedPowerUpOptional = PowerUpTiles.stream()
+                .filter(powerUpTile -> powerUpTile.collisionRectangle.contains(hitbox))
+                .findFirst();
+
+        if (pickedPowerUpOptional.isPresent()) {
+            PowerUpTile pickedPowerUp = pickedPowerUpOptional.get();
+
+            // Usa l'oggetto pickedPowerUp come necessario
+            System.out.println("Ha preso il power up: " + pickedPowerUp.powerUp.toString());
+
+            switch (pickedPowerUp.powerUp) {
+                case ExtraBomb:
+                    this.giocatore.attaco.AumentaQuantitaBombe();
+                    break;
+                case SpeedUp:
+                    this.giocatore.movimento.velocita += 2;
+                    break;
+                case IncreaseExplosion:
+                    this.giocatore.attaco.AumentaExplosionRange();
+                    break;
+
+            }
+            //Cancella il powerUp dalla mappa
+            PowerUpTiles.remove( pickedPowerUp);
+
+        }
+
 
         //in caso di powerup di velocita allora
-        //this.giocatore.movimento.velocita+=2;
+        //
 
 
         //In caso di powerUp di aumenta quantita bombe
-        //this.giocatore.attaco.AumentaQuantitaBombe();
+        //
 
         //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
         // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso

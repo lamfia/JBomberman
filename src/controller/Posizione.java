@@ -43,7 +43,7 @@ public class Posizione {
     }
 
     private void AggiornaHitbox(){
-        this.hitbox = new Rectangle(pos_x + 8, pos_y + 11, width - 19, height - 20);
+        this.hitbox = new Rectangle(pos_x + 8, pos_y + 14, width - 19, height - 20);
     }
 
     public void aggiornaPosizione(Direzione direzione, int velocita) {
