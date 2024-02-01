@@ -19,7 +19,7 @@ public class Attaco extends Observable {
 
     //Fare questo attributo "propio" del momento e non dipendente della classe "bomb"
     //Cosi ogni bomba nel corso del tempo, avra il suo explosion range del momento della sua creazione
-    int explosionRange=3;
+    int explosionRange=3; //Questo numero deve essere sempre dispari. per poter fare la croce. conta anche la explosion del centro
 
     public ArrayList<Bomb> getBombs() {
         return bombs;

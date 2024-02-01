@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Variabili di avvio
-        Boolean showHitboxes = false   ;
+        Boolean showHitboxes = false;
 
 
         //Crea il giocatore
@@ -27,8 +27,8 @@ public class Main {
         f.getGamePanel().addPersonaggio(giocatore);
 
         //Creo TileM e lo inietto dentro al GP
-        var tileM = new TileManager(f.getGamePanel(),giocatore);
-        tileM.showHitboxes=showHitboxes;
+        var tileM = new TileManager(f.getGamePanel(), giocatore);
+        tileM.showHitboxes = showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
         ApplicationManager.movimento.setTileM(tileM);

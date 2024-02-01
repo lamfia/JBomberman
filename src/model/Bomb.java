@@ -81,15 +81,22 @@ public class Bomb extends Oggetto {
 
             bombInstance.explodes = true;
 
-            //TODO attenzione, in caso di explosion, solo fare range di explosion negli spazi di "walking tiles" cosi non vanno oltre ai muri
-            //Importante? dopo vediamo
+            //TODO attenzione, in caso di explosion, solo fare range di explosion
+            // negli spazi di "walking tiles" cosi non vanno oltre ai muri.
+            // Importante? dopo vediamo
 
             var hitboxrec_old = bombInstance.hitbox.hitboxRec;
 
+            int estremiEsplosione= (explosionRange-1)/2;
+
             bombInstance.explosion_y =
-                    new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height), hitboxrec_old.width, hitboxrec_old.height * explosionRange);
+                    new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height * estremiEsplosione), hitboxrec_old.width,
+                            hitboxrec_old.height * explosionRange);
+
             bombInstance.explosion_x =
-                    new Rectangle(hitboxrec_old.x - (hitboxrec_old.width), hitboxrec_old.y, hitboxrec_old.width * explosionRange, hitboxrec_old.height);
+                    new Rectangle(hitboxrec_old.x - (hitboxrec_old.width * estremiEsplosione),
+                            hitboxrec_old.y, hitboxrec_old.width * explosionRange, hitboxrec_old.height);
+
 
             System.out.println("Bomb exploded!");
 

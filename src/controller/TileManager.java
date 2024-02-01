@@ -272,7 +272,7 @@ public class TileManager {
 //        }
 
         Optional<PowerUpTile> pickedPowerUpOptional = PowerUpTiles.stream()
-                .filter(powerUpTile -> powerUpTile.collisionRectangle.contains(hitbox))
+                .filter(powerUpTile -> powerUpTile.collisionRectangle.intersects(hitbox))
                 .findFirst();
 
         if (pickedPowerUpOptional.isPresent()) {
