@@ -160,7 +160,6 @@ public class TileManager {
     public void draw(Graphics g2) {
 
         //Draw dei walking tiles
-
         if (showHitboxes == true) {
             for (Tile WalkingTile : WalkingTiles) {
                 g2.setColor(WalkingTile.color);

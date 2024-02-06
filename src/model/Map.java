@@ -1,6 +1,8 @@
 package model;
 
 
+import java.util.ArrayList;
+
 /**
  * Contiene tutte le impostazioni di ogni mappa, tiles, enemici, powerups, portaleUscita
  */
@@ -9,8 +11,10 @@ public class Map {
 
     Maps selectedMap;
 
-    public Map(Maps selectedMap){
-        this.selectedMap=selectedMap;
+    public ArrayList<Enemico> Enemici = new ArrayList<>();
+
+    public Map(Maps selectedMap) {
+        this.selectedMap = selectedMap;
 
         setTiles();
         setPowerUps();
@@ -19,9 +23,9 @@ public class Map {
     /**
      * Get dei tiles della mappa selezionata
      */
-    private void setTiles(){
+    private void setTiles() {
 
-        switch (selectedMap){
+        switch (selectedMap) {
             case TheSevenSeas:
                 break;
         }
@@ -30,9 +34,9 @@ public class Map {
     /**
      * Get dei powerUps della mappa selezionata
      */
-    private void setPowerUps(){
+    private void setPowerUps() {
 
-        switch (selectedMap){
+        switch (selectedMap) {
             case TheSevenSeas:
                 break;
         }
@@ -41,10 +45,20 @@ public class Map {
     /**
      * Imposta lo sfondo della mappa selezionata
      */
-    private void setImageMap(){
+    private void setImageMap() {
 
-        switch (selectedMap){
+        switch (selectedMap) {
             case TheSevenSeas:
+                break;
+        }
+    }
+
+    private void setEnemici() {
+
+        //TODO Usare questa config per creare gli enimici
+        switch (selectedMap) {
+            case TheSevenSeas:
+               // Enemici.add(new Enemico(100, 100, 1, 2, 50, 50));
                 break;
         }
     }

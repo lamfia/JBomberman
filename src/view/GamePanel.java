@@ -17,23 +17,24 @@ import java.util.*;
 import java.util.Timer;
 
 public class GamePanel extends JPanel implements Observer, Runnable {
-
-    //Tiles
-//    final int originalTileSize = 20; //19x19 tile
-//    final int scale = 3;
-    public final int tileSize = 60; // square 20*20
-
     private TileManager tileM;
     private String TempoGioco = "00:00:00";
-    private Image image1;
+    //private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
 
     //TODO aggiungere una lista di personaggi (usare classe Personaggio)
-    private int posGiocatoreX;
-    private int posGiocatoreY;
-    private int GiocatoreWidth;
-    private int GiocatoreHeight;
+//    private int posGiocatoreX;
+//    private int posGiocatoreY;
+//    private int GiocatoreWidth;
+//    private int GiocatoreHeight;
+
+    private ArrayList<Personaggio> personaggi = new ArrayList<>();
+
+
+    /**
+     * Dimensioni del gamePanel
+     **/
     private int dimensionWidth;
     private int dimensionHeight;
 
@@ -89,24 +90,33 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         repaint();
     }
 
-    public void addPersonaggio(Personaggio personaggio) throws IOException {
+    public void addGiocatore(Giocatore giocatore) throws IOException {
 
-        this.posGiocatoreX = personaggio.movimento.posizione.pos_x;
-        this.posGiocatoreY = personaggio.movimento.posizione.pos_y;
+//        this.posGiocatoreX = giocatore.movimento.posizione.pos_x;
+//        this.posGiocatoreY = giocatore.movimento.posizione.pos_y;
+//
+//        this.GiocatoreWidth = giocatore.movimento.posizione.width;
+//        this.GiocatoreHeight = giocatore.movimento.posizione.height;
+//
+//        this.image1 = ImageIO.read(new File(giocatore.movimento.posizione.pathImages.downidle));
+//
+//        var giocatoremodel= new Giocatore(
+//                giocatore.movimento.posizione.pos_x,
+//                giocatore.movimento.posizione.pos_y,100,2,2,2);
 
-        this.GiocatoreWidth = personaggio.movimento.posizione.width;
-        this.GiocatoreHeight = personaggio.movimento.posizione.height;
+        //Default image
+        giocatore.movimento.posizione.ImageAttuale = giocatore.movimento.posizione.pathImages.downidle;
 
-        this.image1 = ImageIO.read(new File(personaggio.movimento.posizione.pathImages.downidle));
+        this.personaggi.add(giocatore);
 
-        // .image1= personaggio.pathImages.down1;
+        repaint();
 
+    }
 
-//        var g = this.getGraphics();
-//        //super.paintComponent(g);
-//        Graphics2D g2 = (Graphics2D) g;
-//        g2.setColor(Color.white);
-//        g2.drawString("HOLAAAAAAAAAAA", 100, 200);
+    public void addEnemico(Enemico enemico) throws IOException {
+
+        enemico.movimento.posizione.ImageAttuale = enemico.movimento.posizione.pathImages.downidle;
+        this.personaggi.add(enemico);
         repaint();
 
     }
@@ -126,16 +136,27 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
             g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
-
             //Aggiorna i tiles
             drawTiles();
+
+            //Draw dei personnaggi
+            for (Personaggio personaggio : personaggi) {
+
+                g2.drawImage(
+                        // ImageIO.read(new File(giocatore.movimento.posizione.pathImages.downidle),
+                        ImageIO.read(new File(personaggio.movimento.posizione.ImageAttuale)),
+                        personaggio.movimento.posizione.pos_x,
+                        personaggio.movimento.posizione.pos_y,
+                        personaggio.movimento.posizione.width,
+                        personaggio.movimento.posizione.height, null);
+
+
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        //player
-        g2.drawImage(image1, posGiocatoreX, posGiocatoreY, GiocatoreWidth, GiocatoreHeight, this);
 
         //Timer del gioco
         g2.setColor(Color.white);
@@ -157,11 +178,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     @Override
     public void update(Observable observable, Object arg) {
 
+        //player
+        var giocatore = personaggi.get(0);
+
+
         //Tempo! TODO mettere questo valore nella classe "partita"
         if (observable instanceof Time) {
             TempoGioco = (String) arg;
         }
-
 
         //Partita info
         if (observable instanceof Partita) {
@@ -179,29 +203,16 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             var movimento = (Posizione) arg;
 
-            //Aggiorna posizione dentro alla view
-            posGiocatoreX = movimento.pos_x;
-            posGiocatoreY = movimento.pos_y;
-
-            //Fare qui la gestione della azione che viene comunicata
-            //nel senso, se ha presso un attaco da una bomba oppure da un enemico allora
-            //mostrare una view di "Game Over"
-            //Oppure anche in caso di Win, allora passare all'altro livello
-
-            try {
-                this.image1 = ImageIO.read(new File(movimento.ImageAttuale));
-
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            giocatore.movimento.posizione.pos_x = movimento.pos_x;
+            giocatore.movimento.posizione.pos_y = movimento.pos_y;
+            giocatore.movimento.posizione.ImageAttuale = movimento.ImageAttuale;
 
         }
 
         //Attack!
         if (observable instanceof Attaco) {
             System.out.println(arg.toString());
-            tileM.AggiungiBomba(posGiocatoreX, posGiocatoreY + 5);
+            tileM.AggiungiBomba(giocatore.movimento.posizione.pos_x, giocatore.movimento.posizione.pos_y + 5);
         }
 
         repaint();

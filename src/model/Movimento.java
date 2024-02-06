@@ -29,14 +29,10 @@ public class Movimento extends Observable {
         this.velocita = velocita;
     }
 
-
-
     private long lastImageChangeTime = System.currentTimeMillis();
 
-    private void GestioneAzione(){
+    private void GestioneAzione() {
         //TODO da passare enum di azione
-
-
     }
 
     public void goUp(Boolean isIdle) {
@@ -137,9 +133,8 @@ public class Movimento extends Observable {
         posizione.direzione = Direzione.DOWN;
 
         tileM.AzioneListener(posizione);
-
-
         if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione))) {
+            //  if (posizione.pos_y > 520) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
         } else {
@@ -149,8 +144,6 @@ public class Movimento extends Observable {
                 this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
             } else {
-//                posizione.pos_y = posizione.pos_y + velocita;
-//                posizione.direzione = Direzione.DOWN;
 
                 posizione.aggiornaPosizione(Direzione.DOWN, velocita);
 

@@ -25,6 +25,7 @@ public abstract class Personaggio  {
     Descrive la imaggine con un accesso alla data della stessa
      */
 
+
     public Personaggio(int posX, int posY, int Salute,int velocita, int width, int height){
 
         //hitbox (rectangle area)
@@ -34,6 +35,8 @@ public abstract class Personaggio  {
        this.Salute= Salute;
 
        // this.hitbox= new Hitbox(hitboxRec);
+
+
 
     }
 

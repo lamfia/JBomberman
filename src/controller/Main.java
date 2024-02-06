@@ -14,7 +14,7 @@ public class Main {
         //Variabili di avvio
         Boolean showHitboxes = true;
         AudioManager.getInstance().enable = true;
-        //f.getGamePanel().playMusic(0);
+        //f.getGamePanel().playMusic(0); //Background music
 
         //Crea il giocatore
         var giocatore = new Giocatore(380, 200, 100, 2, 40, 40);
@@ -25,7 +25,12 @@ public class Main {
 
         //Crea la view
         var f = new Finestra(800, 600);
-        f.getGamePanel().addPersonaggio(giocatore);
+        //Add del giocatore
+        f.getGamePanel().addGiocatore(giocatore);
+
+
+
+
 
         //Creazione di partita
         Partita partita = new Partita(Maps.TheSevenSeas);
@@ -36,6 +41,11 @@ public class Main {
         f.getGamePanel().setTileM(tileM);
 
         ApplicationManager.movimento.setTileM(tileM);
+
+
+        //Add degli enimici //TODO questa config da mettere dentro alla mappa , partita
+        var enemico1= new Enemico(100,100,100,2,40,40);
+        f.getGamePanel().addEnemico(enemico1);
 
         var time = new Time();
 

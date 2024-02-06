@@ -15,26 +15,26 @@ public class Partita extends Observable {
 
     public StatoPartita statoPartita;
 
-    Map map;
+    public Map map;
 
-    public Partita(Maps selectedMap){
+    public Partita(Maps selectedMap) {
         //Quando si crea la partita nuova con il primo mappa
         //si imposta in stato playing
-        this.statoPartita=StatoPartita.Playing;
+        this.statoPartita = StatoPartita.Playing;
 
-        map= new Map(selectedMap);
+        map = new Map(selectedMap);
     }
 
-    public void  notifica(){
+    public void notifica() {
         setChanged();
         notifyObservers(this);
 
     }
 
 
-    public void changeStatoPartita(StatoPartita statoPartita){
+    public void changeStatoPartita(StatoPartita statoPartita) {
 
-        this.statoPartita=statoPartita;
+        this.statoPartita = statoPartita;
         notifica();
 
     }
