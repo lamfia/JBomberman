@@ -92,18 +92,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     public void addGiocatore(Giocatore giocatore) throws IOException {
 
-//        this.posGiocatoreX = giocatore.movimento.posizione.pos_x;
-//        this.posGiocatoreY = giocatore.movimento.posizione.pos_y;
-//
-//        this.GiocatoreWidth = giocatore.movimento.posizione.width;
-//        this.GiocatoreHeight = giocatore.movimento.posizione.height;
-//
-//        this.image1 = ImageIO.read(new File(giocatore.movimento.posizione.pathImages.downidle));
-//
-//        var giocatoremodel= new Giocatore(
-//                giocatore.movimento.posizione.pos_x,
-//                giocatore.movimento.posizione.pos_y,100,2,2,2);
-
         //Default image
         giocatore.movimento.posizione.ImageAttuale = giocatore.movimento.posizione.pathImages.downidle;
 
@@ -115,7 +103,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     public void addEnemico(Enemico enemico) throws IOException {
 
+        //Default image
         enemico.movimento.posizione.ImageAttuale = enemico.movimento.posizione.pathImages.downidle;
+
         this.personaggi.add(enemico);
         repaint();
 
