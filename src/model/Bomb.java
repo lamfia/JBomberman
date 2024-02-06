@@ -1,5 +1,7 @@
 package model;
 
+import controller.AudioManager;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -78,6 +80,8 @@ public class Bomb extends Oggetto {
         @Override
         public void run() {
             // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
+
+            AudioManager.getInstance().playSE(1);
 
             bombInstance.explodes = true;
 

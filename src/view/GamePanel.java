@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.AudioManager;
 import controller.CollisionChecker;
 import controller.Posizione;
 import controller.TileManager;
@@ -82,43 +83,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //Constructor
     public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight) {
 
-
         this.dimensionHeight = dimensionHeight;
         this.dimensionWidth = dimensionWidth;
-
-
-//
-//        try {
-//
-//            //image1 = ImageIO.read(new File(""));
-//
-//            //image1 = ImageIO.read(getClass().getResourceAsStream());
-//
-//        }catch (IOException ex){
-//
-//        }
-
-//        java.util.Timer timer = new Timer(true);
-//        timer.schedule(new ExplosionTask(), 1000); // 1 secondi
 
     }
 
     public void repaintTask(){
         repaint();
     }
-
-//    private class ExplosionTask extends TimerTask {
-//        @Override
-//        public void run() {
-//            // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
-//            explodes = true;
-//
-//            //TODO mettere qui lo sprite della explosion?
-//
-//            System.out.println("Bomb exploded!");
-//        }
-//    }
-//
 
     public void addPersonaggio(Personaggio personaggio) throws IOException {
 
@@ -229,6 +201,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         repaint();
 
     }
+
+
+//    public void playMusic(int index){
+//        AudioManager.getInstance().play();
+//
+//    }
 
 
 

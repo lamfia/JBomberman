@@ -173,6 +173,8 @@ public class TileManager {
 
                 if (bomb.explodes == true) {
 
+
+
                     //Logica di rimozione dei tiles STREAM
                     var ExplodedTile = tiles.stream()
                             .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle) || bomb.explosion_y.intersects(tile.collisionRectangle))
@@ -253,23 +255,7 @@ public class TileManager {
 
     public void AzioneListener(Posizione posizione) {
 
-        //Se posizione sta dentro overlap di powerup di aumenta range explosion, allora
-
-
         var hitbox = posizione.hitbox.getBounds();
-
-//        var pickPowerUp =  PowerUpTiles.stream()
-//                .anyMatch(PowerUpTile -> PowerUpTile.collisionRectangle.contains(hitbox));
-//
-//        if (pickPowerUp==true){
-//
-////            var powerUp = PowerUpTiles.stream()
-////                    .anyMatch(PowerUpTile -> PowerUpTile.collisionRectangle.contains(hitbox)).
-//
-//            //fare get del powerup corrispondente
-//
-//            System.out.println("Ha presso un power up!");
-//        }
 
         Optional<PowerUpTile> pickedPowerUpOptional = PowerUpTiles.stream()
                 .filter(powerUpTile -> powerUpTile.collisionRectangle.intersects(hitbox))
@@ -280,6 +266,8 @@ public class TileManager {
 
             // Usa l'oggetto pickedPowerUp come necessario
             System.out.println("Ha preso il power up: " + pickedPowerUp.powerUp.toString());
+
+            AudioManager.getInstance().playSE(2);
 
             switch (pickedPowerUp.powerUp) {
                 case ExtraBomb:
@@ -298,18 +286,14 @@ public class TileManager {
 
         }
 
-
-        //in caso di powerup di velocita allora
-        //
-
-
-        //In caso di powerUp di aumenta quantita bombe
-        //
-
         //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
         // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso
 
     }
+
+
+
+
 
 
 }

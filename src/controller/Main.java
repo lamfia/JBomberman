@@ -13,7 +13,8 @@ public class Main {
 
         //Variabili di avvio
         Boolean showHitboxes = false;
-
+        AudioManager.getInstance().enable=true;
+        //f.getGamePanel().playMusic(0);
 
         //Crea il giocatore
         var giocatore = new Giocatore(380, 200, 100, 2, 40, 40);
@@ -39,6 +40,8 @@ public class Main {
         time.addObserver(f.getGamePanel());
         giocatore.movimento.addObserver(f.getGamePanel());
         giocatore.attaco.addObserver(f.getGamePanel());
+
+
 
 
         //LOOP DEL GAME
