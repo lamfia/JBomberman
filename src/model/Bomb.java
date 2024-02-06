@@ -69,6 +69,19 @@ public class Bomb extends Oggetto {
         return allBombs;
     }
 
+    public ArrayList<Rectangle> getExplosionHitboxRec() {
+
+        if (explosion_x != null && explosion_y != null) {
+            ArrayList<Rectangle> ExplosionHitboxRec = new ArrayList<>();
+            ExplosionHitboxRec.add(explosion_x);
+            ExplosionHitboxRec.add(explosion_y);
+            return ExplosionHitboxRec;
+        } else {
+            return null;
+        }
+
+    }
+
     private class ExplosionTask extends TimerTask {
 
         private Bomb bombInstance;
@@ -91,7 +104,7 @@ public class Bomb extends Oggetto {
 
             var hitboxrec_old = bombInstance.hitbox.hitboxRec;
 
-            int estremiEsplosione= (explosionRange-1)/2;
+            int estremiEsplosione = (explosionRange - 1) / 2;
 
             bombInstance.explosion_y =
                     new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height * estremiEsplosione), hitboxrec_old.width,

@@ -29,6 +29,8 @@ public class Movimento extends Observable {
         this.velocita = velocita;
     }
 
+
+
     private long lastImageChangeTime = System.currentTimeMillis();
 
     private void GestioneAzione(){

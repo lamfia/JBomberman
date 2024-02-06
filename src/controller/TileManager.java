@@ -20,11 +20,14 @@ public class TileManager {
     Rectangle ExpendedeHitbox;
 
     Giocatore giocatore;
+    Partita partita;
+
+    Posizione posizione; //mi salvo la lastPosition
 
     boolean showHitboxes = false;
 
 
-    public TileManager(GamePanel gp, Giocatore giocatore) {
+    public TileManager(GamePanel gp, Giocatore giocatore, Partita partita) {
 
         this.gp = gp;
 
@@ -35,6 +38,8 @@ public class TileManager {
         WalkingTiles = new ArrayList<>();
 
         PowerUpTiles = new ArrayList<>();
+
+        this.partita = partita;
 
         try {
             getTileImage();
@@ -173,9 +178,15 @@ public class TileManager {
 
                 if (bomb.explodes == true) {
 
+                    //In caso di gameOver
+                    var hitbox = giocatore.movimento.posizione.hitbox.getBounds();
+                    boolean isGameOver = giocatore.attaco.getExplosionBombsHitbox().stream()
+                            .anyMatch(rectangle -> rectangle.intersects(hitbox));
+                    if (isGameOver) {
+                        partita.changeStatoPartita(StatoPartita.GameOver);
+                    }
 
-
-                    //Logica di rimozione dei tiles STREAM
+                    //Logica di rimozione dei tiles destructible STREAM
                     var ExplodedTile = tiles.stream()
                             .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle) || bomb.explosion_y.intersects(tile.collisionRectangle))
                             .findFirst();
@@ -257,6 +268,22 @@ public class TileManager {
 
         var hitbox = posizione.hitbox.getBounds();
 
+        //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
+        // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso
+//        //In caso di gameOver
+//        var hitbox2 = giocatore.movimento.posizione.hitbox.getBounds();
+//        boolean isGameOver = giocatore.attaco.getExplosionBombsHitbox().stream()
+//                .anyMatch(rectangle -> rectangle.intersects(hitbox2));
+//        if (isGameOver) {
+//            partita.changeStatoPartita(StatoPartita.GameOver);
+//        }
+
+
+        //In caso di Win! TODO da fare qui
+
+
+
+        //In caso di pick up del powerUps
         Optional<PowerUpTile> pickedPowerUpOptional = PowerUpTiles.stream()
                 .filter(powerUpTile -> powerUpTile.collisionRectangle.intersects(hitbox))
                 .findFirst();
@@ -267,6 +294,7 @@ public class TileManager {
             // Usa l'oggetto pickedPowerUp come necessario
             System.out.println("Ha preso il power up: " + pickedPowerUp.powerUp.toString());
 
+            //SE del pickup dell'oggetto
             AudioManager.getInstance().playSE(2);
 
             switch (pickedPowerUp.powerUp) {
@@ -282,18 +310,11 @@ public class TileManager {
 
             }
             //Cancella il powerUp dalla mappa
-            PowerUpTiles.remove( pickedPowerUp);
+            PowerUpTiles.remove(pickedPowerUp);
 
         }
 
-        //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
-        // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso
-
     }
-
-
-
-
 
 
 }

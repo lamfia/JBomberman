@@ -12,8 +12,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Variabili di avvio
-        Boolean showHitboxes = false;
-        AudioManager.getInstance().enable=true;
+        Boolean showHitboxes = true;
+        AudioManager.getInstance().enable = true;
         //f.getGamePanel().playMusic(0);
 
         //Crea il giocatore
@@ -27,8 +27,11 @@ public class Main {
         var f = new Finestra(800, 600);
         f.getGamePanel().addPersonaggio(giocatore);
 
+        //Creazione di partita
+        Partita partita = new Partita(Maps.TheSevenSeas);
+
         //Creo TileM e lo inietto dentro al GP
-        var tileM = new TileManager(f.getGamePanel(), giocatore);
+        var tileM = new TileManager(f.getGamePanel(), giocatore, partita);
         tileM.showHitboxes = showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
@@ -41,7 +44,7 @@ public class Main {
         giocatore.movimento.addObserver(f.getGamePanel());
         giocatore.attaco.addObserver(f.getGamePanel());
 
-
+        partita.addObserver(f.getGamePanel());
 
 
         //LOOP DEL GAME

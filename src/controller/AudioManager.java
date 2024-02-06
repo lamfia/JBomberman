@@ -7,15 +7,19 @@ import java.util.ArrayList;
 
 import javax.sound.sampled.*;
 
+/**
+ * Classe SingleTon
+ * Questa classe serve per riprodurre asincronamente i diversi
+ * suoni tramite un indice
+ * che li identifica
+ * @author Gabriel Guerra
+ */
 public class AudioManager {
     private static AudioManager instance;
 
     public boolean enable = true;
 
     private ArrayList<String> pathSounds= new ArrayList<>();
-
-
-     URL soundURL []= new URL[30];
 
     public static AudioManager getInstance() {
         if (instance == null)

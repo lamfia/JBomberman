@@ -5,10 +5,7 @@ import controller.AudioManager;
 import controller.CollisionChecker;
 import controller.Posizione;
 import controller.TileManager;
-import model.Attaco;
-import model.Movimento;
-import model.Personaggio;
-import model.Time;
+import model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -88,7 +85,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
-    public void repaintTask(){
+    public void repaintTask() {
         repaint();
     }
 
@@ -160,9 +157,21 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     @Override
     public void update(Observable observable, Object arg) {
 
-        //Tempo!
+        //Tempo! TODO mettere questo valore nella classe "partita"
         if (observable instanceof Time) {
             TempoGioco = (String) arg;
+        }
+
+
+        //Partita info
+        if (observable instanceof Partita) {
+
+            var partita = (Partita) arg;
+
+            if (partita.statoPartita == StatoPartita.GameOver) {
+                System.out.println("Game over!");
+            }
+
         }
 
         //Movimento!
@@ -191,11 +200,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         //Attack!
         if (observable instanceof Attaco) {
-
             System.out.println(arg.toString());
-            tileM.AggiungiBomba(posGiocatoreX, posGiocatoreY+5);
-
-
+            tileM.AggiungiBomba(posGiocatoreX, posGiocatoreY + 5);
         }
 
         repaint();
@@ -207,9 +213,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 //        AudioManager.getInstance().play();
 //
 //    }
-
-
-
 
 
 }

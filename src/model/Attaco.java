@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class Attaco extends Observable {
 
     //Fare questo attributo "propio" del momento e non dipendente della classe "bomb"
     //Cosi ogni bomba nel corso del tempo, avra il suo explosion range del momento della sua creazione
-    int explosionRange=3; //Questo numero deve essere sempre dispari. per poter fare la croce. conta anche la explosion del centro
+    int explosionRange = 3; //Questo numero deve essere sempre dispari. per poter fare la croce. conta anche la explosion del centro
 
     public ArrayList<Bomb> getBombs() {
         return bombs;
@@ -27,6 +28,23 @@ public class Attaco extends Observable {
 
     public ArrayList<Bomb> getActiveBombs() {
         return Bomb.getAllBombs();
+    }
+
+    public ArrayList<Rectangle> getExplosionBombsHitbox() {
+
+        ArrayList<Rectangle> ExplosionHitbox = new ArrayList<>();
+
+        var BombeEsplose = Bomb.getAllBombs().stream().
+                filter(bomba -> bomba.explodes == true) //where bomb explodes= true
+                .collect(Collectors.toList()); //get lista
+
+
+        //ForEach per aggiungere tutte le hitbox delle bombe esplose
+        for (Bomb bomba : BombeEsplose) {
+            ExplosionHitbox.addAll(bomba.getExplosionHitboxRec());
+        }
+
+        return ExplosionHitbox;
     }
 
     public Attaco(int quantitaExtraBombe) {
@@ -38,16 +56,16 @@ public class Attaco extends Observable {
     /**
      * Aumenta la explosion range in 1 quantita
      */
-    public void AumentaExplosionRange(){
-        this.explosionRange+=2;
+    public void AumentaExplosionRange() {
+        this.explosionRange += 2;
     }
 
-    public void AumentaQuantitaBombe(){
-        this.quantitaExtraBombe +=1;
+    public void AumentaQuantitaBombe() {
+        this.quantitaExtraBombe += 1;
     }
 
-    public void Aggiungibomba(int x, int y ){
-        this.bombs.add(new Bomb(x,y,explosionRange));
+    public void Aggiungibomba(int x, int y) {
+        this.bombs.add(new Bomb(x, y, explosionRange));
     }
 
 
@@ -58,7 +76,7 @@ public class Attaco extends Observable {
 
 //
 //        //remove di esplodes=true
-         this.bombs= (ArrayList<Bomb>) this.bombs.stream().filter(bomb->bomb.explodes==false).collect(Collectors.toList());
+        this.bombs = (ArrayList<Bomb>) this.bombs.stream().filter(bomb -> bomb.explodes == false).collect(Collectors.toList());
 //
 //        //contare quante sono le bombe attive nell'array cioè non esplose.
 //
@@ -66,12 +84,12 @@ public class Attaco extends Observable {
 //
         //attacare solo se ci sono meno bombe attive che la quantita massima
 
-        contBombeAttive=  this.bombs.size();
-        if (contBombeAttive<= quantitaExtraBombe){
+        contBombeAttive = this.bombs.size();
+        if (contBombeAttive <= quantitaExtraBombe) {
             notifica();
         }
 
-     //  notifica();
+        //  notifica();
     }
 
     /**
@@ -86,5 +104,8 @@ public class Attaco extends Observable {
 
 
     }
+
+
+
 
 }
