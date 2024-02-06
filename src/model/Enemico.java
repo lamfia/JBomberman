@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class Enemico extends Personaggio {
 
     public BufferedImage currentImage;
@@ -43,6 +47,7 @@ public class Enemico extends Personaggio {
         pathImages.down1 = pathSource + "down1.png";
         pathImages.down2 = pathSource + "down2.png";
         pathImages.down3 = pathSource + "down3.png";
+        pathImages.down4 = pathSource + "down1.png";
         pathImages.downidle = pathSource + "downidle.png";
 
         pathImages.up1 = pathSource + "up1.png";
@@ -63,8 +68,16 @@ public class Enemico extends Personaggio {
         super.movimento.posizione.pathImages = pathImages;
 
 
-        Timer timer = new Timer(true);
-        timer.schedule(new Enemico.AutoMovimentoTask(this), 1000); // 1 secondi
+
+//        while (true){
+//            Timer timer = new Timer(true);
+//            timer.schedule(new Enemico.AutoMovimentoTask(this), 1000); // 1 secondi
+//        }
+
+        // Creazione e avvio di un servizio executor programmato per il movimento continuo
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 1000, TimeUnit.MILLISECONDS);
+
     }
 
     private class AutoMovimentoTask extends TimerTask {
@@ -78,7 +91,9 @@ public class Enemico extends Personaggio {
         @Override
         public void run() {
 
-            //EnemicoInstance.movimento.goDown(true);
+            EnemicoInstance.movimento.goDown(true);
+
+
             // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
 
 //            AudioManager.getInstance().playSE(1);
@@ -122,12 +137,7 @@ public class Enemico extends Personaggio {
      */
 
     public void AutoMovimento() {
-
-
-        super.movimento.goDown(true);
-
-
-
+        super.movimento.goDown(false);
     }
 
 

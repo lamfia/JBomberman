@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Variabili di avvio
-        Boolean showHitboxes = true;
+        Boolean showHitboxes = false;
         AudioManager.getInstance().enable = true;
         //f.getGamePanel().playMusic(0); //Background music
 
@@ -44,7 +44,9 @@ public class Main {
 
 
         //Add degli enimici //TODO questa config da mettere dentro alla mappa , partita
-        var enemico1= new Enemico(100,100,100,2,40,40);
+        var enemico1= new Enemico(80,100,100,2,40,40);
+        enemico1.movimento.setTileM(tileM);
+
         f.getGamePanel().addEnemico(enemico1);
 
         var time = new Time();

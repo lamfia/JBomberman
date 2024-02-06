@@ -21,7 +21,6 @@ public class Movimento extends Observable {
 
     private TileManager tileM;
 
-    //double nextDrawTime= System.nanoTime()+drawInterval;
     public Movimento(int posX, int posY, int velocita, int witdh, int height) {
 
         posizione = new Posizione(posX, posY, witdh, height);
@@ -362,10 +361,14 @@ public class Movimento extends Observable {
 
     private void notifica() {
 
-        //Se si può muovere allora notifica agli observers di aggiornare la pos nella view
+
+        System.out.println("Enemico X "+posizione.pos_x);
+        System.out.println("Enemico Y "+posizione.pos_y);
+
+        //Se si può muovere allora notifica
+        // agli observers di aggiornare la pos nella view
         setChanged();
         notifyObservers(posizione);
-
 
     }
 
