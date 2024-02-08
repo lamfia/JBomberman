@@ -1,6 +1,7 @@
 package model;
 
 import controller.AudioManager;
+import controller.Direzione;
 import controller.PathImages;
 
 import javax.imageio.ImageIO;
@@ -18,26 +19,16 @@ import java.util.concurrent.TimeUnit;
 
 public class Enemico extends Personaggio {
 
-    public BufferedImage currentImage;
 
-    ArrayList<String> pathSprites;
+    // private static ArrayList<Enemico> allEnemies = new ArrayList<>();
+    private Boolean movimentoAttivo = true;
+    private Direzione UltimaDirezione;
 
-    public Hitbox hitbox;
+    public Enemico(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale) {
+        super(posX, posY, Salute, velocita, width, height);
 
-    public String pathSource = "src/view/res/";
-
-    public void setCurrentImage(String path) {
-
-        try {
-            this.currentImage = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public Enemico(int posX, int posY, int Salute, int velocita, int width, int height) {
-        super(posX, posY, Salute, velocita, width,height);
+        this.UltimaDirezione =direzioneIniziale;
+        super.movimento.posizione.direzione = direzioneIniziale;
 
         //Set degli sprites
         var pathImages = new PathImages();
@@ -53,83 +44,41 @@ public class Enemico extends Personaggio {
         pathImages.up1 = pathSource + "up1.png";
         pathImages.up2 = pathSource + "up2.png";
         pathImages.up3 = pathSource + "up3.png";
+        pathImages.up4 = pathSource + "up1.png";
         pathImages.upidle = pathSource + "upidle.png";
 
         pathImages.right1 = pathSource + "right1.png";
         pathImages.right2 = pathSource + "right2.png";
         pathImages.right3 = pathSource + "right3.png";
+        pathImages.right4 = pathSource + "right1.png";
         pathImages.rightidle = pathSource + "rightidle.png";
 
         pathImages.left1 = pathSource + "left1.png";
         pathImages.left2 = pathSource + "left2.png";
         pathImages.left3 = pathSource + "left3.png";
+        pathImages.left4 = pathSource + "left1.png";
         pathImages.leftidle = pathSource + "leftidle.png";
 
         super.movimento.posizione.pathImages = pathImages;
 
 
-
-//        while (true){
-//            Timer timer = new Timer(true);
-//            timer.schedule(new Enemico.AutoMovimentoTask(this), 1000); // 1 secondi
-//        }
-
         // Creazione e avvio di un servizio executor programmato per il movimento continuo
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 1000, TimeUnit.MILLISECONDS);
 
+
+        // allEnemies.add(this);
+
+
     }
 
-    private class AutoMovimentoTask extends TimerTask {
+    public void eliminaEnemico() {
 
-        private Enemico EnemicoInstance;
-
-        public AutoMovimentoTask(Enemico EnemicoInstance) {
-            this.EnemicoInstance = EnemicoInstance;
-        }
-
-        @Override
-        public void run() {
-
-            EnemicoInstance.movimento.goDown(true);
-
-
-            // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
-
-//            AudioManager.getInstance().playSE(1);
-//
-//            bombInstance.explodes = true;
-//
-//            //TODO attenzione, in caso di explosion, solo fare range di explosion
-//            // negli spazi di "walking tiles" cosi non vanno oltre ai muri.
-//            // Importante? dopo vediamo
-//
-//            var hitboxrec_old = bombInstance.hitbox.hitboxRec;
-//
-//            int estremiEsplosione = (explosionRange - 1) / 2;
-//
-//            bombInstance.explosion_y =
-//                    new Rectangle(hitboxrec_old.x, hitboxrec_old.y - (hitboxrec_old.height * estremiEsplosione), hitboxrec_old.width,
-//                            hitboxrec_old.height * explosionRange);
-//
-//            bombInstance.explosion_x =
-//                    new Rectangle(hitboxrec_old.x - (hitboxrec_old.width * estremiEsplosione),
-//                            hitboxrec_old.y, hitboxrec_old.width * explosionRange, hitboxrec_old.height);
-//
-//
-//            System.out.println("Bomb exploded!");
-//
-//
-//            //Questo perchè devo cancellare l'immagine della bomba che sta dietro al range dell'esplosione
-//            bombInstance.currentImage = null;
-//
-//
-//            //Remove della bomba dopo 1 secondo della explosione
-//            Timer timer = new Timer(true);
-//            timer.schedule(new Bomb.removeBombTask(bombInstance), 1000); // 1 secondi
-
-        }
+        //TODO Se c'è tempo, mettere animazione di morte dell'enemico
+        // super.movimento.posizione.ImageAttuale = "src/view/res/enemico/dead1.png";
+        movimentoAttivo = false;
     }
+
 
     /**
      * TODO
@@ -137,7 +86,30 @@ public class Enemico extends Personaggio {
      */
 
     public void AutoMovimento() {
-        super.movimento.goDown(false);
+
+        if (movimentoAttivo) {
+
+            switch (UltimaDirezione) {
+                case UP -> super.movimento.goUp(false);
+                case DOWN -> super.movimento.goDown(false);
+                case RIGHT -> super.movimento.goRight(false);
+                case LEFT -> super.movimento.goLeft(false);
+            }
+
+            //TODO finere patrone di movimento
+            if (super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita)) {
+
+                if (UltimaDirezione == Direzione.DOWN) {
+                    UltimaDirezione = Direzione.UP;
+                } else if (UltimaDirezione == Direzione.UP) {
+                    UltimaDirezione = Direzione.DOWN;
+                }
+            }
+
+
+
+        }
+
     }
 
 

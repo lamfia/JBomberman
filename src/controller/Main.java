@@ -28,7 +28,6 @@ public class Main {
         //Add del giocatore
         f.getGamePanel().addGiocatore(giocatore);
 
-
         //Creazione di partita
         Partita partita = new Partita(Maps.TheSevenSeas);
 
@@ -43,12 +42,12 @@ public class Main {
 
         ApplicationManager.movimento.setTileM(tileM);
 
-
         //Add degli enimici //TODO questa config da mettere dentro alla mappa , partita
-        var enemico1= new Enemico(80,100,100,2,40,40);
+        var enemico1= new Enemico(80,150,100,4,40,40,Direzione.UP);
         enemico1.movimento.setTileM(tileM);
+        tileM.aggiungPersonaggio(enemico1);
+        f.getGamePanel().addEnemico(enemico1); // aggiunto in gamePanel per fare i paint degli enimici.
 
-        f.getGamePanel().addEnemico(enemico1);
 
         var time = new Time();
 

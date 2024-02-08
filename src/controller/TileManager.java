@@ -3,10 +3,13 @@ package controller;
 import model.*;
 import view.GamePanel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TileManager {
 
@@ -17,15 +20,14 @@ public class TileManager {
 
     ArrayList<Tile> WalkingTiles;
     ArrayList<PowerUpTile> PowerUpTiles;
+    ArrayList<Personaggio> Personaggi = new ArrayList<>();
     Rectangle ExpendedeHitbox;
 
     Giocatore giocatore;
     Partita partita;
 
     Posizione posizione; //mi salvo la lastPosition
-
     boolean showHitboxes = false;
-
 
     public TileManager(GamePanel gp, Giocatore giocatore, Partita partita) {
 
@@ -39,6 +41,8 @@ public class TileManager {
 
         PowerUpTiles = new ArrayList<>();
 
+        this.aggiungPersonaggio(giocatore); //Aggiungo il giocatore nella lista di personaggi (è sempre il primo)
+
         this.partita = partita;
 
         try {
@@ -47,6 +51,16 @@ public class TileManager {
             throw new RuntimeException(e);
         }
 
+    }
+
+
+    /**
+     * Add degli altri personaggi oltre al giocatore principale
+     *
+     * @param personaggio
+     */
+    public void aggiungPersonaggio(Personaggio personaggio) {
+        this.Personaggi.add(personaggio);
     }
 
     public void getTileImage() throws IOException {
@@ -101,31 +115,32 @@ public class TileManager {
      *
      * @return true or false se è un tile con collission true
      */
-    public boolean isTileBlocked(Posizione posizione) {
+    public boolean isTileBlocked(Posizione posizione, int velocita) {
 
         //TODO mettere hitbox variabile secondo personaggio?
 
         //Se è una direzione diversa da quella che si vuole passare è OK
         Rectangle expandedHitbox = posizione.hitbox.getBounds();
 
+
         // Espandi solo il lato associato alla direzione
         switch (posizione.direzione) {
             case UP:
                 // Espandi solo il lato superiore
-                expandedHitbox.y = expandedHitbox.y - 2;
+                expandedHitbox.y = expandedHitbox.y - velocita;
                 break;
             case DOWN:
                 // Espandi solo il lato inferiore
-                expandedHitbox.y = expandedHitbox.y + 2;
+                expandedHitbox.y = expandedHitbox.y + velocita;
                 break;
 
             case RIGHT:
                 // Espandi solo il lato destro
-                expandedHitbox.x = expandedHitbox.x + 2;
+                expandedHitbox.x = expandedHitbox.x + velocita;
                 break;
             case LEFT:
                 // Espandi solo il lato sinistro
-                expandedHitbox.x = expandedHitbox.x - 2;
+                expandedHitbox.x = expandedHitbox.x - velocita;
                 break;
         }
 
@@ -177,22 +192,37 @@ public class TileManager {
 
                 if (bomb.explodes == true) {
 
-                    //In caso di gameOver
-                    var hitbox = giocatore.movimento.posizione.hitbox.getBounds();
-                    boolean isGameOver = giocatore.attaco.getExplosionBombsHitbox().stream()
-                            .anyMatch(rectangle -> rectangle.intersects(hitbox));
-                    if (isGameOver) {
-                        partita.changeStatoPartita(StatoPartita.GameOver);
+                    //GameOver change stato partita
+                    isGameOver();
+
+                    //Logica attaco verso enemico
+                    var enemici = Personaggi.stream()
+                            .skip(1) // Salta il primo elemento
+                            .map(personaggio -> (Enemico) personaggio)
+                            .collect(Collectors.toList());
+
+                    var enemiciEliminati = enemici.stream().filter(enemico ->
+                            enemico.movimento.posizione.hitbox.intersects(bomb.explosion_x)
+                                    ||
+                                    enemico.movimento.posizione.hitbox.intersects(bomb.explosion_y)
+                    ).collect(Collectors.toList());
+
+                    for (Enemico enemicoEliminato : enemiciEliminati) {
+                        enemicoEliminato.eliminaEnemico();
+                        Personaggi.remove(enemicoEliminato);
                     }
 
-                    //Logica di rimozione dei tiles destructible STREAM
-                    var ExplodedTile = tiles.stream()
-                            .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle) || bomb.explosion_y.intersects(tile.collisionRectangle))
-                            .findFirst();
-                    ExplodedTile.ifPresent(explodedTile -> {
-                        tiles.remove(ExplodedTile.get());
-                    });
 
+                    //Logica esplosion dei tiles
+                    var tilesEsplosi = tiles.stream()
+                            .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle)
+                                    || bomb.explosion_y.intersects(tile.collisionRectangle)).collect(Collectors.toList());
+
+                    for (Tile tileEsploso : tilesEsplosi) {
+                        tiles.remove(tileEsploso);
+                    }
+
+                    //Explosion hitbox
                     if (showHitboxes == true) {
                         g2.setColor(Color.red);
                         g2.fillRect(bomb.explosion_x.x, bomb.explosion_x.y, bomb.explosion_x.width, bomb.explosion_x.height);
@@ -261,25 +291,71 @@ public class TileManager {
         }
 
 
+        //Draw dei personnaggi
+        for (Personaggio personaggio : Personaggi) {
+
+            try {
+                g2.drawImage(
+                        // ImageIO.read(new File(giocatore.movimento.posizione.pathImages.downidle),
+                        ImageIO.read(new File(personaggio.movimento.posizione.ImageAttuale)),
+                        personaggio.movimento.posizione.pos_x,
+                        personaggio.movimento.posizione.pos_y,
+                        personaggio.movimento.posizione.width,
+                        personaggio.movimento.posizione.height, null);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (showHitboxes == true) {
+                //Draw del hitbox dei personaggio
+                var hitbox = personaggio.movimento.posizione.hitbox;
+                g2.setColor(Color.red);
+                g2.fillRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+            }
+        }
+
     }
 
+
+    private void isGameOver() {
+
+        var hitboxGiocatore = giocatore.movimento.posizione.hitbox.getBounds();
+
+        //GameOver AutoEsplosioneBomba
+        boolean isGameOver1 = giocatore.attaco.getExplosionBombsHitbox().stream()
+                .anyMatch(rectangle -> rectangle.intersects(hitboxGiocatore));
+
+        // Controlla se il primo elemento interseca almeno uno degli altri
+        boolean isGameOver2 = Personaggi.stream()
+                .skip(1) // Salta il primo elemento che è il giocatore
+                .anyMatch(personaggio -> Personaggi.get(0).movimento.posizione.hitbox.intersects(personaggio.movimento.posizione.hitbox));
+
+        if (isGameOver1 || isGameOver2) {
+            partita.changeStatoPartita(StatoPartita.GameOver);
+        }
+    }
+
+    /**
+     * Questa azione controlla il movimento del personaggio
+     * cioè le azioni attive per esempio movimento verso i powerups o attraversamento portale per win
+     *
+     * @param posizione
+     */
     public void AzioneListener(Posizione posizione) {
+
+        isGameOver();
+
+
+        //Se non è il giocatore return!
+        if (posizione !=giocatore.movimento.posizione)
+        {
+            return;
+        }
 
         var hitbox = posizione.hitbox.getBounds();
 
-        //TODO vedere anche in caso di gameOver, quando hitbox del personaggio overlaps
-        // the eplosion range di una bomba oppure l'attaco di un enemico oppure enemico stesso
-//        //In caso di gameOver
-//        var hitbox2 = giocatore.movimento.posizione.hitbox.getBounds();
-//        boolean isGameOver = giocatore.attaco.getExplosionBombsHitbox().stream()
-//                .anyMatch(rectangle -> rectangle.intersects(hitbox2));
-//        if (isGameOver) {
-//            partita.changeStatoPartita(StatoPartita.GameOver);
-//        }
-
-
         //In caso di Win! TODO da fare qui
-
+        //Fare cambio stato della partita per notificare la win
 
 
         //In caso di pick up del powerUps

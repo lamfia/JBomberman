@@ -1,5 +1,7 @@
 package model;
 
+import controller.Direzione;
+
 public  class EnemicoAttacante extends Enemico {
 
 
@@ -10,8 +12,8 @@ public  class EnemicoAttacante extends Enemico {
      */
 
 
-    public EnemicoAttacante(int posX, int posY, int Salute, int velocita, int width, int height) {
-        super(posX, posY, Salute, velocita, width, height);
+    public EnemicoAttacante(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale) {
+        super(posX, posY, Salute, velocita, width, height,direzioneIniziale);
     }
 
 

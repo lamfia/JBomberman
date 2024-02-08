@@ -19,7 +19,7 @@ public class Movimento extends Observable {
     private final long imageChangeInterval = 150; // 0.15 secondi
     public int sprite = 0;
 
-    private TileManager tileM;
+    public TileManager tileM;
 
     public Movimento(int posX, int posY, int velocita, int witdh, int height) {
 
@@ -48,7 +48,7 @@ public class Movimento extends Observable {
         tileM.AzioneListener(posizione);
 
 
-        if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione))) {
+        if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione, this.velocita))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
 
@@ -132,7 +132,7 @@ public class Movimento extends Observable {
         posizione.direzione = Direzione.DOWN;
 
         tileM.AzioneListener(posizione);
-        if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione))) {
+        if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione, this.velocita))) {
             //  if (posizione.pos_y > 520) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
@@ -208,7 +208,7 @@ public class Movimento extends Observable {
         tileM.AzioneListener(posizione);
 
         //Controllo collisione
-        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione))) {
+        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione, this.velocita))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
@@ -285,7 +285,7 @@ public class Movimento extends Observable {
 
         tileM.AzioneListener(posizione);
 
-        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione))) {
+        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione, this.velocita))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 
@@ -362,8 +362,8 @@ public class Movimento extends Observable {
     private void notifica() {
 
 
-        System.out.println("Enemico X "+posizione.pos_x);
-        System.out.println("Enemico Y "+posizione.pos_y);
+//        System.out.println("Enemico X "+posizione.pos_x);
+//        System.out.println("Enemico Y "+posizione.pos_y);
 
         //Se si può muovere allora notifica
         // agli observers di aggiornare la pos nella view

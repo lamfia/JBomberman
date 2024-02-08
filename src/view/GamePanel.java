@@ -22,13 +22,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
-
-    //TODO aggiungere una lista di personaggi (usare classe Personaggio)
-//    private int posGiocatoreX;
-//    private int posGiocatoreY;
-//    private int GiocatoreWidth;
-//    private int GiocatoreHeight;
-
     private ArrayList<Personaggio> personaggi = new ArrayList<>();
 
 
@@ -129,19 +122,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             //Aggiorna i tiles
             drawTiles();
 
-            //Draw dei personnaggi
-            for (Personaggio personaggio : personaggi) {
 
-                g2.drawImage(
-                        // ImageIO.read(new File(giocatore.movimento.posizione.pathImages.downidle),
-                        ImageIO.read(new File(personaggio.movimento.posizione.ImageAttuale)),
-                        personaggio.movimento.posizione.pos_x,
-                        personaggio.movimento.posizione.pos_y,
-                        personaggio.movimento.posizione.width,
-                        personaggio.movimento.posizione.height, null);
-
-
-            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
