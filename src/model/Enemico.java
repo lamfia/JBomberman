@@ -64,7 +64,7 @@ public class Enemico extends Personaggio {
 
         // Creazione e avvio di un servizio executor programmato per il movimento continuo
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 1000, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 700, TimeUnit.MILLISECONDS);
 
 
         // allEnemies.add(this);
