@@ -16,7 +16,7 @@ public class TileManager {
 
     GamePanel gp;
 
-    ArrayList<Tile> tiles;
+    ArrayList<Tile> DestructibilesTiles;
 
     ArrayList<Tile> WalkingTiles;
     ArrayList<PowerUpTile> PowerUpTiles;
@@ -35,13 +35,13 @@ public class TileManager {
 
         this.giocatore = giocatore;
 
-        tiles = new ArrayList<>();
+        DestructibilesTiles = new ArrayList<>();
 
         WalkingTiles = new ArrayList<>();
 
         PowerUpTiles = new ArrayList<>();
 
-        this.aggiungPersonaggio(giocatore); //Aggiungo il giocatore nella lista di personaggi (è sempre il primo)
+       // this.aggiungPersonaggio(giocatore); //Aggiungo il giocatore nella lista di personaggi (è sempre il primo)
 
         this.partita = partita;
 
@@ -65,47 +65,11 @@ public class TileManager {
 
     public void getTileImage() throws IOException {
 
+        this.WalkingTiles= this.partita.map.WalkingTiles;
 
-        //Settings del Pirate Map
-        var pathImageTiles = "src/view/maps/Pirate/";
+        this.PowerUpTiles= this.partita.map.PowerUpTiles;
 
-
-        //Tiles collision true , destructibles
-
-//        tiles.add(new Tile(172, 190, 60, pathImageTiles + "LifeSave1.png", true));
-
-        tiles.add(new Tile(377, 285, 46, 46,
-                pathImageTiles + "LifeSave1.png", true));
-
-
-        //Walking tiles
-        WalkingTiles.add(new Tile(375, 0, 52, 600)); //left column
-        WalkingTiles.add(new Tile(171, 95, 52, 430)); //center column
-        WalkingTiles.add(new Tile(575, 95, 52, 430));//right column
-
-
-        WalkingTiles.add(new Tile(325, 245, 150, 40));//center  small row
-        WalkingTiles.add(new Tile(325, 325, 150, 40));//center  small row
-
-        WalkingTiles.add(new Tile(80, 171, 640, 40)); //top large row
-        WalkingTiles.add(new Tile(80, 410, 640, 40)); //botton large row
-
-        WalkingTiles.add(new Tile(80, 80, 195, 40)); //top left small row
-        WalkingTiles.add(new Tile(80, 490, 195, 40)); //botton left small row
-
-        WalkingTiles.add(new Tile(525, 490, 190, 40)); //botton right small row
-        WalkingTiles.add(new Tile(525, 80, 190, 40)); //top right small row
-
-        WalkingTiles.add(new Tile(80, 80, 40, 170)); //Top left corner column
-        WalkingTiles.add(new Tile(80, 360, 40, 170)); //Bottom left corner column
-
-        WalkingTiles.add(new Tile(680, 360, 40, 170)); //Bottom right corner column
-        WalkingTiles.add(new Tile(680, 80, 40, 170)); //Top right corner column
-
-        //PowerUps Tiles
-        PowerUpTiles.add(new PowerUpTile(680, 80, PowerUp.ExtraBomb));
-        PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
-        PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
+        this.DestructibilesTiles= this.partita.map.DestructibilesTiles;
 
     }
 
@@ -146,7 +110,7 @@ public class TileManager {
 
         ExpendedeHitbox = expandedHitbox;
 
-        var isBlocked = tiles.stream()
+        var isBlocked = DestructibilesTiles.stream()
                 .filter(tile -> tile.collision)
                 .anyMatch(tile -> expandedHitbox.intersects(tile.collisionRectangle));
 
@@ -197,7 +161,7 @@ public class TileManager {
 
                     //Logica attaco verso enemico
                     var enemici = Personaggi.stream()
-                            .skip(1) // Salta il primo elemento
+                           // .skip(1) // Salta il primo elemento
                             .map(personaggio -> (Enemico) personaggio)
                             .collect(Collectors.toList());
 
@@ -214,12 +178,12 @@ public class TileManager {
 
 
                     //Logica esplosion dei tiles
-                    var tilesEsplosi = tiles.stream()
+                    var tilesEsplosi = DestructibilesTiles.stream()
                             .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle)
                                     || bomb.explosion_y.intersects(tile.collisionRectangle)).collect(Collectors.toList());
 
                     for (Tile tileEsploso : tilesEsplosi) {
-                        tiles.remove(tileEsploso);
+                        DestructibilesTiles.remove(tileEsploso);
                     }
 
                     //Explosion hitbox
@@ -255,7 +219,7 @@ public class TileManager {
         }
 
         //Draw dei tiles
-        for (Tile tile : tiles) {
+        for (Tile tile : DestructibilesTiles) {
             g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
         }
 
@@ -276,7 +240,7 @@ public class TileManager {
 
             //hitbox del tile
             g2.setColor(Color.blue);
-            for (Tile tile : tiles) {
+            for (Tile tile : DestructibilesTiles) {
                 g2.fillRect(tile.collisionRectangle.x, tile.collisionRectangle.y, tile.collisionRectangle.width, tile.collisionRectangle.height);
             }
 
@@ -314,6 +278,20 @@ public class TileManager {
             }
         }
 
+        //Draw del player
+        try {
+            g2.drawImage(
+
+                    ImageIO.read(new File(giocatore.movimento.posizione.ImageAttuale)),
+                    giocatore.movimento.posizione.pos_x,
+                    giocatore.movimento.posizione.pos_y,
+                    giocatore.movimento.posizione.width,
+                    giocatore.movimento.posizione.height, null);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 
@@ -327,8 +305,8 @@ public class TileManager {
 
         // Controlla se il primo elemento interseca almeno uno degli altri
         boolean isGameOver2 = Personaggi.stream()
-                .skip(1) // Salta il primo elemento che è il giocatore
-                .anyMatch(personaggio -> Personaggi.get(0).movimento.posizione.hitbox.intersects(personaggio.movimento.posizione.hitbox));
+                //.skip(1) // Salta il primo elemento che è il giocatore
+                .anyMatch(personaggio -> giocatore.movimento.posizione.hitbox.intersects(personaggio.movimento.posizione.hitbox));
 
         if (isGameOver1 || isGameOver2) {
             partita.changeStatoPartita(StatoPartita.GameOver);

@@ -1,8 +1,6 @@
 package view;
 
 
-import controller.AudioManager;
-import controller.CollisionChecker;
 import controller.Posizione;
 import controller.TileManager;
 import model.*;
@@ -10,11 +8,9 @@ import model.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.Timer;
 
 public class GamePanel extends JPanel implements Observer, Runnable {
     private TileManager tileM;
@@ -22,7 +18,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
-    private ArrayList<Personaggio> personaggi = new ArrayList<>();
+    private Personaggio player ;
 
 
     /**
@@ -88,21 +84,22 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Default image
         giocatore.movimento.posizione.ImageAttuale = giocatore.movimento.posizione.pathImages.downidle;
 
-        this.personaggi.add(giocatore);
+        this.player=giocatore;
 
         repaint();
 
     }
 
-    public void addEnemico(Enemico enemico) throws IOException {
-
-        //Default image
-        enemico.movimento.posizione.ImageAttuale = enemico.movimento.posizione.pathImages.downidle;
-
-        this.personaggi.add(enemico);
-        repaint();
-
-    }
+    //non serve qui, il paint dell'enemico si fa in tilemanager
+//    public void addEnemico(Enemico enemico) throws IOException {
+//
+//        //Default image
+//        enemico.movimento.posizione.ImageAttuale = enemico.movimento.posizione.pathImages.downidle;
+//
+//        this.personaggi.add(enemico);
+//        repaint();
+//
+//    }
 
     private Graphics grafica;
 
@@ -150,7 +147,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     public void update(Observable observable, Object arg) {
 
         //player
-        var giocatore = personaggi.get(0);
+        var giocatore = player;
 
 
         //Tempo! TODO mettere questo valore nella classe "partita"

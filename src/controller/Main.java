@@ -25,6 +25,7 @@ public class Main {
 
         //Crea la view
         var f = new Finestra(800, 600);
+
         //Add del giocatore
         f.getGamePanel().addGiocatore(giocatore);
 
@@ -46,7 +47,7 @@ public class Main {
         var enemico1= new Enemico(80,150,100,4,40,40,Direzione.UP);
         enemico1.movimento.setTileM(tileM);
         tileM.aggiungPersonaggio(enemico1);
-        f.getGamePanel().addEnemico(enemico1); // aggiunto in gamePanel per fare i paint degli enimici.
+       // f.getGamePanel().addEnemico(enemico1); // aggiunto in gamePanel per fare i paint degli enimici.
 
 
         var time = new Time();

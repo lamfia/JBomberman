@@ -62,6 +62,10 @@ public class Enemico extends Personaggio {
         super.movimento.posizione.pathImages = pathImages;
 
 
+        //Default image
+        this.movimento.posizione.ImageAttuale = this.movimento.posizione.pathImages.downidle;
+
+
         // Creazione e avvio di un servizio executor programmato per il movimento continuo
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 700, TimeUnit.MILLISECONDS);
@@ -89,6 +93,7 @@ public class Enemico extends Personaggio {
 
         if (movimentoAttivo) {
 
+            //Continuare con l'ultima direzione
             switch (UltimaDirezione) {
                 case UP -> super.movimento.goUp(false);
                 case DOWN -> super.movimento.goDown(false);
@@ -97,12 +102,24 @@ public class Enemico extends Personaggio {
             }
 
             //TODO finere patrone di movimento
+            //Patrone di movimento
             if (super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita)) {
 
+                //se trova obstaculo down allora va up
                 if (UltimaDirezione == Direzione.DOWN) {
                     UltimaDirezione = Direzione.UP;
-                } else if (UltimaDirezione == Direzione.UP) {
+                }
+                //se trova obstaculo up allora va down
+                else if (UltimaDirezione == Direzione.UP) {
                     UltimaDirezione = Direzione.DOWN;
+                }
+                //se trova obstaculo right allora va left
+                else if (UltimaDirezione == Direzione.RIGHT) {
+                    UltimaDirezione = Direzione.LEFT;
+                }
+                //se trova obstaculo right allora va left
+                else if (UltimaDirezione == Direzione.LEFT) {
+                    UltimaDirezione = Direzione.RIGHT;
                 }
             }
 

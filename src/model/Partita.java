@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.Observable;
 
 /**
@@ -17,7 +18,7 @@ public class Partita extends Observable {
 
     public Map map;
 
-    public Partita(Maps selectedMap) {
+    public Partita(Maps selectedMap) throws IOException {
         //Quando si crea la partita nuova con il primo mappa
         //si imposta in stato playing
         this.statoPartita = StatoPartita.Playing;
