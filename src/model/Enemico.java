@@ -3,6 +3,7 @@ package model;
 import controller.AudioManager;
 import controller.Direzione;
 import controller.PathImages;
+import controller.TileManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,13 +23,15 @@ public class Enemico extends Personaggio {
 
     // private static ArrayList<Enemico> allEnemies = new ArrayList<>();
     private Boolean movimentoAttivo = true;
-    private Direzione UltimaDirezione;
+    private Direzione ultimaDirezione;
 
-    public Enemico(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale) {
+    public Enemico(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
         super(posX, posY, Salute, velocita, width, height);
 
-        this.UltimaDirezione =direzioneIniziale;
+        this.ultimaDirezione =direzioneIniziale;
         super.movimento.posizione.direzione = direzioneIniziale;
+
+        super.movimento.setTileM(tileManager);
 
         //Set degli sprites
         var pathImages = new PathImages();
@@ -68,11 +71,12 @@ public class Enemico extends Personaggio {
 
         // Creazione e avvio di un servizio executor programmato per il movimento continuo
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(this::AutoMovimento, 0, 700, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(this::autoMovimento, 0, 700, TimeUnit.MILLISECONDS);
 
 
         // allEnemies.add(this);
 
+        this.ultimaDirezione = direzioneIniziale;
 
     }
 
@@ -89,12 +93,45 @@ public class Enemico extends Personaggio {
      * Aggiungere un metodo per spostarsi in X e Y secondo un patron
      */
 
-    public void AutoMovimento() {
+
+//    public void autoMovimento() {
+//        if (movimentoAttivo) {
+//            // Continua con l'ultima direzione
+//            switch (ultimaDirezione) {
+//                case UP -> super.movimento.goUp(false);
+//                case DOWN -> super.movimento.goDown(false);
+//                case RIGHT -> super.movimento.goRight(false);
+//                case LEFT -> super.movimento.goLeft(false);
+//            }
+//
+//            // Patrone di movimento ciclico
+//            Direzione[] direzioniCicliche = {Direzione.UP, Direzione.RIGHT, Direzione.DOWN, Direzione.LEFT};
+//
+//            for (Direzione direzione : direzioniCicliche) {
+//                if (!super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita)) {
+//                    ultimaDirezione = direzione;
+//                    break;
+//                } else {
+//                    direzioniCicliche = ruotaArray(direzioniCicliche);
+//                }
+//            }
+//        }
+//    }
+//
+//    private Direzione[] ruotaArray(Direzione[] array) {
+//        Direzione temp = array[0];
+//        System.arraycopy(array, 1, array, 0, array.length - 1);
+//        array[array.length - 1] = temp;
+//        return array;
+//    }
+
+
+    public void autoMovimento() {
 
         if (movimentoAttivo) {
 
             //Continuare con l'ultima direzione
-            switch (UltimaDirezione) {
+            switch (ultimaDirezione) {
                 case UP -> super.movimento.goUp(false);
                 case DOWN -> super.movimento.goDown(false);
                 case RIGHT -> super.movimento.goRight(false);
@@ -106,20 +143,20 @@ public class Enemico extends Personaggio {
             if (super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita)) {
 
                 //se trova obstaculo down allora va up
-                if (UltimaDirezione == Direzione.DOWN) {
-                    UltimaDirezione = Direzione.UP;
+                if (ultimaDirezione == Direzione.DOWN) {
+                    ultimaDirezione = Direzione.UP;
                 }
                 //se trova obstaculo up allora va down
-                else if (UltimaDirezione == Direzione.UP) {
-                    UltimaDirezione = Direzione.DOWN;
+                else if (ultimaDirezione == Direzione.UP) {
+                    ultimaDirezione = Direzione.DOWN;
                 }
                 //se trova obstaculo right allora va left
-                else if (UltimaDirezione == Direzione.RIGHT) {
-                    UltimaDirezione = Direzione.LEFT;
+                else if (ultimaDirezione == Direzione.RIGHT) {
+                    ultimaDirezione = Direzione.LEFT;
                 }
                 //se trova obstaculo right allora va left
-                else if (UltimaDirezione == Direzione.LEFT) {
-                    UltimaDirezione = Direzione.RIGHT;
+                else if (ultimaDirezione == Direzione.LEFT) {
+                    ultimaDirezione = Direzione.RIGHT;
                 }
             }
 

@@ -1,5 +1,7 @@
 package model;
 
+import controller.TileManager;
+
 import java.io.IOException;
 import java.util.Observable;
 
@@ -18,6 +20,7 @@ public class Partita extends Observable {
 
     public Map map;
 
+
     public Partita(Maps selectedMap) throws IOException {
         //Quando si crea la partita nuova con il primo mappa
         //si imposta in stato playing
@@ -33,6 +36,12 @@ public class Partita extends Observable {
     }
 
 
+    /**
+     * In caso di cambio dello stato della
+     * partita si notifica alla view
+     * per fare gli eventuali cambi
+     * @param statoPartita
+     */
     public void changeStatoPartita(StatoPartita statoPartita) {
 
         this.statoPartita = statoPartita;

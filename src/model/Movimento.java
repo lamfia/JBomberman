@@ -10,24 +10,17 @@ import java.util.Map;
 import java.util.Observable;
 
 public class Movimento extends Observable {
-
-
     public Posizione posizione;
-
     public int velocita;
-
     private final long imageChangeInterval = 150; // 0.15 secondi
     public int sprite = 0;
-
     public TileManager tileM;
-
     public Movimento(int posX, int posY, int velocita, int witdh, int height) {
 
         posizione = new Posizione(posX, posY, witdh, height);
 
         this.velocita = velocita;
     }
-
     private long lastImageChangeTime = System.currentTimeMillis();
 
     private void GestioneAzione() {

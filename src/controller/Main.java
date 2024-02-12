@@ -32,23 +32,11 @@ public class Main {
         //Creazione di partita
         Partita partita = new Partita(Maps.TheSevenSeas);
 
-        //Creo TileM e lo inietto dentro al GP
-        //TODO Fare che il tile manager prenda una lista di personaggi, tra cui anche il giocatore che sarebbe
-        //il primo. poi dentro fare la gestione di quando gli enimici vanno sopra il giocatore
-        //e fare il gameOver
-
         var tileM = new TileManager(f.getGamePanel(), giocatore, partita);
         tileM.showHitboxes = showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
         ApplicationManager.movimento.setTileM(tileM);
-
-        //Add degli enimici //TODO questa config da mettere dentro alla mappa , partita
-        var enemico1= new Enemico(80,150,100,4,40,40,Direzione.UP);
-        enemico1.movimento.setTileM(tileM);
-        tileM.aggiungPersonaggio(enemico1);
-       // f.getGamePanel().addEnemico(enemico1); // aggiunto in gamePanel per fare i paint degli enimici.
-
 
         var time = new Time();
 

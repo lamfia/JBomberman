@@ -41,9 +41,11 @@ public class TileManager {
 
         PowerUpTiles = new ArrayList<>();
 
-       // this.aggiungPersonaggio(giocatore); //Aggiungo il giocatore nella lista di personaggi (è sempre il primo)
-
         this.partita = partita;
+
+        this.partita.map.setEnemici(this);
+
+        Personaggi.addAll(partita.map.Enemici) ;
 
         try {
             getTileImage();

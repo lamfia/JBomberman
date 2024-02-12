@@ -1,6 +1,9 @@
 package model;
 
 
+import controller.Direzione;
+import controller.TileManager;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,6 +19,8 @@ public class Map {
     public ArrayList<Tile> WalkingTiles = new ArrayList<>();
     public ArrayList<PowerUpTile> PowerUpTiles = new ArrayList<>();
     public ArrayList<Tile> DestructibilesTiles = new ArrayList<>();
+
+    private TileManager tileManager;
 
     public Map(Maps selectedMap) throws IOException {
         this.selectedMap = selectedMap;
@@ -62,22 +67,34 @@ public class Map {
                 WalkingTiles.add(new Tile(680, 360, 40, 170)); //Bottom right corner column
                 WalkingTiles.add(new Tile(680, 80, 40, 170)); //Top right corner column
 
-                //PowerUps Tiles
-                PowerUpTiles.add(new PowerUpTile(680, 80, PowerUp.ExtraBomb));
-                PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
-                PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
 
                 break;
         }
     }
 
     /**
+     * Questo set viene fatto dopo perchè ha bisogno del tileM
+     * @param tileM
+     */
+    public void setEnemici(TileManager tileM) {
+        this.Enemici.add(new Enemico(80, 150, 100, 4, 40, 40, Direzione.UP, tileM));
+
+    }
+
+
+    /**
      * Get dei powerUps della mappa selezionata
      */
-    private void setPowerUps() {
+    private void setPowerUps() throws IOException {
 
         switch (selectedMap) {
             case TheSevenSeas:
+
+                //PowerUps Tiles
+                PowerUpTiles.add(new PowerUpTile(680, 80, PowerUp.ExtraBomb));
+                PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
+                PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
+
                 break;
         }
     }
@@ -98,7 +115,7 @@ public class Map {
         //TODO Usare questa config per creare gli enimici
         switch (selectedMap) {
             case TheSevenSeas:
-               // Enemici.add(new Enemico(100, 100, 1, 2, 50, 50));
+                // Enemici.add(new Enemico(100, 100, 1, 2, 50, 50));
                 break;
         }
     }
