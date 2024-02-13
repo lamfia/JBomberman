@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Graphics2D externalGraphics;
     private Personaggio player ;
 
+    public StatoPartita statoPartita;
 
     /**
      * Dimensioni del gamePanel
@@ -113,11 +114,20 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         externalGraphics = g2;
 
         try {
-            map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
-            g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
-            //Aggiorna i tiles
-            drawTiles();
+
+            if (statoPartita==StatoPartita.Title){
+
+                drawTitle();
+
+            }else{
+
+                map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
+                g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
+
+                //Aggiorna i tiles
+                drawTiles();
+            }
 
 
 
@@ -131,6 +141,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.drawString(TempoGioco, 10, 20);
 
 
+    }
+
+    private void drawTitle() {
     }
 
     public void drawTiles() {

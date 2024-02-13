@@ -18,13 +18,14 @@ public class Main {
 
         //Crea il giocatore
         var giocatore = new Giocatore(380, 200, 100, 2, 40, 40);
-
         ApplicationManager.movimento = giocatore.movimento;
-
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
 
         //Crea la view
         var f = new Finestra(800, 600);
+        f.getGamePanel().statoPartita=StatoPartita.Title;
+        //Title
+
 
         //Add del giocatore
         f.getGamePanel().addGiocatore(giocatore);
@@ -46,6 +47,8 @@ public class Main {
         giocatore.attaco.addObserver(f.getGamePanel());
 
         partita.addObserver(f.getGamePanel());
+
+
 
 
         //LOOP DEL GAME

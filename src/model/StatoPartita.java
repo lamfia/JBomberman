@@ -2,5 +2,5 @@ package model;
 
 public enum StatoPartita {
 
-    Playing,Win,GameOver
+    Playing,Win,GameOver,Title
 }
