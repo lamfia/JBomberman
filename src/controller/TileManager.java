@@ -45,7 +45,7 @@ public class TileManager {
 
         this.partita.map.setEnemici(this);
 
-        Personaggi.addAll(partita.map.Enemici) ;
+        Personaggi.addAll(partita.map.Enemici);
 
         try {
             getTileImage();
@@ -67,11 +67,11 @@ public class TileManager {
 
     public void getTileImage() throws IOException {
 
-        this.WalkingTiles= this.partita.map.WalkingTiles;
+        this.WalkingTiles = this.partita.map.WalkingTiles;
 
-        this.PowerUpTiles= this.partita.map.PowerUpTiles;
+        this.PowerUpTiles = this.partita.map.PowerUpTiles;
 
-        this.DestructibilesTiles= this.partita.map.DestructibilesTiles;
+        this.DestructibilesTiles = this.partita.map.DestructibilesTiles;
 
     }
 
@@ -81,7 +81,7 @@ public class TileManager {
      *
      * @return true or false se è un tile con collission true
      */
-    public boolean isTileBlocked(Posizione posizione, int velocita) {
+    public boolean isTileBlocked(Posizione posizione, int velocita, boolean noClip) {
 
         //TODO mettere hitbox variabile secondo personaggio?
 
@@ -112,21 +112,24 @@ public class TileManager {
 
         ExpendedeHitbox = expandedHitbox;
 
+        //Blocco da i destructibiles tiles
         var isBlocked = DestructibilesTiles.stream()
                 .filter(tile -> tile.collision)
                 .anyMatch(tile -> expandedHitbox.intersects(tile.collisionRectangle));
 
-//
-//        var isBlocked2 = WalkingTiles.stream()
-//                    .anyMatch(WalkingTiles -> expandedHitbox.intersects(WalkingTiles.collisionRectangle));
+        //Se noClip è true allora non c'è il blocco per i destructibiles tiles
+        if (noClip == true) {
+            isBlocked = false;
+        }
 
+
+        //Blocco quando va fuori a walking tiles
         var isBlocked2 = WalkingTiles.stream()
                 .anyMatch(WalkingTiles -> WalkingTiles.collisionRectangle.contains(expandedHitbox));
 
-        //se fa collission un tile collision true OPPURE NON va in intersection a un walkingtile
 
+        //se fa collission un tile collision true OPPURE NON contiene in walkingtile
         //OPPURE non sia piu overlaping
-
 
         return isBlocked || !isBlocked2;
     }
@@ -163,7 +166,7 @@ public class TileManager {
 
                     //Logica attaco verso enemico
                     var enemici = Personaggi.stream()
-                           // .skip(1) // Salta il primo elemento
+                            // .skip(1) // Salta il primo elemento
                             .map(personaggio -> (Enemico) personaggio)
                             .collect(Collectors.toList());
 
@@ -327,8 +330,7 @@ public class TileManager {
 
 
         //Se non è il giocatore return!
-        if (posizione !=giocatore.movimento.posizione)
-        {
+        if (posizione != giocatore.movimento.posizione) {
             return;
         }
 

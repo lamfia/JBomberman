@@ -140,7 +140,7 @@ public class Enemico extends Personaggio {
 
             //TODO finere patrone di movimento
             //Patrone di movimento
-            if (super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita)) {
+            if (super.movimento.tileM.isTileBlocked(super.movimento.posizione, super.movimento.velocita,super.movimento.noClip)) {
 
                 //se trova obstaculo down allora va up
                 if (ultimaDirezione == Direzione.DOWN) {

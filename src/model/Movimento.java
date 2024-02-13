@@ -15,12 +15,20 @@ public class Movimento extends Observable {
     private final long imageChangeInterval = 150; // 0.15 secondi
     public int sprite = 0;
     public TileManager tileM;
+
+    /**
+     * Attributo che se è true, allora può attaversare i destructibiles tiles
+     * default false
+     */
+    public boolean noClip = false;
+
     public Movimento(int posX, int posY, int velocita, int witdh, int height) {
 
         posizione = new Posizione(posX, posY, witdh, height);
 
         this.velocita = velocita;
     }
+
     private long lastImageChangeTime = System.currentTimeMillis();
 
     private void GestioneAzione() {
@@ -41,7 +49,7 @@ public class Movimento extends Observable {
         tileM.AzioneListener(posizione);
 
 
-        if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione, this.velocita))) {
+        if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
 
@@ -125,7 +133,7 @@ public class Movimento extends Observable {
         posizione.direzione = Direzione.DOWN;
 
         tileM.AzioneListener(posizione);
-        if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione, this.velocita))) {
+        if (posizione.pos_y > 520 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
             //  if (posizione.pos_y > 520) {
             this.posizione.ImageAttuale = this.posizione.pathImages.downidle;
 
@@ -201,7 +209,7 @@ public class Movimento extends Observable {
         tileM.AzioneListener(posizione);
 
         //Controllo collisione
-        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione, this.velocita))) {
+        if (posizione.pos_x < 0 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.leftidle;
 
@@ -278,7 +286,7 @@ public class Movimento extends Observable {
 
         tileM.AzioneListener(posizione);
 
-        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione, this.velocita))) {
+        if (posizione.pos_x > 745 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.rightidle;
 

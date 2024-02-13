@@ -43,6 +43,10 @@ public class Map {
                 DestructibilesTiles.add(new Tile(377, 285, 46, 46,
                         pathImageTiles + "LifeSave1.png", true));
 
+
+                DestructibilesTiles.add(new Tile(80, 100, 46, 46,
+                        pathImageTiles + "LifeSave1.png", true));
+
                 //Walking tiles
                 WalkingTiles.add(new Tile(375, 0, 52, 600)); //left column
                 WalkingTiles.add(new Tile(171, 95, 52, 430)); //center column
@@ -77,7 +81,9 @@ public class Map {
      * @param tileM
      */
     public void setEnemici(TileManager tileM) {
-        this.Enemici.add(new Enemico(80, 150, 100, 4, 40, 40, Direzione.UP, tileM));
+        this.Enemici.add(new Enemico2(80, 150, 100, 4, 40, 40, Direzione.UP, tileM));
+
+        this.Enemici.add(new Enemico(180, 150, 100, 4, 40, 40, Direzione.UP, tileM));
 
     }
 
