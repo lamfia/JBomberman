@@ -155,9 +155,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         }
 
-        //Title
+        //Title bomberman
         var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
         g2.drawImage(title, 240, 30, 270, 150, this);
+
+        //Bomb menu
+        var bombMenu = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
 
 
         //Start
@@ -165,7 +168,23 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.drawString("Start Game", 260, 250);
         if(true){
-            g2.drawString(">", 250, 250);
+            g2.drawImage(bombMenu, 230, 220, 27, 37, this);
+        }
+
+        //Load Game
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Load Game", 260, 300);
+        if(true){
+            g2.drawImage(bombMenu, 230, 270, 27, 37, this);
+        }
+
+        //Quit
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Quit", 260, 350);
+        if(true){
+            g2.drawImage(bombMenu, 230, 320, 27, 37, this);
         }
 
     }
