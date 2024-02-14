@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
-    private Personaggio player ;
+    private Personaggio player;
 
     public StatoPartita statoPartita;
 
@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Default image
         giocatore.movimento.posizione.ImageAttuale = giocatore.movimento.posizione.pathImages.downidle;
 
-        this.player=giocatore;
+        this.player = giocatore;
 
         repaint();
 
@@ -116,12 +116,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         try {
 
 
-            if (statoPartita==StatoPartita.Title){
+            if (statoPartita == StatoPartita.Title) {
 
-                drawTitle();
+                drawTitle(g2);
 
-            }else{
+            } else {
 
+                //TODO da mettere questa setting nella partita model
                 map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
                 g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
 
@@ -130,20 +131,43 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             }
 
 
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
-        //Timer del gioco
-        g2.setColor(Color.white);
-        g2.drawString(TempoGioco, 10, 20);
+        //Timer del gioco //TODO spostare in partita model
+//        g2.setColor(Color.white);
+//        g2.drawString(TempoGioco, 10, 20);
 
 
     }
 
-    private void drawTitle() {
+    private void drawTitle(Graphics2D g2) throws IOException {
+
+
+        //Background
+        var background = ImageIO.read(new File("src/view/res/TitleScreen/background column.png"));
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 3; j++) {
+                g2.drawImage(background, 80 * i, 260 * j, 80, 260, this);
+            }
+
+        }
+
+        //Title
+        var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
+        g2.drawImage(title, 240, 30, 270, 150, this);
+
+
+        //Start
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Start Game", 260, 250);
+        if(true){
+            g2.drawString(">", 250, 250);
+        }
+
     }
 
     public void drawTiles() {

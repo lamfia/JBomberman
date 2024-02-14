@@ -58,11 +58,11 @@ public class Main {
 
                 //Implementare qui i movimenti degli enimici
 
-                time.notifyCurrentTime();
+               // time.notifyCurrentTime(); TODO spostare in partita model
 
                 f.getGamePanel().repaintTask();
 
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
