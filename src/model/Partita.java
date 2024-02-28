@@ -24,9 +24,13 @@ public class Partita extends Observable {
     public Partita(Maps selectedMap) throws IOException {
         //Quando si crea la partita nuova con il primo mappa
         //si imposta in stato playing
-        this.statoPartita = StatoPartita.Playing;
+        //this.statoPartita = StatoPartita.Playing;
 
         map = new Map(selectedMap);
+    }
+
+    public void setStatoPartita( StatoPartita statoPartita){
+        this.statoPartita=statoPartita;
     }
 
     public void notifica() {

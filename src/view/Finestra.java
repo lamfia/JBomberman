@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 
 import controller.KeyHandler;
+import model.Partita;
 
 import java.awt.*;
 
@@ -30,7 +31,7 @@ public class Finestra extends JFrame {
         frame.setLocation(bounds.x+500, bounds.y+200);
     }
 
-    public Finestra(int dimensionWidht, int dimensionHeight) {
+    public Finestra(int dimensionWidht, int dimensionHeight, Partita partita, KeyHandler keyHandler) {
 
         //Construttore
         super("JBomberman");
@@ -50,14 +51,14 @@ public class Finestra extends JFrame {
 //        bInc.addActionListener(new IncrementoListener());
 
 
-        this.addKeyListener(new KeyHandler());
+        this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
 
         setVisible(true);
 
         //GamePanel
-        gamePanel = new GamePanel(Color.gray, dimensionWidht, dimensionHeight);
+        gamePanel = new GamePanel(Color.gray, dimensionWidht, dimensionHeight, partita);
 
         add(gamePanel);
         gamePanel.setBounds(0, 0, 800, 600);

@@ -1,6 +1,8 @@
 package view;
 
 
+import controller.Direzione;
+import controller.KeyHandler;
 import controller.Posizione;
 import controller.TileManager;
 import model.*;
@@ -20,13 +22,18 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Graphics2D externalGraphics;
     private Personaggio player;
 
-    public StatoPartita statoPartita;
+    //public StatoPartita statoPartita;
+
+    public Partita partita;
 
     /**
      * Dimensioni del gamePanel
      **/
     private int dimensionWidth;
     private int dimensionHeight;
+
+    private int commandNum = 0;
+    private int MaxcommandNum = 2;
 
     Thread gameThread;
 
@@ -69,11 +76,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     }
 
     //Constructor
-    public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight) {
+    public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight, Partita partita) {
 
         this.dimensionHeight = dimensionHeight;
         this.dimensionWidth = dimensionWidth;
 
+        this.partita = partita;
     }
 
     public void repaintTask() {
@@ -115,11 +123,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         try {
 
-
-            if (statoPartita == StatoPartita.Title) {
-
+            if (partita.statoPartita == StatoPartita.Title) {
                 drawTitle(g2);
-
             } else {
 
                 //TODO da mettere questa setting nella partita model
@@ -160,31 +165,31 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.drawImage(title, 240, 30, 270, 150, this);
 
         //Bomb menu
-        var bombMenu = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+        var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
 
 
         //Start
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.drawString("Start Game", 260, 250);
-        if(true){
-            g2.drawImage(bombMenu, 230, 220, 27, 37, this);
+        if (commandNum == 0) {
+            g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
         }
 
         //Load Game
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.drawString("Load Game", 260, 300);
-        if(true){
-            g2.drawImage(bombMenu, 230, 270, 27, 37, this);
+        if (commandNum == 1) {
+            g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
         }
 
         //Quit
         g2.setColor(Color.white);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
         g2.drawString("Quit", 260, 350);
-        if(true){
-            g2.drawImage(bombMenu, 230, 320, 27, 37, this);
+        if (commandNum == 2) {
+            g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
         }
 
     }
@@ -239,9 +244,45 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             tileM.AggiungiBomba(giocatore.movimento.posizione.pos_x, giocatore.movimento.posizione.pos_y + 5);
         }
 
-        repaint();
+        //Title manager
+        if (observable instanceof KeyHandler) {
 
-    }
+            var direzione = (Direzione) arg;
+            System.out.println(direzione.toString());
+
+            switch (direzione) {
+                case UP:
+                    if (commandNum > 0)
+                        commandNum -= 1;
+                    break;
+                case DOWN:
+                    if (commandNum < 2)
+                        commandNum += 1;
+                    break;
+                case SPACE:
+                    switch (commandNum) {
+
+                        //Start
+                        case 0:
+                            partita.statoPartita = StatoPartita.Playing;
+                            break;
+
+                        case 1:
+                            System.out.println("Load Game");
+                            break;
+
+                        //Quit
+                        case 2:
+                            System.exit(0);
+                            break;
+
+                    }
+
+            }
+
+            repaint();
+
+        }
 
 
 //    public void playMusic(int index){
@@ -250,4 +291,5 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 //    }
 
 
+    }
 }
