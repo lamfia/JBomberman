@@ -17,7 +17,7 @@ public abstract class Personaggio  {
      */
     public Movimento movimento ;
 
-    public  int Salute;
+    //public  int Salute;
 
    // public Hitbox hitbox;
 
@@ -26,13 +26,13 @@ public abstract class Personaggio  {
      */
 
 
-    public Personaggio(int posX, int posY, int Salute,int velocita, int width, int height){
+    public Personaggio(int posX, int posY,int velocita, int width, int height){
 
         //hitbox (rectangle area)
        // solidArea = new Rectangle(posX,posY,width,height);
        this.movimento = new Movimento(posX, posY,velocita, width,height);
 
-       this.Salute= Salute;
+       //this.Salute= Salute;
 
        // this.hitbox= new Hitbox(hitboxRec);
 

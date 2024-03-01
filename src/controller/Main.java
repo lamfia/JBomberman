@@ -17,7 +17,7 @@ public class Main {
         //f.getGamePanel().playMusic(0); //Background music
 
         //Crea il giocatore
-        var giocatore = new Giocatore(380, 200, 100, 2, 40, 40);
+        var giocatore = new Giocatore(380, 200, 3, 2, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
 

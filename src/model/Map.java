@@ -78,13 +78,17 @@ public class Map {
 
     /**
      * Questo set viene fatto dopo perchè ha bisogno del tileM
+     *
      * @param tileM
      */
     public void setEnemici(TileManager tileM) {
-        this.Enemici.add(new Enemico2(80, 150, 100, 4, 40, 40, Direzione.UP, tileM));
 
-        this.Enemici.add(new Enemico(180, 150, 100, 4, 40, 40, Direzione.UP, tileM));
-
+        switch (selectedMap) {
+            case TheSevenSeas:
+                this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
+                this.Enemici.add(new Enemico(180, 150, 4, 40, 40, Direzione.UP, tileM));
+                break;
+        }
     }
 
 

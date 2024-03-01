@@ -25,8 +25,8 @@ public class Enemico extends Personaggio {
     private Boolean movimentoAttivo = true;
     private Direzione ultimaDirezione;
 
-    public Enemico(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
-        super(posX, posY, Salute, velocita, width, height);
+    public Enemico(int posX, int posY, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
+        super(posX, posY, velocita, width, height);
 
         this.ultimaDirezione =direzioneIniziale;
         super.movimento.posizione.direzione = direzioneIniziale;

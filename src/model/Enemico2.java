@@ -14,8 +14,8 @@ public class Enemico2 extends Enemico {
      */
 
 
-    public Enemico2(int posX, int posY, int Salute, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
-        super(posX, posY, Salute, velocita, width, height, direzioneIniziale, tileManager);
+    public Enemico2(int posX, int posY, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
+        super(posX, posY, velocita, width, height, direzioneIniziale, tileManager);
 
 
         var pathSource = "src/view/res/enemico2/";

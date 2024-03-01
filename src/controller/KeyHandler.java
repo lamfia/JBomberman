@@ -33,7 +33,6 @@ public class KeyHandler extends Observable implements KeyListener {
 
         int code = e.getKeyCode();
 
-
         //TODO gestire bene il movimento nel caso di title o in game
 
         if (code == KeyEvent.VK_W) {
@@ -43,23 +42,32 @@ public class KeyHandler extends Observable implements KeyListener {
                 notifica(Direzione.UP);
             }
 
-            ApplicationManager.movimento.goUp(false);
+            if (partita.statoPartita == StatoPartita.Playing) {
+                ApplicationManager.movimento.goUp(false);
+            }
+
         }
         if (code == KeyEvent.VK_A) {
-
-            ApplicationManager.movimento.goLeft(false);
-
+            if (partita.statoPartita == StatoPartita.Playing) {
+                ApplicationManager.movimento.goLeft(false);
+            }
         }
         if (code == KeyEvent.VK_S) {
             //Title manager
             if (partita.statoPartita == StatoPartita.Title) {
                 notifica(Direzione.DOWN);
             }
-            ApplicationManager.movimento.goDown(false);
+
+            if (partita.statoPartita == StatoPartita.Playing) {
+                ApplicationManager.movimento.goDown(false);
+            }
         }
         if (code == KeyEvent.VK_D) {
 
-            ApplicationManager.movimento.goRight(false);
+            if (partita.statoPartita == StatoPartita.Playing) {
+                ApplicationManager.movimento.goRight(false);
+            }
+
         }
 
 

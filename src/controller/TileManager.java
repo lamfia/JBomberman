@@ -300,7 +300,7 @@ public class TileManager {
     }
 
 
-    private void isGameOver() {
+    private Boolean isGameOver() {
 
         var hitboxGiocatore = giocatore.movimento.posizione.hitbox.getBounds();
 
@@ -308,14 +308,18 @@ public class TileManager {
         boolean isGameOver1 = giocatore.attaco.getExplosionBombsHitbox().stream()
                 .anyMatch(rectangle -> rectangle.intersects(hitboxGiocatore));
 
-        // Controlla se il primo elemento interseca almeno uno degli altri
+        // Controlla se il giocatore interseca almeno uno degli enemici
         boolean isGameOver2 = Personaggi.stream()
                 //.skip(1) // Salta il primo elemento che è il giocatore
                 .anyMatch(personaggio -> giocatore.movimento.posizione.hitbox.intersects(personaggio.movimento.posizione.hitbox));
 
         if (isGameOver1 || isGameOver2) {
             partita.changeStatoPartita(StatoPartita.GameOver);
+
+            return true;
         }
+
+        return false;
     }
 
     /**

@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Graphics2D externalGraphics;
     private Personaggio player;
 
-    //public StatoPartita statoPartita;
+    private int TitleScreenState = 0; //0: prima title ; 1: load game ; 2:stage select
 
     public Partita partita;
 
@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private int dimensionHeight;
 
     private int commandNum = 0;
-    private int MaxcommandNum = 2;
+    private int MaxcommandNum = 3;
 
     Thread gameThread;
 
@@ -125,7 +125,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             if (partita.statoPartita == StatoPartita.Title) {
                 drawTitle(g2);
-            } else {
+            }
+
+
+            if (partita.statoPartita == StatoPartita.Playing) {
+
 
                 //TODO da mettere questa setting nella partita model
                 map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
@@ -133,6 +137,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                 //Aggiorna i tiles
                 drawTiles();
+
+                drawInfoGame(g2);
             }
 
 
@@ -168,30 +174,60 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
 
 
-        //Start
-        g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-        g2.drawString("Start Game", 260, 250);
-        if (commandNum == 0) {
-            g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+        if (TitleScreenState == 0) {
+            //Start
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Start Game", 260, 250);
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+            }
+
+            //Load Game
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Load Game", 260, 300);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+            }
+
+            //Stage select
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Stage Select", 260, 350);
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
+            }
+
+            //Quit
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Quit", 260, 400);
+            if (commandNum == 3) {
+                g2.drawImage(bombMenuImage, 230, 370, 27, 37, this);
+            }
+
         }
 
-        //Load Game
-        g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-        g2.drawString("Load Game", 260, 300);
-        if (commandNum == 1) {
-            g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
-        }
+        if (TitleScreenState == 2) {
 
-        //Quit
-        g2.setColor(Color.white);
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-        g2.drawString("Quit", 260, 350);
-        if (commandNum == 2) {
-            g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
-        }
 
+            //Start
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Level 1 - Pirates!", 260, 250);
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+            }
+
+            //Load Game
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Level 2 - Spaceman", 260, 300);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+            }
+        }
     }
 
     public void drawTiles() {
@@ -223,6 +259,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             if (partita.statoPartita == StatoPartita.GameOver) {
                 System.out.println("Game over!");
+
+                //Draw title GameOver
             }
 
         }
@@ -248,7 +286,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         if (observable instanceof KeyHandler) {
 
             var direzione = (Direzione) arg;
-            System.out.println(direzione.toString());
+            //System.out.println(direzione.toString());
 
             switch (direzione) {
                 case UP:
@@ -256,23 +294,30 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                         commandNum -= 1;
                     break;
                 case DOWN:
-                    if (commandNum < 2)
+                    if (commandNum < MaxcommandNum)
                         commandNum += 1;
                     break;
                 case SPACE:
                     switch (commandNum) {
 
-                        //Start
+                        //StarStart
                         case 0:
                             partita.statoPartita = StatoPartita.Playing;
                             break;
-
+                        //Load Game
                         case 1:
                             System.out.println("Load Game");
                             break;
+                        //Stage select
+                        case 2:
+                            TitleScreenState = 2;
+                            //Cambio di menu
+                            commandNum = 0;
+                            MaxcommandNum = 1;
+                            break;
 
                         //Quit
-                        case 2:
+                        case 3:
                             System.exit(0);
                             break;
 
@@ -285,10 +330,26 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         }
 
 
-//    public void playMusic(int index){
-//        AudioManager.getInstance().play();
+    }
+
+
+    private void drawScreenGameOver() {
+
+    }
+
+    private void drawInfoGame(Graphics2D g2) {
+
+        //Timer del gioco //TODO spostare in partita model
+        g2.setColor(Color.white);
+        g2.drawString(TempoGioco, 10, 20);
+
+
+//        //Stage select
+//        g2.setColor(Color.white);
+//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+//        g2.drawString("Stage Select", 260, 350);
 //
-//    }
+        //g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
 
 
     }
