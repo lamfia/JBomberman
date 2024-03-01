@@ -299,7 +299,8 @@ public class TileManager {
 
     }
 
-
+    private long lastHitTime = 0;
+    private final long invulnerabilityDuration = 2000; // 2 secondi di invulnerabilità
     private Boolean isGameOver() {
 
         var hitboxGiocatore = giocatore.movimento.posizione.hitbox.getBounds();
@@ -314,9 +315,28 @@ public class TileManager {
                 .anyMatch(personaggio -> giocatore.movimento.posizione.hitbox.intersects(personaggio.movimento.posizione.hitbox));
 
         if (isGameOver1 || isGameOver2) {
-            partita.changeStatoPartita(StatoPartita.GameOver);
+            long currentTime = System.currentTimeMillis();
 
-            return true;
+            // Verifica se è passato abbastanza tempo dall'ultimo colpo
+            if (currentTime - lastHitTime > invulnerabilityDuration) {
+                // Il giocatore è vulnerabile, esegui le azioni di game over
+                lastHitTime = currentTime; // Aggiorna il tempo dell'ultimo colpo
+
+                // TP del giocatore in posizione iniziale
+                giocatore.movimento.posizione.pos_x = 380;
+                giocatore.movimento.posizione.pos_y = 200;
+
+
+
+
+                giocatore.morte();
+
+                if (giocatore.vite < 0) {
+                    System.out.println("Game Over!");
+                    partita.changeStatoPartita(StatoPartita.GameOver);
+                    return true;
+                }
+            }
         }
 
         return false;
@@ -330,13 +350,12 @@ public class TileManager {
      */
     public void AzioneListener(Posizione posizione) {
 
-        isGameOver();
-
-
         //Se non è il giocatore return!
         if (posizione != giocatore.movimento.posizione) {
             return;
         }
+
+        isGameOver();
 
         var hitbox = posizione.hitbox.getBounds();
 

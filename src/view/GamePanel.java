@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     //private Image image1;
     private Image map;
     private Graphics2D externalGraphics;
-    private Personaggio player;
+    private Giocatore player;
 
     private int TitleScreenState = 0; //0: prima title ; 1: load game ; 2:stage select
 
@@ -337,7 +337,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
-    private void drawInfoGame(Graphics2D g2) {
+    private void drawInfoGame(Graphics2D g2) throws IOException {
 
         //Timer del gioco //TODO spostare in partita model
         g2.setColor(Color.white);
@@ -349,7 +349,28 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 //        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
 //        g2.drawString("Stage Select", 260, 350);
 //
-        //g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
+        Color c=new Color(0,0,1f,.6f );
+        g2.setColor(c);
+        g2.fillRect(0,0,900,30);
+
+        //Bomb menu
+        var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman icon.png"));
+
+
+
+        int totvite= player.vite;
+
+
+        int x_spacebetween=200;
+        for (int i = 0; i < totvite; i++) {
+
+            g2.drawImage(bombermanIcon, x_spacebetween, 8, 20, 20, this);
+
+            x_spacebetween+=40;
+        }
+
+
+
 
 
     }

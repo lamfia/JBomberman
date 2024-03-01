@@ -25,6 +25,7 @@ public class Giocatore extends Personaggio {
         //TODO passare qualcosa al ctor?
         this.attaco = new Attaco(0);
 
+        this.vite=vite;
 
         //TODO fare set degli sprites un metodo generico per tutti personaggi
         //Set degli sprites
@@ -57,6 +58,14 @@ public class Giocatore extends Personaggio {
         pathImages.leftidle = pathSource + "leftidle.png";
 
         super.movimento.posizione.pathImages = pathImages;
+    }
+
+
+    public void morte(){
+
+        //TODO FARE ANIMAZIONE DI MORTE , vietare il movimento
+        this.vite = this.vite-1;
+
     }
 
 

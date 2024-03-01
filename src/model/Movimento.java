@@ -49,6 +49,8 @@ public class Movimento extends Observable {
         tileM.AzioneListener(posizione);
 
 
+
+
         if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
 
             this.posizione.ImageAttuale = this.posizione.pathImages.upidle;
