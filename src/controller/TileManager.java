@@ -177,8 +177,9 @@ public class TileManager {
                     ).collect(Collectors.toList());
 
                     for (Enemico enemicoEliminato : enemiciEliminati) {
-                        enemicoEliminato.eliminaEnemico();
+                        partita.points += enemicoEliminato.eliminaEnemico();
                         Personaggi.remove(enemicoEliminato);
+
                     }
 
 
@@ -249,13 +250,6 @@ public class TileManager {
                 g2.fillRect(tile.collisionRectangle.x, tile.collisionRectangle.y, tile.collisionRectangle.width, tile.collisionRectangle.height);
             }
 
-            //hitbox del personaggio
-            if (ExpendedeHitbox != null) {
-
-                g2.setColor(Color.orange);
-                g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
-
-            }
 
         }
 
@@ -283,6 +277,7 @@ public class TileManager {
             }
         }
 
+
         //Draw del player
         try {
             g2.drawImage(
@@ -296,11 +291,28 @@ public class TileManager {
             throw new RuntimeException(e);
         }
 
+        if (showHitboxes == true) {
+            //hitbox del personaggio
+            if (ExpendedeHitbox != null) {
+
+                g2.setColor(Color.yellow);
+                g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
+
+            } else {
+
+                g2.setColor(Color.yellow);
+                g2.fillRect(giocatore.movimento.posizione.hitbox.x
+                        , giocatore.movimento.posizione.hitbox.y, giocatore.movimento.posizione.hitbox.width,
+                        giocatore.movimento.posizione.hitbox.height);
+            }
+        }
+
 
     }
 
     private long lastHitTime = 0;
     private final long invulnerabilityDuration = 2000; // 2 secondi di invulnerabilità
+
     private Boolean isGameOver() {
 
         var hitboxGiocatore = giocatore.movimento.posizione.hitbox.getBounds();
@@ -323,15 +335,13 @@ public class TileManager {
                 lastHitTime = currentTime; // Aggiorna il tempo dell'ultimo colpo
 
                 // TP del giocatore in posizione iniziale
-                giocatore.movimento.posizione.pos_x = 380;
-                giocatore.movimento.posizione.pos_y = 200;
-
-
+                giocatore.movimento.posizione.pos_x = giocatore.movimento.posizione.pos_x_iniziale;
+                giocatore.movimento.posizione.pos_y = giocatore.movimento.posizione.pos_y_iniziale;
 
 
                 giocatore.morte();
 
-                if (giocatore.vite < 0) {
+                if (giocatore.vite <= 0) {
                     System.out.println("Game Over!");
                     partita.changeStatoPartita(StatoPartita.GameOver);
                     return true;
@@ -349,13 +359,12 @@ public class TileManager {
      * @param posizione
      */
     public void AzioneListener(Posizione posizione) {
-
+        isGameOver();
         //Se non è il giocatore return!
         if (posizione != giocatore.movimento.posizione) {
             return;
         }
 
-        isGameOver();
 
         var hitbox = posizione.hitbox.getBounds();
 

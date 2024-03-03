@@ -13,6 +13,9 @@ public class Posizione {
 
     public int pos_y;
 
+    public int pos_x_iniziale;
+    public int pos_y_iniziale;
+
     /**
      * Larghezza del personaggio
      */
@@ -34,6 +37,9 @@ public class Posizione {
 
         this.pos_y = pos_y;
         this.pos_x = pos_x;
+
+        this.pos_x_iniziale = pos_x;
+        this.pos_y_iniziale = pos_y;
 
         this.width = width;
         this.height = height;

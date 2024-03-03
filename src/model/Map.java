@@ -22,12 +22,23 @@ public class Map {
 
     private TileManager tileManager;
 
+
     public Map(Maps selectedMap) throws IOException {
         this.selectedMap = selectedMap;
 
         setTiles();
         setPowerUps();
     }
+
+    public String getMapPath() {
+        switch (selectedMap) {
+            case TheSevenSeas:
+                return "src/view/maps/Pirate/pirata.png";
+        }
+
+        return null;
+    }
+
 
     /**
      * Get dei tiles della mappa selezionata

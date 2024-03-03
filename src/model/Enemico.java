@@ -25,6 +25,8 @@ public class Enemico extends Personaggio {
     private Boolean movimentoAttivo = true;
     private Direzione ultimaDirezione;
 
+    public int puntiEnemico;
+
     public Enemico(int posX, int posY, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
         super(posX, posY, velocita, width, height);
 
@@ -78,13 +80,21 @@ public class Enemico extends Personaggio {
 
         this.ultimaDirezione = direzioneIniziale;
 
+        this.puntiEnemico=100;
+
     }
 
-    public void eliminaEnemico() {
+    /**
+     * disattiva il movimento dell'enemico e fa return del punteggio otttenuto dell'enemico
+     * @return
+     */
+    public int eliminaEnemico() {
 
         //TODO Se c'è tempo, mettere animazione di morte dell'enemico
         // super.movimento.posizione.ImageAttuale = "src/view/res/enemico/dead1.png";
         movimentoAttivo = false;
+
+        return puntiEnemico;
     }
 
 

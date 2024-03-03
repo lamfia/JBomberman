@@ -127,18 +127,24 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 drawTitle(g2);
             }
 
-
             if (partita.statoPartita == StatoPartita.Playing) {
 
-
-                //TODO da mettere questa setting nella partita model
-                map = ImageIO.read(new File("src/view/maps/Pirate/pirata.png"));
-                g2.drawImage(map, 0, 0, dimensionWidth, dimensionHeight, this);
+                //Draw della mappa selezionatas
+                drawFullImage(g2, ImageIO.read(new File(partita.map.getMapPath())));
 
                 //Aggiorna i tiles
                 drawTiles();
 
+                //Draw dell'info game
                 drawInfoGame(g2);
+            }
+
+            if (partita.statoPartita==StatoPartita.GameOver){
+                drawScreenGameOver(g2);
+            }
+
+            if (partita.statoPartita==StatoPartita.Win){
+                drawScreenGameOver(g2);
             }
 
 
@@ -152,6 +158,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 //        g2.drawString(TempoGioco, 10, 20);
 
 
+    }
+
+    private void drawFullImage(Graphics2D g2, Image img){
+
+        g2.drawImage(img , 0, 0, dimensionWidth, dimensionHeight, this);
     }
 
     private void drawTitle(Graphics2D g2) throws IOException {
@@ -253,17 +264,16 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         }
 
         //Partita info
-        if (observable instanceof Partita) {
-
-            var partita = (Partita) arg;
-
-            if (partita.statoPartita == StatoPartita.GameOver) {
-                System.out.println("Game over!");
-
-                //Draw title GameOver
-            }
-
-        }
+//        if (observable instanceof Partita) {
+//
+//            var partita = (Partita) arg;
+//
+//            if (partita.statoPartita == StatoPartita.GameOver) {
+//                System.out.println("Game over!");
+//                drawScreenGameOver(externalGraphics);
+//            }
+//
+//        }
 
         //Movimento!
         if (observable instanceof Movimento) {
@@ -333,44 +343,56 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     }
 
 
-    private void drawScreenGameOver() {
+    private void drawScreenGameOver(Graphics2D g2) {
 
+        try {
+            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void drawScreenWin(Graphics2D g2) {
+
+        try {
+            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver.png")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void drawInfoGame(Graphics2D g2) throws IOException {
 
         //Timer del gioco //TODO spostare in partita model
         g2.setColor(Color.white);
-        g2.drawString(TempoGioco, 10, 20);
+        g2.drawString(TempoGioco, 100, 20);
 
 
-//        //Stage select
-//        g2.setColor(Color.white);
-//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-//        g2.drawString("Stage Select", 260, 350);
-//
-        Color c=new Color(0,0,1f,.6f );
+
+        Color c=new Color(0,0,0f,.4f );
         g2.setColor(c);
         g2.fillRect(0,0,900,30);
 
-        //Bomb menu
+        //Bomberman icon image
         var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman icon.png"));
-
-
 
         int totvite= player.vite;
 
-
         int x_spacebetween=200;
         for (int i = 0; i < totvite; i++) {
-
             g2.drawImage(bombermanIcon, x_spacebetween, 8, 20, 20, this);
-
             x_spacebetween+=40;
         }
 
 
+        //Timer del gioco //TODO spostare in partita model
+        g2.setColor(Color.white);
+        g2.drawString("Points: ", 500, 20);
 
+        //Timer del gioco //TODO spostare in partita model
+        g2.setColor(Color.white);
+
+        g2.drawString( String.valueOf(partita.points) , 560, 20);
 
 
     }

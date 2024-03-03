@@ -20,6 +20,8 @@ public class Partita extends Observable {
 
     public Map map;
 
+    public int points;
+
 
     public Partita(Maps selectedMap) throws IOException {
         //Quando si crea la partita nuova con il primo mappa

@@ -51,6 +51,7 @@ public class Enemico2 extends Enemico {
        //Questo permette al personaggio di attraversare i destructibiles tiles
         super.movimento.noClip = true;
 
+        super.puntiEnemico=200;
 
         //Default image
         this.movimento.posizione.ImageAttuale = this.movimento.posizione.pathImages.downidle;

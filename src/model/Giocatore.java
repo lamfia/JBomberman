@@ -18,6 +18,7 @@ public class Giocatore extends Personaggio {
 
     public int vite;
 
+
     public Giocatore(int posX, int posY, int vite, int velocita, int widht, int height) {
 
         super(posX, posY, velocita, widht, height);
