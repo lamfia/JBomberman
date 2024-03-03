@@ -139,12 +139,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 drawInfoGame(g2);
             }
 
-            if (partita.statoPartita==StatoPartita.GameOver){
+            if (partita.statoPartita == StatoPartita.GameOver) {
                 drawScreenGameOver(g2);
             }
 
-            if (partita.statoPartita==StatoPartita.Win){
-                drawScreenGameOver(g2);
+            if (partita.statoPartita == StatoPartita.Win) {
+                drawScreenWin(g2);
             }
 
 
@@ -160,9 +160,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
-    private void drawFullImage(Graphics2D g2, Image img){
+    private void drawFullImage(Graphics2D g2, Image img) {
 
-        g2.drawImage(img , 0, 0, dimensionWidth, dimensionHeight, this);
+        g2.drawImage(img, 0, 0, dimensionWidth, dimensionHeight, this);
     }
 
     private void drawTitle(Graphics2D g2) throws IOException {
@@ -210,20 +210,22 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
             }
 
-            //Quit
+            //Quit game
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Quit", 260, 400);
+            g2.drawString("Quit Game", 260, 400);
             if (commandNum == 3) {
                 g2.drawImage(bombMenuImage, 230, 370, 27, 37, this);
             }
 
         }
 
+
+        //Stage select
         if (TitleScreenState == 2) {
 
 
-            //Start
+            //Level 1 pirates
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
             g2.drawString("Level 1 - Pirates!", 260, 250);
@@ -231,7 +233,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
             }
 
-            //Load Game
+            //Level 2 spaceMan!
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
             g2.drawString("Level 2 - Spaceman", 260, 300);
@@ -250,6 +252,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         this.tileM = tileM;
     }
 
+    private void cambioMenuReset(int maxCommandNum) {
+        //Cambio di menu
+        commandNum = 0;
+        MaxcommandNum = maxCommandNum;
+    }
 
     @Override
     public void update(Observable observable, Object arg) {
@@ -264,16 +271,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         }
 
         //Partita info
-//        if (observable instanceof Partita) {
-//
-//            var partita = (Partita) arg;
-//
-//            if (partita.statoPartita == StatoPartita.GameOver) {
-//                System.out.println("Game over!");
-//                drawScreenGameOver(externalGraphics);
-//            }
-//
-//        }
+        if (observable instanceof Partita) {
+
+            var partita = (Partita) arg;
+            if (partita.statoPartita == StatoPartita.GameOver) {
+                cambioMenuReset(2);
+            }
+
+        }
 
         //Movimento!
         if (observable instanceof Movimento) {
@@ -308,30 +313,64 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                         commandNum += 1;
                     break;
                 case SPACE:
-                    switch (commandNum) {
 
-                        //StarStart
-                        case 0:
-                            partita.statoPartita = StatoPartita.Playing;
-                            break;
-                        //Load Game
-                        case 1:
-                            System.out.println("Load Game");
-                            break;
-                        //Stage select
-                        case 2:
-                            TitleScreenState = 2;
-                            //Cambio di menu
-                            commandNum = 0;
-                            MaxcommandNum = 1;
-                            break;
+                    switch (partita.statoPartita) {
 
-                        //Quit
-                        case 3:
-                            System.exit(0);
+                        //Primo title state =1
+                        case StatoPartita.Title:
+
+                            switch (commandNum) {
+
+                                //Star
+                                case 0:
+                                    partita.statoPartita = StatoPartita.Playing;
+                                    break;
+                                //Load Game
+                                case 1:
+                                    System.out.println("Load Game");
+                                    break;
+                                //Stage select
+                                case 2:
+                                    //Secondo title state =2
+                                    TitleScreenState = 2;
+                                    //Cambio di menu
+                                    cambioMenuReset(1);
+                                    break;
+
+                                //Quit
+                                case 3:
+                                    System.exit(0);
+                                    break;
+
+                            }
+                            break;
+                        case StatoPartita.GameOver:
+
+
+                            switch (commandNum) {
+
+                                //Continue
+                                case 0:
+                                    partita.continueGame();
+                                    break;
+
+                                //Save Game
+                                case 1:
+//                                    partita.SaveGame();
+//                                    System.out.println("Save Game");
+                                    break;
+
+                                //Quit (Return to menu)
+                                case 2:
+//                                    partita.stopGame();
+//                                    cambioMenuReset(3);
+                                    break;
+
+                            }
                             break;
 
                     }
+
 
             }
 
@@ -346,7 +385,32 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private void drawScreenGameOver(Graphics2D g2) {
 
         try {
+
+            //Background image
             drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver.png")));
+
+            //Bomb menu
+            var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+
+
+            //Continue
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 550, 280, 27, 37, this);
+            }
+
+            //Save game
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 550, 320, 27, 37, this);
+            }
+
+            //Quit
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 550, 370, 27, 37, this);
+            }
+
+            // }
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -368,20 +432,19 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.drawString(TempoGioco, 100, 20);
 
 
-
-        Color c=new Color(0,0,0f,.4f );
+        Color c = new Color(0, 0, 0f, .4f);
         g2.setColor(c);
-        g2.fillRect(0,0,900,30);
+        g2.fillRect(0, 0, 900, 30);
 
         //Bomberman icon image
         var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman icon.png"));
 
-        int totvite= player.vite;
+        int totvite = player.vite;
 
-        int x_spacebetween=200;
+        int x_spacebetween = 200;
         for (int i = 0; i < totvite; i++) {
             g2.drawImage(bombermanIcon, x_spacebetween, 8, 20, 20, this);
-            x_spacebetween+=40;
+            x_spacebetween += 40;
         }
 
 
@@ -392,7 +455,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Timer del gioco //TODO spostare in partita model
         g2.setColor(Color.white);
 
-        g2.drawString( String.valueOf(partita.points) , 560, 20);
+        g2.drawString(String.valueOf(partita.points), 560, 20);
 
 
     }

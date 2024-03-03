@@ -13,33 +13,16 @@ import java.util.stream.Collectors;
 
 public class TileManager {
 
-
-    GamePanel gp;
-
-    ArrayList<Tile> DestructibilesTiles;
-
-    ArrayList<Tile> WalkingTiles;
-    ArrayList<PowerUpTile> PowerUpTiles;
     ArrayList<Personaggio> Personaggi = new ArrayList<>();
     Rectangle ExpendedeHitbox;
-
     Giocatore giocatore;
     Partita partita;
 
-    Posizione posizione; //mi salvo la lastPosition
     boolean showHitboxes = false;
 
     public TileManager(GamePanel gp, Giocatore giocatore, Partita partita) {
 
-        this.gp = gp;
-
         this.giocatore = giocatore;
-
-        DestructibilesTiles = new ArrayList<>();
-
-        WalkingTiles = new ArrayList<>();
-
-        PowerUpTiles = new ArrayList<>();
 
         this.partita = partita;
 
@@ -48,7 +31,7 @@ public class TileManager {
         Personaggi.addAll(partita.map.Enemici);
 
         try {
-            getTileImage();
+            getTilesConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,13 +48,13 @@ public class TileManager {
         this.Personaggi.add(personaggio);
     }
 
-    public void getTileImage() throws IOException {
+    public void getTilesConfig() throws IOException {
 
-        this.WalkingTiles = this.partita.map.WalkingTiles;
+        //this.WalkingTiles = this.partita.map.WalkingTiles;
 
-        this.PowerUpTiles = this.partita.map.PowerUpTiles;
+        //this.PowerUpTiles = this.partita.map.PowerUpTiles;
 
-        this.DestructibilesTiles = this.partita.map.DestructibilesTiles;
+        //this.this.partita.map.DestructibilesTiles = this.partita.map.this.partita.map.DestructibilesTiles;
 
     }
 
@@ -113,7 +96,7 @@ public class TileManager {
         ExpendedeHitbox = expandedHitbox;
 
         //Blocco da i destructibiles tiles
-        var isBlocked = DestructibilesTiles.stream()
+        var isBlocked = this.partita.map.DestructibilesTiles.stream()
                 .filter(tile -> tile.collision)
                 .anyMatch(tile -> expandedHitbox.intersects(tile.collisionRectangle));
 
@@ -124,7 +107,7 @@ public class TileManager {
 
 
         //Blocco quando va fuori a walking tiles
-        var isBlocked2 = WalkingTiles.stream()
+        var isBlocked2 = this.partita.map.WalkingTiles.stream()
                 .anyMatch(WalkingTiles -> WalkingTiles.collisionRectangle.contains(expandedHitbox));
 
 
@@ -145,7 +128,7 @@ public class TileManager {
 
         //Draw dei walking tiles
         if (showHitboxes == true) {
-            for (Tile WalkingTile : WalkingTiles) {
+            for (Tile WalkingTile : this.partita.map.WalkingTiles) {
                 g2.setColor(WalkingTile.color);
                 g2.fillRect(WalkingTile.x, WalkingTile.y,
                         WalkingTile.collisionRectangle.width, WalkingTile.collisionRectangle.height);
@@ -184,12 +167,12 @@ public class TileManager {
 
 
                     //Logica esplosion dei tiles
-                    var tilesEsplosi = DestructibilesTiles.stream()
+                    var tilesEsplosi = this.partita.map.DestructibilesTiles.stream()
                             .filter(tile -> bomb.explosion_x.intersects(tile.collisionRectangle)
                                     || bomb.explosion_y.intersects(tile.collisionRectangle)).collect(Collectors.toList());
 
                     for (Tile tileEsploso : tilesEsplosi) {
-                        DestructibilesTiles.remove(tileEsploso);
+                        this.partita.map.DestructibilesTiles.remove(tileEsploso);
                     }
 
                     //Explosion hitbox
@@ -225,12 +208,12 @@ public class TileManager {
         }
 
         //Draw dei tiles
-        for (Tile tile : DestructibilesTiles) {
+        for (Tile tile : this.partita.map.DestructibilesTiles) {
             g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
         }
 
         //Draw dei PowerUpds
-        for (Tile PowerUpTile : PowerUpTiles) {
+        for (Tile PowerUpTile : this.partita.map.PowerUpTiles) {
             g2.drawImage(PowerUpTile.image, PowerUpTile.x, PowerUpTile.y, PowerUpTile.width, PowerUpTile.height, null);
 
             //hitbox del powerup
@@ -246,7 +229,7 @@ public class TileManager {
 
             //hitbox del tile
             g2.setColor(Color.blue);
-            for (Tile tile : DestructibilesTiles) {
+            for (Tile tile : this.partita.map.DestructibilesTiles) {
                 g2.fillRect(tile.collisionRectangle.x, tile.collisionRectangle.y, tile.collisionRectangle.width, tile.collisionRectangle.height);
             }
 
@@ -311,7 +294,7 @@ public class TileManager {
     }
 
     private long lastHitTime = 0;
-    private final long invulnerabilityDuration = 2000; // 2 secondi di invulnerabilità
+    private final long invulnerabilityDuration = 4000; // 2 secondi di invulnerabilità
 
     private Boolean isGameOver() {
 
@@ -373,7 +356,7 @@ public class TileManager {
 
 
         //In caso di pick up del powerUps
-        Optional<PowerUpTile> pickedPowerUpOptional = PowerUpTiles.stream()
+        Optional<PowerUpTile> pickedPowerUpOptional = this.partita.map.PowerUpTiles.stream()
                 .filter(powerUpTile -> powerUpTile.collisionRectangle.intersects(hitbox))
                 .findFirst();
 
@@ -399,7 +382,7 @@ public class TileManager {
 
             }
             //Cancella il powerUp dalla mappa
-            PowerUpTiles.remove(pickedPowerUp);
+            this.partita.map.PowerUpTiles.remove(pickedPowerUp);
 
         }
 

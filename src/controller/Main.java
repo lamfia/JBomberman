@@ -14,21 +14,28 @@ public class Main {
         //Variabili di avvio
         Boolean showHitboxes = false;
         AudioManager.getInstance().enable = true;
-        //f.getGamePanel().playMusic(0); //Background music
+
+
+        //Creazione di partita
+        Partita partita = new Partita();
+
+        //Set del tile state
+        partita.setStatoPartita(StatoPartita.Title);
+        partita.newGame(Maps.TheSevenSeas);
+
+
 
         //Crea il giocatore
-        var giocatore = new Giocatore(380, 200, 3, 2, 40, 40);
+        var giocatore = new Giocatore(380, 200, 2, 2, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
 
-        //Creazione di partita
-        Partita partita = new Partita(Maps.TheSevenSeas);
-        partita.setStatoPartita(StatoPartita.Title);
+
 
         var keyHandler= new KeyHandler(partita);
-
         //Crea la view
         var f = new Finestra(800, 600, partita, keyHandler);
+
 
         //Add del giocatore
         f.getGamePanel().addGiocatore(giocatore);

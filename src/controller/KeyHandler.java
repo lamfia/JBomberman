@@ -38,7 +38,7 @@ public class KeyHandler extends Observable implements KeyListener {
         if (code == KeyEvent.VK_W) {
 
             //Title manager
-            if (partita.statoPartita == StatoPartita.Title) {
+            if (partita.isTitleState()) {
                 notifica(Direzione.UP);
             }
 
@@ -54,7 +54,7 @@ public class KeyHandler extends Observable implements KeyListener {
         }
         if (code == KeyEvent.VK_S) {
             //Title manager
-            if (partita.statoPartita == StatoPartita.Title) {
+            if (partita.isTitleState()) {
                 notifica(Direzione.DOWN);
             }
 
@@ -74,8 +74,8 @@ public class KeyHandler extends Observable implements KeyListener {
         //Attack!
         if (code == KeyEvent.VK_SPACE) {
 
-            //Title manager
-            if (partita.statoPartita == StatoPartita.Title) {
+            //Title manager confirm with "space"
+            if (partita.isTitleState()) {
                 notifica(Direzione.SPACE);
             }else{
 

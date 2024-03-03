@@ -30,6 +30,11 @@ public class Map {
         setPowerUps();
     }
 
+
+
+    /**
+     * Imposta lo sfondo della mappa selezionata
+     */
     public String getMapPath() {
         switch (selectedMap) {
             case TheSevenSeas:
@@ -39,6 +44,13 @@ public class Map {
         return null;
     }
 
+
+
+    public void  resetMapConfig(){
+        //Reset enimici
+        this.Enemici= new ArrayList<>();
+        //setEnemici();
+    }
 
     /**
      * Get dei tiles della mappa selezionata
@@ -120,25 +132,5 @@ public class Map {
         }
     }
 
-    /**
-     * Imposta lo sfondo della mappa selezionata
-     */
-    private void setImageMap() {
-
-        switch (selectedMap) {
-            case TheSevenSeas:
-                break;
-        }
-    }
-
-    private void setEnemici() {
-
-        //TODO Usare questa config per creare gli enimici
-        switch (selectedMap) {
-            case TheSevenSeas:
-                // Enemici.add(new Enemico(100, 100, 1, 2, 50, 50));
-                break;
-        }
-    }
 
 }
