@@ -23,11 +23,14 @@ public class Partita extends Observable {
     public int points;
 
 
+    public boolean OpenPortal = false;
+
+
     private Maps lastMapPlayed;
 
     public boolean isTitleState() {
 
-        if (statoPartita == StatoPartita.Title || statoPartita == StatoPartita.GameOver) {
+        if (statoPartita == StatoPartita.Title || statoPartita == StatoPartita.GameOver || statoPartita==StatoPartita.Win) {
             return true;
         }
 
@@ -44,14 +47,14 @@ public class Partita extends Observable {
     }
 
 
-    public Partita()  {
+    public Partita() {
 
     }
 
     public void newGame(Maps selectedMap) throws IOException {
 
 
-        lastMapPlayed=selectedMap;
+        lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
     }
 
@@ -111,12 +114,9 @@ public class Partita extends Observable {
     }
 
 
-
-
     public void StopGame() {
         //TODO
     }
-
 
 
     public void stopGame() {
@@ -126,5 +126,10 @@ public class Partita extends Observable {
 
     public void SaveGame() {
         //Save del Game TODO
+    }
+
+    public void OpenPortal() {
+        OpenPortal = true;
+        notifica();
     }
 }

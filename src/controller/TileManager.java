@@ -192,6 +192,10 @@ public class TileManager {
 
                     }
 
+//TODO decommmentare
+                    //CanOpenPortal();
+                    isWin();
+
 
                     //Logica esplosion dei tiles
                     var tilesEsplosi = this.partita.map.DestructibilesTiles.stream()
@@ -360,6 +364,36 @@ public class TileManager {
         }
 
         return false;
+    }
+
+    /**
+     * Apre il portale se non ci sono più enemici vivi
+     */
+    public void CanOpenPortal() {
+
+        if (partita.map.Enemici.stream().count() == 0) {
+            OpenPortal();
+        }
+    }
+
+    /**
+     * Comunicare alla partita di aprire il portale
+     */
+    private void OpenPortal() {
+        partita.OpenPortal();
+    }
+
+    public void isWin() {
+
+        if (Personaggi.stream().count() == 0) {
+
+            //TODO fare condizione di quando il giocatore sta nel portal
+
+            partita.changeStatoPartita(StatoPartita.Win);
+
+        }
+
+
     }
 
     /**

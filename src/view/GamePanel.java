@@ -278,6 +278,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 cambioMenuReset(2);
             }
 
+            if (partita.statoPartita == StatoPartita.Win) {
+                cambioMenuReset(2);
+            }
+
+            if (partita.OpenPortal == true) {
+                //TODO fare qui il cambio di sprite del portale
+            }
+
         }
 
         //Movimento!
@@ -321,7 +329,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                             switch (commandNum) {
 
-                                //Star
+                                //Start
                                 case 0:
                                     partita.statoPartita = StatoPartita.Playing;
                                     break;
@@ -373,6 +381,33 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                             }
                             break;
 
+                        case Win:
+                            switch (commandNum) {
+
+                                //Next Stage
+                                case 0:
+//                                    partita.continueGame();
+//                                    //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
+//                                    tileM.RiSetEnemici();
+//                                    tileM.RiSetPowerUps();
+                                    break;
+
+                                //Save Game
+                                case 1:
+//                                    partita.SaveGame();
+//                                    System.out.println("Save Game");
+                                    break;
+
+                                //Quit (Return to menu)
+                                case 2:
+//                                    partita.stopGame();
+//                                    cambioMenuReset(3);
+                                    break;
+
+                            }
+                            break;
+
+
                     }
 
 
@@ -423,7 +458,30 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private void drawScreenWin(Graphics2D g2) {
 
         try {
-            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver.png")));
+            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/Win2.png")));
+
+
+            //Bomb menu
+            var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+
+
+            //Continue
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 550, 310, 27, 37, this);
+            }
+
+            //Save game
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 550, 370, 27, 37, this);
+            }
+
+            //Quit
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 550, 435, 27, 37, this);
+            }
+
+            // }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -434,7 +492,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Timer del gioco //TODO spostare in partita model
         g2.setColor(Color.white);
         g2.drawString(TempoGioco, 100, 20);
-
 
         Color c = new Color(0, 0, 0f, .4f);
         g2.setColor(c);
@@ -452,13 +509,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         }
 
 
-        //Timer del gioco //TODO spostare in partita model
         g2.setColor(Color.white);
         g2.drawString("Points: ", 500, 20);
-
-        //Timer del gioco //TODO spostare in partita model
-        g2.setColor(Color.white);
-
         g2.drawString(String.valueOf(partita.points), 560, 20);
 
 
