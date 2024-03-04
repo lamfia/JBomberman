@@ -12,6 +12,7 @@ import java.util.Observable;
 public class Movimento extends Observable {
     public Posizione posizione;
     public int velocita;
+    public int velocitaIniziale;
     private final long imageChangeInterval = 150; // 0.15 secondi
     public int sprite = 0;
     public TileManager tileM;
@@ -27,6 +28,7 @@ public class Movimento extends Observable {
         posizione = new Posizione(posX, posY, witdh, height);
 
         this.velocita = velocita;
+        this.velocitaIniziale = velocita;
     }
 
     private long lastImageChangeTime = System.currentTimeMillis();
@@ -47,8 +49,6 @@ public class Movimento extends Observable {
         //Ritorno?
         //Magari un ritorno una enum?
         tileM.AzioneListener(posizione);
-
-
 
 
         if (posizione.pos_y < 0 || (tileM.isTileBlocked(posizione, this.velocita, noClip))) {
@@ -378,5 +378,11 @@ public class Movimento extends Observable {
 
     public void setTileM(TileManager tileM) {
         this.tileM = tileM;
+    }
+
+    public void resetVelocita() {
+
+        velocita = this.velocitaIniziale;
+
     }
 }

@@ -20,7 +20,6 @@ public class Map {
     public ArrayList<PowerUpTile> PowerUpTiles = new ArrayList<>();
     public ArrayList<Tile> DestructibilesTiles = new ArrayList<>();
 
-    private TileManager tileManager;
 
 
     public Map(Maps selectedMap) throws IOException {
@@ -112,6 +111,24 @@ public class Map {
                 this.Enemici.add(new Enemico(180, 150, 4, 40, 40, Direzione.UP, tileM));
                 break;
         }
+    }
+
+    public void removeAllEnimici(){
+        this.Enemici= new ArrayList<>();
+    }
+
+
+    public void resetPowerUpsTiles(){
+        removeAllPowerUps();
+
+        try {
+            setPowerUps();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void removeAllPowerUps(){
+        this.PowerUpTiles= new ArrayList<>();
     }
 
 

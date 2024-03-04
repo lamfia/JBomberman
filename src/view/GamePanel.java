@@ -317,7 +317,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                     switch (partita.statoPartita) {
 
                         //Primo title state =1
-                        case StatoPartita.Title:
+                        case Title:
 
                             switch (commandNum) {
 
@@ -344,7 +344,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                             }
                             break;
-                        case StatoPartita.GameOver:
+                        case GameOver:
 
 
                             switch (commandNum) {
@@ -352,6 +352,10 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 //Continue
                                 case 0:
                                     partita.continueGame();
+
+                                    //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
+                                    tileM.RiSetEnemici();
+                                    tileM.RiSetPowerUps();
                                     break;
 
                                 //Save Game

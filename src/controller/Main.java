@@ -26,7 +26,7 @@ public class Main {
 
 
         //Crea il giocatore
-        var giocatore = new Giocatore(380, 200, 2, 2, 40, 40);
+        var giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
 

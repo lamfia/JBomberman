@@ -26,7 +26,7 @@ public class TileManager {
 
         this.partita = partita;
 
-        this.partita.map.setEnemici(this);
+        SetEnemici();
 
         Personaggi.addAll(partita.map.Enemici);
 
@@ -38,6 +38,33 @@ public class TileManager {
 
     }
 
+    /**
+     * Cancella gli enemici attuali e li ricrea con i parametri iniziali
+     */
+    public void RiSetEnemici() {
+
+        //fare cancel degli enimici
+        this.partita.map.removeAllEnimici();
+        Personaggi = new ArrayList<>();
+
+        SetEnemici();
+        Personaggi.addAll(partita.map.Enemici);
+    }
+
+    public void RiSetPowerUps() {
+        this.partita.map.resetPowerUpsTiles();
+
+        this.giocatore.attaco.resetQuantitaBombe();
+        this.giocatore.movimento.resetVelocita();
+        this.giocatore.attaco.resetExplosionRange();
+
+
+    }
+
+
+    private void SetEnemici() {
+        this.partita.map.setEnemici(this);
+    }
 
     /**
      * Add degli altri personaggi oltre al giocatore principale

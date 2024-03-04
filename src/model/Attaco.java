@@ -15,12 +15,14 @@ public class Attaco extends Observable {
     ArrayList<Bomb> bombs = new ArrayList<>();
 
     int quantitaExtraBombe;
+    int quantitaExtraBombeIniziale;
 
     int contBombeAttive;
 
     //Fare questo attributo "propio" del momento e non dipendente della classe "bomb"
     //Cosi ogni bomba nel corso del tempo, avra il suo explosion range del momento della sua creazione
     int explosionRange = 3; //Questo numero deve essere sempre dispari. per poter fare la croce. conta anche la explosion del centro
+    int explosionRangeIniziale = 3;
 
     public ArrayList<Bomb> getBombs() {
         return bombs;
@@ -50,6 +52,8 @@ public class Attaco extends Observable {
     public Attaco(int quantitaExtraBombe) {
 
         this.quantitaExtraBombe = quantitaExtraBombe;
+        this.quantitaExtraBombeIniziale = quantitaExtraBombe;
+
 
     }
 
@@ -106,6 +110,13 @@ public class Attaco extends Observable {
     }
 
 
+    public void resetQuantitaBombe() {
 
+        quantitaExtraBombe = this.quantitaExtraBombeIniziale;
+    }
 
+    public void resetExplosionRange() {
+
+        explosionRange = explosionRangeIniziale;
+    }
 }

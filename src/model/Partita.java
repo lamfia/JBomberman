@@ -44,11 +44,7 @@ public class Partita extends Observable {
     }
 
 
-    public Partita() throws IOException {
-        //Quando si crea la partita nuova con il primo mappa
-        //si imposta in stato playing
-        //this.statoPartita = StatoPartita.Playing;
-
+    public Partita()  {
 
     }
 
@@ -72,7 +68,6 @@ public class Partita extends Observable {
         points = 0;
 
         //reset del personaggio abilities
-
         try {
             newGame(lastMapPlayed);
         } catch (IOException e) {
