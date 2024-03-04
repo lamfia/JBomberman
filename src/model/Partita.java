@@ -130,6 +130,7 @@ public class Partita extends Observable {
 
     public void OpenPortal() {
         OpenPortal = true;
+        this.map.apriPorta();
         notifica();
     }
 }

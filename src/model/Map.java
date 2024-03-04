@@ -4,6 +4,8 @@ package model;
 import controller.Direzione;
 import controller.TileManager;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class Map {
     public ArrayList<Tile> WalkingTiles = new ArrayList<>();
     public ArrayList<PowerUpTile> PowerUpTiles = new ArrayList<>();
     public ArrayList<Tile> DestructibilesTiles = new ArrayList<>();
-
+    public Tile PortaTile;
 
 
     public Map(Maps selectedMap) throws IOException {
@@ -27,8 +29,9 @@ public class Map {
 
         setTiles();
         setPowerUps();
-    }
 
+        setPorta();
+    }
 
 
     /**
@@ -44,12 +47,39 @@ public class Map {
     }
 
 
-
-    public void  resetMapConfig(){
+    public void resetMapConfig() {
         //Reset enimici
-        this.Enemici= new ArrayList<>();
+        this.Enemici = new ArrayList<>();
         //setEnemici();
     }
+
+    private void setPorta() {
+
+
+
+        switch (selectedMap) {
+
+            case TheSevenSeas:
+                try {
+                    PortaTile= new Tile(580, 480, 46, 46,
+                            "src/view/res/common/DoorClosed.png", false);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+        }
+    }
+
+    public void apriPorta(){
+        try {
+            this.PortaTile.image=  ImageIO.read(new File("src/view/res/common/DoorOpen.png")) ;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 
     /**
      * Get dei tiles della mappa selezionata
@@ -113,12 +143,12 @@ public class Map {
         }
     }
 
-    public void removeAllEnimici(){
-        this.Enemici= new ArrayList<>();
+    public void removeAllEnimici() {
+        this.Enemici = new ArrayList<>();
     }
 
 
-    public void resetPowerUpsTiles(){
+    public void resetPowerUpsTiles() {
         removeAllPowerUps();
 
         try {
@@ -127,8 +157,9 @@ public class Map {
             throw new RuntimeException(e);
         }
     }
-    private void removeAllPowerUps(){
-        this.PowerUpTiles= new ArrayList<>();
+
+    private void removeAllPowerUps() {
+        this.PowerUpTiles = new ArrayList<>();
     }
 
 

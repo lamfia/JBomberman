@@ -192,8 +192,8 @@ public class TileManager {
 
                     }
 
-//TODO decommmentare
-                    //CanOpenPortal();
+
+                    CanOpenPortal();
                     isWin();
 
 
@@ -266,6 +266,11 @@ public class TileManager {
 
 
         }
+
+
+        //Draw della porta
+        g2.drawImage(this.partita.map.PortaTile.image, this.partita.map.PortaTile.x, this.partita.map.PortaTile.y,
+                this.partita.map.PortaTile.width, this.partita.map.PortaTile.height, null);
 
 
         //Draw dei personnaggi
@@ -371,7 +376,7 @@ public class TileManager {
      */
     public void CanOpenPortal() {
 
-        if (partita.map.Enemici.stream().count() == 0) {
+        if (Personaggi.stream().count() == 0) {
             OpenPortal();
         }
     }
@@ -389,7 +394,7 @@ public class TileManager {
 
             //TODO fare condizione di quando il giocatore sta nel portal
 
-            partita.changeStatoPartita(StatoPartita.Win);
+            //partita.changeStatoPartita(StatoPartita.Win);
 
         }
 
