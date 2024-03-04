@@ -24,23 +24,15 @@ public class Main {
         partita.newGame(Maps.TheSevenSeas);
 
 
-
-        //Crea il giocatore
-        var giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
-        ApplicationManager.movimento = giocatore.movimento;
-        ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
-
-
-
-        var keyHandler= new KeyHandler(partita);
+        var keyHandler = new KeyHandler(partita);
         //Crea la view
         var f = new Finestra(800, 600, partita, keyHandler);
 
 
         //Add del giocatore
-        f.getGamePanel().addGiocatore(giocatore);
+        f.getGamePanel().addGiocatore(partita.giocatore);
 
-        var tileM = new TileManager(f.getGamePanel(), giocatore, partita);
+        var tileM = new TileManager(f.getGamePanel(), partita.giocatore, partita);
         tileM.showHitboxes = showHitboxes;
         f.getGamePanel().setTileM(tileM);
 
@@ -50,8 +42,8 @@ public class Main {
 
         //binding tra observer ed observable
         time.addObserver(f.getGamePanel());
-        giocatore.movimento.addObserver(f.getGamePanel());
-        giocatore.attaco.addObserver(f.getGamePanel());
+        partita.giocatore.movimento.addObserver(f.getGamePanel());
+        partita.giocatore.attaco.addObserver(f.getGamePanel());
 
         partita.addObserver(f.getGamePanel());
 
@@ -62,9 +54,7 @@ public class Main {
         while (true) {
             try {
 
-                //Implementare qui i movimenti degli enimici
-
-               // time.notifyCurrentTime(); TODO spostare in partita model
+                //time.notifyCurrentTime(); TODO spostare in partita model
 
                 f.getGamePanel().repaintTask();
 

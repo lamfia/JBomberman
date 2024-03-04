@@ -324,7 +324,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                     switch (partita.statoPartita) {
 
-                        //Primo title state =1
+                        //Primo title state =0
                         case Title:
 
                             switch (commandNum) {
@@ -332,6 +332,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 //Start
                                 case 0:
                                     partita.statoPartita = StatoPartita.Playing;
+
+                                    //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+                                    tileM.RiSetEnemici();
+                                    tileM.RiSetPowerUps();
+
                                     break;
                                 //Load Game
                                 case 1:
@@ -354,7 +359,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                             break;
                         case GameOver:
 
-
                             switch (commandNum) {
 
                                 //Continue
@@ -374,8 +378,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                                 //Quit (Return to menu)
                                 case 2:
-//                                    partita.stopGame();
-//                                    cambioMenuReset(3);
+                                    TitleScreenState=0;
+                                    partita.changeStatoPartita(StatoPartita.Title);
+                                    cambioMenuReset(3);
                                     break;
 
                             }
@@ -386,7 +391,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                                 //Next Stage
                                 case 0:
-//                                    partita.continueGame();
+                                    try {
+                                        partita.newGame(Maps.Spaceman);
+                                        partita.changeStatoPartita(StatoPartita.Playing);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
 //                                    //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
 //                                    tileM.RiSetEnemici();
 //                                    tileM.RiSetPowerUps();
@@ -400,8 +410,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                                 //Quit (Return to menu)
                                 case 2:
-//                                    partita.stopGame();
-//                                    cambioMenuReset(3);
+                                    TitleScreenState=0;
+                                    partita.changeStatoPartita(StatoPartita.Title);
+                                    cambioMenuReset(3);
                                     break;
 
                             }

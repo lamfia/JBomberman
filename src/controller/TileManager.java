@@ -194,7 +194,6 @@ public class TileManager {
 
 
                     CanOpenPortal();
-                    isWin();
 
 
                     //Logica esplosion dei tiles
@@ -390,15 +389,25 @@ public class TileManager {
 
     public void isWin() {
 
-        if (Personaggi.stream().count() == 0) {
 
-            //TODO fare condizione di quando il giocatore sta nel portal
+        if (partita.isGameRunning()) {
 
-            //partita.changeStatoPartita(StatoPartita.Win);
+            //Se sono tutti gli enemici eliminati
+            if (Personaggi.stream().count() == 0) {
+
+                //Se il portale è aperto
+                if (this.partita.OpenPortal == true) {
+
+                    //Se il giocatore sta nel portale
+                    var win = this.partita.map.PortaTile.collisionRectangle.intersects(giocatore.movimento.posizione.hitbox);
+
+                    if (win == true) {
+                        partita.changeStatoPartita(StatoPartita.Win);
+                    }
+                }
+            }
 
         }
-
-
     }
 
     /**
@@ -409,6 +418,7 @@ public class TileManager {
      */
     public void AzioneListener(Posizione posizione) {
         isGameOver();
+        isWin();
         //Se non è il giocatore return!
         if (posizione != giocatore.movimento.posizione) {
             return;

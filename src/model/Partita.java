@@ -1,5 +1,6 @@
 package model;
 
+import controller.ApplicationManager;
 import controller.TileManager;
 
 import java.io.IOException;
@@ -22,15 +23,15 @@ public class Partita extends Observable {
 
     public int points;
 
+    public Giocatore giocatore;
 
     public boolean OpenPortal = false;
-
 
     private Maps lastMapPlayed;
 
     public boolean isTitleState() {
 
-        if (statoPartita == StatoPartita.Title || statoPartita == StatoPartita.GameOver || statoPartita==StatoPartita.Win) {
+        if (statoPartita == StatoPartita.Title || statoPartita == StatoPartita.GameOver || statoPartita == StatoPartita.Win) {
             return true;
         }
 
@@ -48,14 +49,18 @@ public class Partita extends Observable {
 
 
     public Partita() {
-
+        //Crea il giocatore
+        this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
+        ApplicationManager.movimento = giocatore.movimento;
+        ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
 
     public void newGame(Maps selectedMap) throws IOException {
-
-
+        OpenPortal=false;
         lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
+
+        //TODO METTERE QUI IL CAMBIO DI X E Y DEL GIOCATORE
     }
 
     public void continueGame() {
@@ -65,7 +70,7 @@ public class Partita extends Observable {
 
     }
 
-    private void resetGame() {
+    public void resetGame() {
 
         //TODO
         points = 0;
