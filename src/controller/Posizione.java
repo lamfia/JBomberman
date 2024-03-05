@@ -48,7 +48,7 @@ public class Posizione {
 
     }
 
-    private void AggiornaHitbox(){
+    public void AggiornaHitbox(){
         this.hitbox = new Rectangle(pos_x + 8, pos_y + 14, width - 19, height - 20);
     }
 

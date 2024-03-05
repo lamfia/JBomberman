@@ -50,7 +50,8 @@ public class Partita extends Observable {
 
     public Partita() {
         //Crea il giocatore
-        this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
+        //this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
+        this.giocatore = new Giocatore(0, 0, 3, 2, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
@@ -60,14 +61,25 @@ public class Partita extends Observable {
         lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
 
-        //TODO METTERE QUI IL CAMBIO DI X E Y DEL GIOCATORE
+       this.giocatore.movimento.posizione.pos_x= map.getXInizialeGiocatore();
+       this.giocatore.movimento.posizione.pos_y= map.getYInizialeGiocatore();
+
+       this.giocatore.movimento.posizione.pos_x_iniziale= map.getXInizialeGiocatore();
+       this.giocatore.movimento.posizione.pos_y_iniziale= map.getYInizialeGiocatore();
+
+        this.giocatore.movimento.posizione.AggiornaHitbox();
+
+        // TP del giocatore in posizione iniziale
+//        giocatore.movimento.posizione.pos_x = giocatore.movimento.posizione.pos_x_iniziale;
+//        giocatore.movimento.posizione.pos_y = giocatore.movimento.posizione.pos_y_iniziale;
+
     }
 
     public void continueGame() {
 
         resetGame();
         this.statoPartita = StatoPartita.Playing;
-
+        this.giocatore.reimpostaViteIniziali();
     }
 
     public void resetGame() {

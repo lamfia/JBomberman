@@ -22,7 +22,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Graphics2D externalGraphics;
     private Giocatore player;
 
-    private int TitleScreenState = 0; //0: prima title ; 1: load game ; 2:stage select
+    private int TitleScreenState = 0; //0: prima title ; 1: load game(TODO)
+    // ; 2:stage select
 
     public Partita partita;
 
@@ -220,10 +221,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         }
 
-
         //Stage select
         if (TitleScreenState == 2) {
-
 
             //Level 1 pirates
             g2.setColor(Color.white);
@@ -239,6 +238,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             g2.drawString("Level 2 - Spaceman", 260, 300);
             if (commandNum == 1) {
                 g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+            }
+
+            //Return menu
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Return menu", 260, 350);
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
             }
         }
     }
@@ -282,9 +289,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 cambioMenuReset(2);
             }
 
-            if (partita.OpenPortal == true) {
-                //TODO fare qui il cambio di sprite del portale
-            }
 
         }
 
@@ -311,22 +315,33 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             var direzione = (Direzione) arg;
             //System.out.println(direzione.toString());
 
-            switch (direzione) {
-                case UP:
-                    if (commandNum > 0)
-                        commandNum -= 1;
-                    break;
-                case DOWN:
-                    if (commandNum < MaxcommandNum)
-                        commandNum += 1;
-                    break;
-                case SPACE:
+            gestioneMenu(direzione);
 
-                    switch (partita.statoPartita) {
+            repaint();
 
-                        //Primo title state =0
-                        case Title:
+        }
 
+
+    }
+
+    private void gestioneMenu(Direzione direzione) {
+        switch (direzione) {
+            case UP:
+                if (commandNum > 0)
+                    commandNum -= 1;
+                break;
+            case DOWN:
+                if (commandNum < MaxcommandNum)
+                    commandNum += 1;
+                break;
+            case SPACE:
+
+                switch (partita.statoPartita) {
+
+                    //Primo title state =0
+                    case Title:
+
+                        if (TitleScreenState == 0) {
                             switch (commandNum) {
 
                                 //Start
@@ -347,7 +362,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     //Secondo title state =2
                                     TitleScreenState = 2;
                                     //Cambio di menu
-                                    cambioMenuReset(1);
+                                    cambioMenuReset(2);
                                     break;
 
                                 //Quit
@@ -356,79 +371,105 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     break;
 
                             }
-                            break;
-                        case GameOver:
+                        } else if (TitleScreenState == 2) {
 
+                            //Stage Select state
                             switch (commandNum) {
 
-                                //Continue
                                 case 0:
-                                    partita.continueGame();
-
-                                    //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
-                                    tileM.RiSetEnemici();
-                                    tileM.RiSetPowerUps();
+                                    System.out.println("Pirates");
+                                    try {
+                                        partita.newGame(Maps.TheSevenSeas);
+                                        partita.changeStatoPartita(StatoPartita.Playing);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     break;
-
-                                //Save Game
+                                //Load Game
                                 case 1:
-//                                    partita.SaveGame();
-//                                    System.out.println("Save Game");
-                                    break;
-
-                                //Quit (Return to menu)
-                                case 2:
-                                    TitleScreenState=0;
-                                    partita.changeStatoPartita(StatoPartita.Title);
-                                    cambioMenuReset(3);
-                                    break;
-
-                            }
-                            break;
-
-                        case Win:
-                            switch (commandNum) {
-
-                                //Next Stage
-                                case 0:
+                                    System.out.println("Spaceman");
                                     try {
                                         partita.newGame(Maps.Spaceman);
                                         partita.changeStatoPartita(StatoPartita.Playing);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
+                                    break;
+                                //return menu
+                                case 2:
+                                    TitleScreenState = 0;
+                                    cambioMenuReset(3);
+                                    break;
+                            }
+                        }
+
+                        break;
+                    case GameOver:
+
+                        switch (commandNum) {
+
+                            //Continue
+                            case 0:
+                                partita.continueGame();
+
+                                //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
+                                tileM.RiSetEnemici();
+                                tileM.RiSetPowerUps();
+                                break;
+
+                            //Save Game
+                            case 1:
+//                                    partita.SaveGame();
+//                                    System.out.println("Save Game");
+                                break;
+
+                            //Quit (Return to menu)
+                            case 2:
+                                TitleScreenState = 0;
+                                partita.changeStatoPartita(StatoPartita.Title);
+                                cambioMenuReset(3);
+                                break;
+
+                        }
+                        break;
+
+                    case Win:
+                        switch (commandNum) {
+
+                            //Next Stage
+                            case 0:
+                                try {
+                                    partita.newGame(Maps.Spaceman);
+                                    partita.changeStatoPartita(StatoPartita.Playing);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
 //                                    //Qui si fa il reset degli enimici, powerupTiles della mappa selezionata
 //                                    tileM.RiSetEnemici();
 //                                    tileM.RiSetPowerUps();
-                                    break;
+                                break;
 
-                                //Save Game
-                                case 1:
+                            //Save Game
+                            case 1:
 //                                    partita.SaveGame();
 //                                    System.out.println("Save Game");
-                                    break;
+                                break;
 
-                                //Quit (Return to menu)
-                                case 2:
-                                    TitleScreenState=0;
-                                    partita.changeStatoPartita(StatoPartita.Title);
-                                    cambioMenuReset(3);
-                                    break;
+                            //Quit (Return to menu)
+                            case 2:
+                                TitleScreenState = 0;
+                                partita.changeStatoPartita(StatoPartita.Title);
+                                cambioMenuReset(3);
+                                break;
 
-                            }
-                            break;
-
-
-                    }
+                        }
+                        break;
 
 
-            }
+                }
 
-            repaint();
 
         }
-
-
     }
 
 

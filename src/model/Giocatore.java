@@ -17,6 +17,7 @@ public class Giocatore extends Personaggio {
     public Attaco attaco;
 
     public int vite;
+    public int vite_inziali;
 
 
     public Giocatore(int posX, int posY, int vite, int velocita, int widht, int height) {
@@ -27,6 +28,7 @@ public class Giocatore extends Personaggio {
         this.attaco = new Attaco(0);
 
         this.vite=vite;
+        this.vite_inziali=vite;
 
         //TODO fare set degli sprites un metodo generico per tutti personaggi
         //Set degli sprites
@@ -62,11 +64,16 @@ public class Giocatore extends Personaggio {
     }
 
 
+
     public void morte(){
 
         //TODO FARE ANIMAZIONE DI MORTE , vietare il movimento
         this.vite = this.vite-1;
 
+    }
+
+    public void reimpostaViteIniziali(){
+        this.vite=this.vite_inziali;
     }
 
 

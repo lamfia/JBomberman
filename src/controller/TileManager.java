@@ -237,10 +237,7 @@ public class TileManager {
 
         }
 
-        //Draw dei tiles
-        for (Tile tile : this.partita.map.DestructibilesTiles) {
-            g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
-        }
+
 
         //Draw dei PowerUpds
         for (Tile PowerUpTile : this.partita.map.PowerUpTiles) {
@@ -253,6 +250,7 @@ public class TileManager {
                         PowerUpTile.collisionRectangle.width, PowerUpTile.collisionRectangle.height);
             }
         }
+
 
 
         if (showHitboxes == true) {
@@ -270,6 +268,12 @@ public class TileManager {
         //Draw della porta
         g2.drawImage(this.partita.map.PortaTile.image, this.partita.map.PortaTile.x, this.partita.map.PortaTile.y,
                 this.partita.map.PortaTile.width, this.partita.map.PortaTile.height, null);
+
+
+        //Draw dei tiles
+        for (Tile tile : this.partita.map.DestructibilesTiles) {
+            g2.drawImage(tile.image, tile.x, tile.y, tile.width, tile.height, null);
+        }
 
 
         //Draw dei personnaggi
@@ -314,7 +318,7 @@ public class TileManager {
             if (ExpendedeHitbox != null) {
 
                 g2.setColor(Color.yellow);
-                g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
+               // g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
 
             } else {
 
@@ -329,7 +333,7 @@ public class TileManager {
     }
 
     private long lastHitTime = 0;
-    private final long invulnerabilityDuration = 4000; // 2 secondi di invulnerabilità
+    private final long invulnerabilityDuration = 4000; // 4 secondi di invulnerabilità
 
     private Boolean isGameOver() {
 
