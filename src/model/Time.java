@@ -9,12 +9,7 @@ import java.util.Timer;
 
 public class Time extends Observable {
 
-
-
     public Duration currentTime;
-
-
-
 
      public Time(){
          currentTime =  Duration.ZERO;

@@ -1,15 +1,13 @@
 package view;
 
 
-import controller.Direzione;
-import controller.KeyHandler;
-import controller.Posizione;
-import controller.TileManager;
+import controller.*;
 import model.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -221,6 +219,57 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         }
 
+        //Load Game
+        if (TitleScreenState == 1) {
+
+
+            //Save 1
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("1) ", 260, 250);
+            drawSavedGame(g2, 0, 230, 220);
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+            }
+
+            //Save 2
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("2) ", 260, 300);
+            drawSavedGame(g2, 1, 230, 270);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+            }
+
+            //Save 3
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("3) ", 260, 350);
+            drawSavedGame(g2, 2, 230, 320);
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
+            }
+
+            //Save 4
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("4)", 260, 400);
+            drawSavedGame(g2, 3, 230, 370);
+            if (commandNum == 3) {
+                g2.drawImage(bombMenuImage, 230, 370, 27, 37, this);
+            }
+
+            //Return menu
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+            g2.drawString("Return menu", 260, 450);
+            if (commandNum == 4) {
+                g2.drawImage(bombMenuImage, 230, 420, 27, 37, this);
+            }
+
+        }
+
+
         //Stage select
         if (TitleScreenState == 2) {
 
@@ -248,6 +297,52 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
             }
         }
+    }
+
+    private void drawSavedGame(Graphics2D g2, int idSavedGame, int x, int y) {
+
+        //Get x utente
+        var gestioneUtente = new GestioneUtente();
+//       // var utente = gestioneUtente.getUtenti().stream().findFirst().getFirst(idSavedGame);
+//
+//
+//        Optional<Utente> utente = gestioneUtente.getUtenti().stream()
+//                .skip(idSavedGame)  // Salta i primi elementi
+//                .findFirst();
+
+
+
+       var  utenti = gestioneUtente.getUtenti();
+
+        if (idSavedGame >= 7 && idSavedGame < utenti.size()){
+
+            Utente utente = utenti.get(idSavedGame);
+            try {
+                //Icon
+                var AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(utente.avatar)));
+                g2.drawImage(AvatarIcon, x + 70, y - 10, 60, 50, this);
+
+                g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16F));
+                //Nickname
+                g2.drawString("Nickname: " + utente.Nickname, x + 130, y);
+                g2.drawString("Games played: " + utente.partiteGiocate, x + 310, y);
+                g2.drawString("Wins: " + utente.partiteVinte, x + 450, y );
+                g2.drawString("Loses: " + utente.partitePerse, x + 130, y + 30);
+                g2.drawString("Level reached: " + utente.lastLevelArrived, x + 220, y + 30);
+                g2.drawString("Points: " +utente.puntiOttenuti, x + 360, y+30);
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16F));
+            g2.drawString("NO DATA", x + 130, y+20);
+
+        }
+
+
+
     }
 
     public void drawTiles() {
@@ -355,7 +450,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     break;
                                 //Load Game
                                 case 1:
-                                    System.out.println("Load Game");
+                                    //Gestione utente
+                                    TitleScreenState = 1;
+                                    cambioMenuReset(4);
                                     break;
                                 //Stage select
                                 case 2:
@@ -370,6 +467,32 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     System.exit(0);
                                     break;
 
+                            }
+                        } else if (TitleScreenState == 1) {
+
+                            //Load save
+                            switch (commandNum) {
+
+                                //Save 1
+                                case 0:
+                                    System.out.println("Save 1");
+                                    break;
+                                //save 2
+                                case 1:
+                                    System.out.println("Save 2");
+                                    break;
+                                case 2:
+                                    System.out.println("Save 3");
+                                    break;
+                                case 3:
+                                    System.out.println("Save 4");
+                                    break;
+
+                                //return menu
+                                case 4:
+                                    TitleScreenState = 0;
+                                    cambioMenuReset(3);
+                                    break;
                             }
                         } else if (TitleScreenState == 2) {
 
@@ -550,7 +673,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         g2.fillRect(0, 0, 900, 30);
 
         //Bomberman icon image
-        var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman icon.png"));
+        var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman.png"));
 
         int totvite = player.vite;
 
