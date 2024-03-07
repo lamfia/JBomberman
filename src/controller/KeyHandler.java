@@ -33,7 +33,7 @@ public class KeyHandler extends Observable implements KeyListener {
 
         int code = e.getKeyCode();
 
-        //TODO gestire bene il movimento nel caso di title o in game
+
 
         if (code == KeyEvent.VK_W) {
 
@@ -90,6 +90,12 @@ public class KeyHandler extends Observable implements KeyListener {
 
         }
 
+
+        //Solo in title e quando si crea l'utente, conferma di nickname
+
+        if(code==KeyEvent.VK_ENTER){
+            System.out.println("Enter!");
+        }
     }
 
     @Override

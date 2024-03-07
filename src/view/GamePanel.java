@@ -7,6 +7,7 @@ import model.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -308,14 +309,58 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             JTextField textField = new JTextField(30); // Specifica la larghezza desiderata
             textField.setBounds(300, 230, 150, 20);
-            // Aggiunta del JTextField al JPanel
+
+            // Aggiungi un KeyListener al JTextField
+            textField.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        // Se premi "Enter", trasferisci il focus
+                        textField.transferFocus();
+                    }
+                }
+            });
+
+
+//            textField.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(MouseEvent e) {
+//                    // Quando viene cliccato fuori dal JTextField, perdi il focus
+//                    if (!textField.getBounds().contains(e.getPoint())) {
+//                        textField.transferFocus();
+//                    }
+//                }
+//            });
+
+            // Aggiungi il FocusListener al JTextField
+            textField.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    // Questo metodo è chiamato quando il JTextField ottiene il focus
+                    System.out.println("Focus Otttenuto");
+                }
+
+                @Override
+                public void focusLost(FocusEvent e) {
+                    // Questo metodo è chiamato quando il JTextField perde il focus
+                    // Puoi aggiungere qui la logica che vuoi eseguire quando il focus viene perso
+                    System.out.println("Focus perso");
+                }
+
+            });
 
 
             add(textField);
 
+
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 260, 220, 27, 37, this);
+            }
+
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
             g2.drawString("Avatar", 330, 300);
+
 
             var gestioneUtente = new GestioneUtente();
 
@@ -323,36 +368,35 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.Bomberman)));
             g2.drawImage(AvatarIcon, 270, 330, 60, 50, this);
-            if (commandNum == 0) {
+            if (commandNum == 1) {
                 g2.drawImage(bombMenuImage, 285, 370, 27, 37, this);
             }
 
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.BombermanTheKid)));
             g2.drawImage(AvatarIcon, 320, 330, 60, 50, this);
-            if (commandNum == 1) {
+            if (commandNum == 2) {
                 g2.drawImage(bombMenuImage, 335, 370, 27, 37, this);
             }
 
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.PrettyBomberman)));
             g2.drawImage(AvatarIcon, 370, 330, 60, 50, this);
-            if (commandNum == 2) {
+            if (commandNum == 3) {
                 g2.drawImage(bombMenuImage, 385, 370, 27, 37, this);
             }
 
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.PunkBomberman)));
             g2.drawImage(AvatarIcon, 420, 330, 60, 50, this);
-            if (commandNum == 3) {
+            if (commandNum == 4) {
                 g2.drawImage(bombMenuImage, 435, 370, 27, 37, this);
             }
 
-//            //Level 1 pirates
-//            g2.setColor(Color.white);
-//            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-//            g2.drawString("Level 1 - Pirates!", 260, 250);
-//            if (commandNum == 0) {
-//                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
-//            }
 
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+            g2.drawString("Start new game", 270, 440);
+            if (commandNum == 5) {
+                g2.drawImage(bombMenuImage, 240, 410, 27, 37, this);
+            }
 
         }
     }
@@ -552,11 +596,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     if (utente != null) {
                                         partita.LoadGame(0);
                                     } else {
-                                        //new Game
-                                        //Creare new utente TODO
-
+                                        //Crea utente
                                         TitleScreenState = 3;
-                                        cambioMenuReset(4);
+                                        cambioMenuReset(5);
                                         break;
                                     }
 
@@ -580,9 +622,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                         partita.LoadGame(2);
                                     } else {
                                         //new Game
-                                        //Creare new utente TODO
+                                        //Creare new utente
                                         TitleScreenState = 3;
-                                        cambioMenuReset(4);
+                                        cambioMenuReset(5);
                                         break;
                                     }
 
