@@ -16,28 +16,28 @@ public class Main {
         Boolean showHitboxes = false;
         AudioManager.getInstance().enable = true;
 
-        GestioneUtente gestioneUtente = new GestioneUtente();
+        //GestioneUtente gestioneUtente = new GestioneUtente();
 
-        ArrayList<Utente> listaUtenti = new ArrayList<>();
-        var utente = new Utente();
-        utente.Nickname = "Lamfia";
-        utente.avatar = Avatar.BombermanTheKid;
-        utente.lastLevelArrived = 1;
-        utente.partiteGiocate = 2;
-        utente.partiteVinte = 3;
-        utente.partitePerse = 6;
-        listaUtenti.add(utente);
-
-        var utente2 = new Utente();
-        utente2.Nickname = "ProLamfia";
-        utente2.avatar = Avatar.PrettyBomberman;
-        utente2.lastLevelArrived = 2;
-        utente2.partiteGiocate = 4;
-        utente2.partiteVinte = 7;
-        utente2.partitePerse = 10;
-        listaUtenti.add(utente2);
-
-        var Lamfia = gestioneUtente.getUtente("Lamfia");
+//        ArrayList<Utente> listaUtenti = new ArrayList<>();
+//        var utente = new Utente();
+//        utente.Nickname = "Lamfia";
+//        utente.avatar = Avatar.BombermanTheKid;
+//        utente.lastLevelArrived = 1;
+//        utente.partiteGiocate = 2;
+//        utente.partiteVinte = 3;
+//        utente.partitePerse = 6;
+//        listaUtenti.add(utente);
+//
+//        var utente2 = new Utente();
+//        utente2.Nickname = "ProLamfia";
+//        utente2.avatar = Avatar.PrettyBomberman;
+//        utente2.lastLevelArrived = 2;
+//        utente2.partiteGiocate = 4;
+//        utente2.partiteVinte = 7;
+//        utente2.partitePerse = 10;
+//        listaUtenti.add(utente2);
+//
+//        gestioneUtente.salvaUtenti(listaUtenti);
 
 
         //Creazione di partita
@@ -45,12 +45,13 @@ public class Main {
 
         //Set del tile state
         partita.setStatoPartita(StatoPartita.Title);
+
         partita.newGame(Maps.TheSevenSeas); //TODO attenzione al tile M quando si commenta questa, creare il tile M con la partita (?)
 
-
-        var keyHandler = new KeyHandler(partita);
         //Crea la view
+        var keyHandler = new KeyHandler(partita);
         var f = new Finestra(800, 600, partita, keyHandler);
+        keyHandler.addObserver(f.getGamePanel());
 
 
         //Add del giocatore
@@ -58,8 +59,7 @@ public class Main {
 
         var tileM = new TileManager(f.getGamePanel(), partita.giocatore, partita);
         tileM.showHitboxes = showHitboxes;
-        f.getGamePanel().setTileM(tileM);
-
+        f.getGamePanel().setTileM(tileM); //TODO questo si puà spostare quando si crea la partita
         ApplicationManager.movimento.setTileM(tileM);
 
         var time = new Time();
@@ -71,7 +71,7 @@ public class Main {
 
         partita.addObserver(f.getGamePanel());
 
-        keyHandler.addObserver(f.getGamePanel());
+
 
 
         //LOOP DEL GAME

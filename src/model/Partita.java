@@ -1,6 +1,7 @@
 package model;
 
 import controller.ApplicationManager;
+import controller.GestioneUtente;
 import controller.TileManager;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ public class Partita extends Observable {
     public boolean OpenPortal = false;
 
     private Maps lastMapPlayed;
+
+    public Utente utente;
 
     public boolean isTitleState() {
 
@@ -57,15 +60,15 @@ public class Partita extends Observable {
     }
 
     public void newGame(Maps selectedMap) throws IOException {
-        OpenPortal=false;
+        OpenPortal = false;
         lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
 
-       this.giocatore.movimento.posizione.pos_x= map.getXInizialeGiocatore();
-       this.giocatore.movimento.posizione.pos_y= map.getYInizialeGiocatore();
+        this.giocatore.movimento.posizione.pos_x = map.getXInizialeGiocatore();
+        this.giocatore.movimento.posizione.pos_y = map.getYInizialeGiocatore();
 
-       this.giocatore.movimento.posizione.pos_x_iniziale= map.getXInizialeGiocatore();
-       this.giocatore.movimento.posizione.pos_y_iniziale= map.getYInizialeGiocatore();
+        this.giocatore.movimento.posizione.pos_x_iniziale = map.getXInizialeGiocatore();
+        this.giocatore.movimento.posizione.pos_y_iniziale = map.getYInizialeGiocatore();
 
         this.giocatore.movimento.posizione.AggiornaHitbox();
 
@@ -149,5 +152,14 @@ public class Partita extends Observable {
         OpenPortal = true;
         this.map.apriPorta();
         notifica();
+    }
+
+    public void LoadGame(int idUtente) {
+
+        GestioneUtente gestioneUtente = new GestioneUtente();
+        this.utente = gestioneUtente.getUtenti().get(idUtente);
+
+        this.points=utente.puntiOttenuti;
+
     }
 }

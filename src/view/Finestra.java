@@ -28,7 +28,7 @@ public class Finestra extends JFrame {
         Rectangle bounds = graphicsDevice.getDefaultConfiguration().getBounds();
         // frame.setSize(bounds.width, bounds.height);
         frame.setLocationRelativeTo(null);
-        frame.setLocation(bounds.x+500, bounds.y+200);
+        frame.setLocation(bounds.x + 500, bounds.y + 200);
     }
 
     public Finestra(int dimensionWidht, int dimensionHeight, Partita partita, KeyHandler keyHandler) {
@@ -41,7 +41,7 @@ public class Finestra extends JFrame {
         setBounds(0, 0, 800, 600);
         setLayout(null);
         setSize(800, 600);
-        setLocationRelativeTo(null ); //location schermo centro dello schermo
+        setLocationRelativeTo(null); //location schermo centro dello schermo
         setResizable(false); //disable resize dello schermo
 
 
@@ -52,16 +52,19 @@ public class Finestra extends JFrame {
 
 
         this.addKeyListener(keyHandler);
-        this.setFocusable(true);
-        this.setFocusTraversalKeysEnabled(false);
+//        this.setFocusable(true);
+//        this.setFocusTraversalKeysEnabled(false);
 
         setVisible(true);
 
         //GamePanel
+
         gamePanel = new GamePanel(Color.gray, dimensionWidht, dimensionHeight, partita);
+
 
         add(gamePanel);
         gamePanel.setBounds(0, 0, 800, 600);
+        gamePanel.setFocusable(true);
 
         //Questo serve per mettere nel primo schermo il jframe
         showFrameOnScreen(this, 1);

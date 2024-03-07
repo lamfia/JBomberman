@@ -20,8 +20,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private Graphics2D externalGraphics;
     private Giocatore player;
 
-    private int TitleScreenState = 0; //0: prima title ; 1: load game(TODO)
-    // ; 2:stage select
+    private int TitleScreenState = 0; //0: prima title ; 1: load game
+    // ; 2:stage select ; 3:CreazioneUtente
 
     public Partita partita;
 
@@ -297,26 +297,79 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
             }
         }
+
+        //Crea Utente
+        if (TitleScreenState == 3) {
+
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+            g2.drawString("Nickname", 300, 210);
+
+
+            JTextField textField = new JTextField(30); // Specifica la larghezza desiderata
+            textField.setBounds(300, 230, 150, 20);
+            // Aggiunta del JTextField al JPanel
+
+
+            add(textField);
+
+            g2.setColor(Color.white);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
+            g2.drawString("Avatar", 330, 300);
+
+            var gestioneUtente = new GestioneUtente();
+
+            BufferedImage AvatarIcon = null;
+
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.Bomberman)));
+            g2.drawImage(AvatarIcon, 270, 330, 60, 50, this);
+            if (commandNum == 0) {
+                g2.drawImage(bombMenuImage, 285, 370, 27, 37, this);
+            }
+
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.BombermanTheKid)));
+            g2.drawImage(AvatarIcon, 320, 330, 60, 50, this);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 335, 370, 27, 37, this);
+            }
+
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.PrettyBomberman)));
+            g2.drawImage(AvatarIcon, 370, 330, 60, 50, this);
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 385, 370, 27, 37, this);
+            }
+
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.PunkBomberman)));
+            g2.drawImage(AvatarIcon, 420, 330, 60, 50, this);
+            if (commandNum == 3) {
+                g2.drawImage(bombMenuImage, 435, 370, 27, 37, this);
+            }
+
+//            //Level 1 pirates
+//            g2.setColor(Color.white);
+//            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+//            g2.drawString("Level 1 - Pirates!", 260, 250);
+//            if (commandNum == 0) {
+//                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+//            }
+
+
+        }
     }
 
     private void drawSavedGame(Graphics2D g2, int idSavedGame, int x, int y) {
 
         //Get x utente
         var gestioneUtente = new GestioneUtente();
-//       // var utente = gestioneUtente.getUtenti().stream().findFirst().getFirst(idSavedGame);
-//
-//
-//        Optional<Utente> utente = gestioneUtente.getUtenti().stream()
-//                .skip(idSavedGame)  // Salta i primi elementi
-//                .findFirst();
+
+        var utenti = gestioneUtente.getUtenti();
 
 
+        Utente utente = getSavedGameEsistente(idSavedGame);
 
-       var  utenti = gestioneUtente.getUtenti();
+        if (utente != null) {
 
-        if (idSavedGame >= 7 && idSavedGame < utenti.size()){
-
-            Utente utente = utenti.get(idSavedGame);
+            // Utente utente = utenti.get(idSavedGame);
             try {
                 //Icon
                 var AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(utente.avatar)));
@@ -326,22 +379,36 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 //Nickname
                 g2.drawString("Nickname: " + utente.Nickname, x + 130, y);
                 g2.drawString("Games played: " + utente.partiteGiocate, x + 310, y);
-                g2.drawString("Wins: " + utente.partiteVinte, x + 450, y );
+                g2.drawString("Wins: " + utente.partiteVinte, x + 450, y);
                 g2.drawString("Loses: " + utente.partitePerse, x + 130, y + 30);
                 g2.drawString("Level reached: " + utente.lastLevelArrived, x + 220, y + 30);
-                g2.drawString("Points: " +utente.puntiOttenuti, x + 360, y+30);
+                g2.drawString("Points: " + utente.puntiOttenuti, x + 360, y + 30);
 
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }else {
+        } else {
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16F));
-            g2.drawString("NO DATA", x + 130, y+20);
+            g2.drawString("NO DATA", x + 130, y + 20);
 
         }
 
 
+    }
+
+    private Utente getSavedGameEsistente(int idSavedGame) {
+        //Get x utente
+        var gestioneUtente = new GestioneUtente();
+
+        var utenti = gestioneUtente.getUtenti();
+
+        if (idSavedGame >= 0 && idSavedGame < utenti.size()) {
+
+            return utenti.get(idSavedGame);
+        } else {
+            return null;
+        }
 
     }
 
@@ -441,11 +508,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                                 //Start
                                 case 0:
-                                    partita.statoPartita = StatoPartita.Playing;
+                                    TitleScreenState = 1;
+                                    cambioMenuReset(4);
 
-                                    //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
-                                    tileM.RiSetEnemici();
-                                    tileM.RiSetPowerUps();
+//                                    partita.statoPartita = StatoPartita.Playing;
+//
+//                                    //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+//                                    tileM.RiSetEnemici();
+//                                    tileM.RiSetPowerUps();
 
                                     break;
                                 //Load Game
@@ -469,13 +539,32 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                             }
                         } else if (TitleScreenState == 1) {
-
+                            Utente utente = null;
                             //Load save
                             switch (commandNum) {
 
                                 //Save 1
                                 case 0:
-                                    System.out.println("Save 1");
+
+                                    //se la partita salvata esiste allora fare carica partita 1
+                                    utente = getSavedGameEsistente(0);
+                                    //Esiste allora carico X partita
+                                    if (utente != null) {
+                                        partita.LoadGame(0);
+                                    } else {
+                                        //new Game
+                                        //Creare new utente TODO
+
+                                        TitleScreenState = 3;
+                                        cambioMenuReset(4);
+                                        break;
+                                    }
+
+                                    partita.statoPartita = StatoPartita.Playing;
+//                                   //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+                                    tileM.RiSetEnemici();
+                                    tileM.RiSetPowerUps();
+
                                     break;
                                 //save 2
                                 case 1:
@@ -483,6 +572,24 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     break;
                                 case 2:
                                     System.out.println("Save 3");
+
+                                    //se la partita salvata esiste allora fare carica partita 1
+                                    utente = getSavedGameEsistente(2);
+                                    //Esiste allora carico X partita
+                                    if (utente != null) {
+                                        partita.LoadGame(2);
+                                    } else {
+                                        //new Game
+                                        //Creare new utente TODO
+                                        TitleScreenState = 3;
+                                        cambioMenuReset(4);
+                                        break;
+                                    }
+
+                                    partita.statoPartita = StatoPartita.Playing;
+//                                   //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+                                    tileM.RiSetEnemici();
+                                    tileM.RiSetPowerUps();
                                     break;
                                 case 3:
                                     System.out.println("Save 4");
@@ -493,6 +600,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     TitleScreenState = 0;
                                     cambioMenuReset(3);
                                     break;
+
+
                             }
                         } else if (TitleScreenState == 2) {
 
