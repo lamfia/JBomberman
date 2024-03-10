@@ -16,30 +16,6 @@ public class Main {
         Boolean showHitboxes = false;
         AudioManager.getInstance().enable = true;
 
-        //GestioneUtente gestioneUtente = new GestioneUtente();
-
-//        ArrayList<Utente> listaUtenti = new ArrayList<>();
-//        var utente = new Utente();
-//        utente.Nickname = "Lamfia";
-//        utente.avatar = Avatar.BombermanTheKid;
-//        utente.lastLevelArrived = 1;
-//        utente.partiteGiocate = 2;
-//        utente.partiteVinte = 3;
-//        utente.partitePerse = 6;
-//        listaUtenti.add(utente);
-//
-//        var utente2 = new Utente();
-//        utente2.Nickname = "ProLamfia";
-//        utente2.avatar = Avatar.PrettyBomberman;
-//        utente2.lastLevelArrived = 2;
-//        utente2.partiteGiocate = 4;
-//        utente2.partiteVinte = 7;
-//        utente2.partitePerse = 10;
-//        listaUtenti.add(utente2);
-//
-//        gestioneUtente.salvaUtenti(listaUtenti);
-
-
         //Creazione di partita
         Partita partita = new Partita();
 
@@ -80,7 +56,9 @@ public class Main {
 
                 //time.notifyCurrentTime(); TODO spostare in partita model
 
+
                 f.getGamePanel().repaintTask();
+
 
                 //f.requestFocus();
 

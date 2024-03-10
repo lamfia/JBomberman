@@ -87,7 +87,7 @@ public class Partita extends Observable {
 
     public void resetGame() {
 
-        //TODO
+
         points = 0;
 
         //reset del personaggio abilities

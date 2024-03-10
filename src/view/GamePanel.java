@@ -89,8 +89,25 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         this.partita = partita;
     }
 
-    public void repaintTask() {
+    int FPS=60;
+    double drawInterval = 1000000000 / FPS;
+    double nextDrawTime = System.nanoTime() + drawInterval;
+
+    public void repaintTask() throws InterruptedException {
         repaint();
+
+        double remaininTime = nextDrawTime - System.nanoTime();
+
+        remaininTime = remaininTime / 1000000;
+
+        if (remaininTime < 0) {
+            remaininTime = 0;
+        }
+
+        Thread.sleep((long) remaininTime);
+
+        nextDrawTime += drawInterval;
+
     }
 
     public void addGiocatore(Giocatore giocatore) throws IOException {
@@ -229,6 +246,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         if (TitleScreenState == 1) {
 
 
+            int arcDiameter = 20; // Puoi personalizzare il raggio del bordo curvo
+            Color colorRect = new Color(0, 0, 255, 150); // 0-255 per RGB, 0-255 per l'alfa (trasparenza
+
+            //rect
+            g2.setColor(colorRect);
+            g2.fillRoundRect(300, 200, 450, 60, arcDiameter, arcDiameter);
+
             //Save 1
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
@@ -237,40 +261,49 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             if (commandNum == 0) {
                 g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
             }
+            int spacebetweenMenuY = 60;
+
+            //rect
+            g2.setColor(colorRect);
+            g2.fillRoundRect(300, 250 + spacebetweenMenuY, 450, 60, arcDiameter, arcDiameter);
 
             //Save 2
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("2) ", 260, 300);
-            drawSavedGame(g2, 1, 230, 270);
+            g2.drawString("2) ", 260, 300 + spacebetweenMenuY);
+            drawSavedGame(g2, 1, 230, 270 + spacebetweenMenuY);
             if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230, 270 + spacebetweenMenuY, 27, 37, this);
             }
+
+            //rect
+            g2.setColor(colorRect);
+            g2.fillRoundRect(300, 320 + spacebetweenMenuY, 450, 60, arcDiameter, arcDiameter);
 
             //Save 3
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("3) ", 260, 350);
-            drawSavedGame(g2, 2, 230, 320);
+            g2.drawString("3) ", 260, 350 + spacebetweenMenuY);
+            drawSavedGame(g2, 2, 230, 320 + spacebetweenMenuY);
             if (commandNum == 2) {
-                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230, 320 + spacebetweenMenuY, 27, 37, this);
             }
 
             //Save 4
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("4)", 260, 400);
-            drawSavedGame(g2, 3, 230, 370);
+            g2.drawString("4)", 260, 400 + spacebetweenMenuY);
+            drawSavedGame(g2, 3, 230, 370 + spacebetweenMenuY);
             if (commandNum == 3) {
-                g2.drawImage(bombMenuImage, 230, 370, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230, 370 + spacebetweenMenuY, 27, 37, this);
             }
 
             //Return menu
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Return menu", 260, 450);
+            g2.drawString("Return menu", 260, 450 + spacebetweenMenuY);
             if (commandNum == 4) {
-                g2.drawImage(bombMenuImage, 230, 420, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230, 420 + spacebetweenMenuY, 27, 37, this);
             }
 
         }
@@ -373,11 +406,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     private void drawSavedGame(Graphics2D g2, int idSavedGame, int x, int y) {
 
-        //Get x utente
         var gestioneUtente = new GestioneUtente();
-
-        var utenti = gestioneUtente.getUtenti();
-
 
         Utente utente = getSavedGameEsistente(idSavedGame);
 
@@ -390,13 +419,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(AvatarIcon, x + 70, y - 10, 60, 50, this);
 
                 g2.setFont(g2.getFont().deriveFont(Font.BOLD, 16F));
-                //Nickname
                 g2.drawString("Nickname: " + utente.Nickname, x + 130, y);
                 g2.drawString("Games played: " + utente.partiteGiocate, x + 310, y);
                 g2.drawString("Wins: " + utente.partiteVinte, x + 450, y);
-                g2.drawString("Loses: " + utente.partitePerse, x + 130, y + 30);
-                g2.drawString("Level reached: " + utente.lastLevelArrived, x + 220, y + 30);
-                g2.drawString("Points: " + utente.puntiOttenuti, x + 360, y + 30);
+                g2.drawString("Loses: " + utente.partitePerse, x + 130, y + 24);
+                g2.drawString("Level reached: " + utente.lastLevelArrived, x + 220, y + 24);
+                g2.drawString("Points: " + utente.puntiOttenuti, x + 360, y + 24);
 
 
             } catch (IOException e) {
@@ -416,6 +444,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         var gestioneUtente = new GestioneUtente();
 
         var utenti = gestioneUtente.getUtenti();
+
+        if (utenti == null) {
+            return null;
+        }
+
 
         if (idSavedGame >= 0 && idSavedGame < utenti.size()) {
 
@@ -568,6 +601,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                         this.TitleScreenState = 0;
 
+                        NewNickName = "";
+                        newUtente = new Utente();
                     }
                 }
 
@@ -652,37 +687,39 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 //Save 1
                                 case 0:
 
-                                     LoadGame(0);
+                                    LoadGame(0);
 
                                     break;
                                 //save 2
                                 case 1:
-                                    System.out.println("Save 2");
+                                    // System.out.println("Save 2");
+                                    LoadGame(1);
                                     break;
                                 case 2:
                                     System.out.println("Save 3");
-
-                                    //se la partita salvata esiste allora fare carica partita 1
-                                    utente = getSavedGameEsistente(2);
-                                    //Esiste allora carico X partita
-                                    if (utente != null) {
-                                        utente.partiteGiocate = utente.partiteGiocate + 1;
-                                        partita.LoadGame(2);
-                                    } else {
-                                        //new Game
-                                        //Creare new utente
-                                        TitleScreenState = 3;
-                                        cambioMenuReset(5);
-                                        break;
-                                    }
-
-                                    partita.statoPartita = StatoPartita.Playing;
-//                                   //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
-                                    tileM.RiSetEnemici();
-                                    tileM.RiSetPowerUps();
+                                    LoadGame(2);
+//                                    //se la partita salvata esiste allora fare carica partita 1
+//                                    utente = getSavedGameEsistente(2);
+//                                    //Esiste allora carico X partita
+//                                    if (utente != null) {
+//                                        utente.partiteGiocate = utente.partiteGiocate + 1;
+//                                        partita.LoadGame(2);
+//                                    } else {
+//                                        //new Game
+//                                        //Creare new utente
+//                                        TitleScreenState = 3;
+//                                        cambioMenuReset(5);
+//                                        break;
+//                                    }
+//
+//                                    partita.statoPartita = StatoPartita.Playing;
+////                                   //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+//                                    tileM.RiSetEnemici();
+//                                    tileM.RiSetPowerUps();
                                     break;
                                 case 3:
-                                    System.out.println("Save 4");
+                                    // System.out.println("Save 4");
+                                    LoadGame(3);
                                     break;
 
                                 //return menu
@@ -801,9 +838,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Esiste allora carico la new partita e azzero i parametri della new partita
         if (utente != null) {
             utente.partiteGiocate = utente.partiteGiocate + 1;
-            utente.puntiOttenuti =0;
+            utente.puntiOttenuti = 0;
             SalvaModificheUtente(utente);
-            partita.LoadGame(0);
+            partita.LoadGame(saveId);
         } else {
             //Crea utente
             TitleScreenState = 3;
@@ -888,8 +925,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private void drawInfoGame(Graphics2D g2) throws IOException {
 
         //Timer del gioco //TODO spostare in partita model
-        g2.setColor(Color.white);
-        g2.drawString(TempoGioco, 100, 20);
+//        g2.setColor(Color.white);
+//        g2.drawString(TempoGioco, 100, 20);
 
         Color c = new Color(0, 0, 0f, .4f);
         g2.setColor(c);
@@ -900,9 +937,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
         int totvite = player.vite;
 
+        g2.setColor(Color.white);
+        g2.drawString("Lifes: ", 170, 20);
         int x_spacebetween = 200;
         for (int i = 0; i < totvite; i++) {
-            g2.drawImage(bombermanIcon, x_spacebetween, 8, 20, 20, this);
+            g2.drawImage(bombermanIcon, x_spacebetween, -8, 55, 45, this);
             x_spacebetween += 40;
         }
 

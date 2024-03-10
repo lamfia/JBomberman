@@ -1,11 +1,38 @@
 [
   {
-    "Nickname": "Lamfia",
+    "Nickname": "LAMFIAUNO",
     "avatar": "BombermanTheKid",
     "partiteGiocate": 4,
-    "partiteVinte": 2,
-    "partitePerse": 3,
-    "lastLevelArrived": 1,
+    "partiteVinte": 3,
+    "partitePerse": 0,
+    "lastLevelArrived": 2,
     "puntiOttenuti": 100
+  },
+  {
+    "Nickname": "LAMFIADOS",
+    "avatar": "Bomberman",
+    "partiteGiocate": 1,
+    "partiteVinte": 1,
+    "partitePerse": 0,
+    "lastLevelArrived": 1,
+    "puntiOttenuti": 200
+  },
+  {
+    "Nickname": "PLAYERTRE",
+    "avatar": "PrettyBomberman",
+    "partiteGiocate": 1,
+    "partiteVinte": 1,
+    "partitePerse": 0,
+    "lastLevelArrived": 1,
+    "puntiOttenuti": 300
+  },
+  {
+    "Nickname": "PLAYERQUA",
+    "avatar": "PunkBomberman",
+    "partiteGiocate": 1,
+    "partiteVinte": 1,
+    "partitePerse": 0,
+    "lastLevelArrived": 1,
+    "puntiOttenuti": 400
   }
 ]
