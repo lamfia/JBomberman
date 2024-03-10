@@ -26,6 +26,10 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     public Partita partita;
 
+    public String NewNickName = "";
+
+    public Utente newUtente = new Utente();
+
     /**
      * Dimensioni del gamePanel
      **/
@@ -34,6 +38,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     private int commandNum = 0;
     private int MaxcommandNum = 3;
+    private int MincommandNum = 0;
 
     Thread gameThread;
 
@@ -306,52 +311,17 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
             g2.drawString("Nickname", 300, 210);
 
+//
+//            JTextField textField = new JTextField(30); // Specifica la larghezza desiderata
+//            textField.setBounds(300, 230, 150, 20);
+//            add(textField);
 
-            JTextField textField = new JTextField(30); // Specifica la larghezza desiderata
-            textField.setBounds(300, 230, 150, 20);
+            g2.setColor(Color.white);
+            g2.fillRect(300, 230, 150, 20);
 
-            // Aggiungi un KeyListener al JTextField
-            textField.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        // Se premi "Enter", trasferisci il focus
-                        textField.transferFocus();
-                    }
-                }
-            });
-
-
-//            textField.addMouseListener(new MouseAdapter() {
-//                @Override
-//                public void mouseClicked(MouseEvent e) {
-//                    // Quando viene cliccato fuori dal JTextField, perdi il focus
-//                    if (!textField.getBounds().contains(e.getPoint())) {
-//                        textField.transferFocus();
-//                    }
-//                }
-//            });
-
-            // Aggiungi il FocusListener al JTextField
-            textField.addFocusListener(new FocusListener() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    // Questo metodo è chiamato quando il JTextField ottiene il focus
-                    System.out.println("Focus Otttenuto");
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    // Questo metodo è chiamato quando il JTextField perde il focus
-                    // Puoi aggiungere qui la logica che vuoi eseguire quando il focus viene perso
-                    System.out.println("Focus perso");
-                }
-
-            });
-
-
-            add(textField);
-
+            g2.setColor(Color.BLACK);
+            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 15f));
+            g2.drawString(NewNickName, 300, 250);
 
             if (commandNum == 0) {
                 g2.drawImage(bombMenuImage, 260, 220, 27, 37, this);
@@ -456,6 +426,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
+    private void SalvaModificheUtente(Utente utente) {
+        var gestioneUtente = new GestioneUtente();
+        gestioneUtente.salvaModificheUtente(utente);
+
+    }
+
     public void drawTiles() {
 
         tileM.draw(this.externalGraphics);
@@ -470,6 +446,15 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         commandNum = 0;
         MaxcommandNum = maxCommandNum;
     }
+
+    private void cambioMenuReset(int minCommandNum, int maxCommandNum) {
+        //Cambio di menu
+        MincommandNum = minCommandNum;
+        MaxcommandNum = maxCommandNum;
+
+    }
+
+    public final static String alphabet = "qwertyuiopasdfghjklzxcvbnm";
 
     @Override
     public void update(Observable observable, Object arg) {
@@ -488,11 +473,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             var partita = (Partita) arg;
             if (partita.statoPartita == StatoPartita.GameOver) {
-                cambioMenuReset(2);
+                commandNum = 0;
+                cambioMenuReset(0, 2);
             }
 
             if (partita.statoPartita == StatoPartita.Win) {
-                cambioMenuReset(2);
+                commandNum = 0;
+                cambioMenuReset(0, 2);
             }
 
 
@@ -518,10 +505,84 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Title manager
         if (observable instanceof KeyHandler) {
 
-            var direzione = (Direzione) arg;
+            String lettera = (String) arg;
             //System.out.println(direzione.toString());
 
-            gestioneMenu(direzione);
+            //Sta in creazione utente
+            if (this.TitleScreenState == 3) {
+
+                //Se nickname is null allora lo deve inserire
+                if (newUtente.Nickname == null) {
+                    //Seleziona nickname
+                    if (lettera.equals("Backspace") || lettera.equals("Space")) {
+                        if (!NewNickName.isEmpty()) {
+                            NewNickName = NewNickName.substring(0, NewNickName.length() - 1);
+                        }
+                    } else {
+                        if (alphabet.contains(lettera.toLowerCase())) {
+                            NewNickName += lettera.toUpperCase();
+                        }
+                    }
+
+                    if (lettera.equals("Enter") && !NewNickName.isEmpty()) {
+                        gestioneMenu(Direzione.DOWN);
+                        newUtente.Nickname = NewNickName;
+                        commandNum = 1;
+                        cambioMenuReset(1, 4);
+                    }
+                } else if (newUtente.avatar == null) {
+                    //Se avatar non c'è lo deve inserire selezionando destrta e sinistra
+                    if (lettera.equals("A")) {
+                        gestioneMenu(Direzione.UP);
+                    } else if (lettera.equals("D")) {
+                        gestioneMenu(Direzione.DOWN);
+                    } else if (lettera.equals("Space")) {
+                        gestioneMenu(Direzione.SPACE);
+                    }
+
+                    if (lettera.equals("Enter")) {
+
+                        Avatar newAvatar = null;
+                        switch (commandNum) {
+                            case 1 -> newAvatar = Avatar.Bomberman;
+                            case 2 -> newAvatar = Avatar.BombermanTheKid;
+                            case 3 -> newAvatar = Avatar.PrettyBomberman;
+                            case 4 -> newAvatar = Avatar.PunkBomberman;
+                        }
+                        newUtente.avatar = newAvatar;
+
+                        commandNum = 5;
+                        cambioMenuReset(5, 5);
+                    }
+
+                } else {
+                    //start new game!
+                    if (lettera.equals("Enter")) {
+
+                        partita.utente = newUtente;
+
+                        partita.statoPartita = StatoPartita.Playing;
+                        //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+                        tileM.RiSetEnemici();
+                        tileM.RiSetPowerUps();
+
+                        this.TitleScreenState = 0;
+
+                    }
+                }
+
+
+            } else {
+
+                if (lettera.equals("W")) {
+                    gestioneMenu(Direzione.UP);
+                } else if (lettera.equals("S")) {
+                    gestioneMenu(Direzione.DOWN);
+                } else if (lettera.equals("Enter")) {
+                    gestioneMenu(Direzione.SPACE);
+                }
+            }
+
 
             repaint();
 
@@ -530,10 +591,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
+
     private void gestioneMenu(Direzione direzione) {
         switch (direzione) {
             case UP:
-                if (commandNum > 0)
+                if (commandNum > MincommandNum)
                     commandNum -= 1;
                 break;
             case DOWN:
@@ -590,22 +652,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 //Save 1
                                 case 0:
 
-                                    //se la partita salvata esiste allora fare carica partita 1
-                                    utente = getSavedGameEsistente(0);
-                                    //Esiste allora carico X partita
-                                    if (utente != null) {
-                                        partita.LoadGame(0);
-                                    } else {
-                                        //Crea utente
-                                        TitleScreenState = 3;
-                                        cambioMenuReset(5);
-                                        break;
-                                    }
-
-                                    partita.statoPartita = StatoPartita.Playing;
-//                                   //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
-                                    tileM.RiSetEnemici();
-                                    tileM.RiSetPowerUps();
+                                     LoadGame(0);
 
                                     break;
                                 //save 2
@@ -619,6 +666,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     utente = getSavedGameEsistente(2);
                                     //Esiste allora carico X partita
                                     if (utente != null) {
+                                        utente.partiteGiocate = utente.partiteGiocate + 1;
                                         partita.LoadGame(2);
                                     } else {
                                         //new Game
@@ -744,6 +792,30 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
 
         }
+    }
+
+    private void LoadGame(int saveId) {
+
+        var utente = getSavedGameEsistente(saveId);
+
+        //Esiste allora carico la new partita e azzero i parametri della new partita
+        if (utente != null) {
+            utente.partiteGiocate = utente.partiteGiocate + 1;
+            utente.puntiOttenuti =0;
+            SalvaModificheUtente(utente);
+            partita.LoadGame(0);
+        } else {
+            //Crea utente
+            TitleScreenState = 3;
+            cambioMenuReset(5);
+            return;
+        }
+
+        partita.statoPartita = StatoPartita.Playing;
+        //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+        tileM.RiSetEnemici();
+        tileM.RiSetPowerUps();
+
     }
 
 

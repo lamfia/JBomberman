@@ -45,20 +45,14 @@ public class Finestra extends JFrame {
         setResizable(false); //disable resize dello schermo
 
 
-//        JButton bInc = new JButton("PROVA BUTTON");
-//        add(bInc);
-//        bInc.setBounds(200, 140, 40, 40);
-//        bInc.addActionListener(new IncrementoListener());
-
 
         this.addKeyListener(keyHandler);
-//        this.setFocusable(true);
+        this.setFocusable(true);
 //        this.setFocusTraversalKeysEnabled(false);
 
         setVisible(true);
 
         //GamePanel
-
         gamePanel = new GamePanel(Color.gray, dimensionWidht, dimensionHeight, partita);
 
 

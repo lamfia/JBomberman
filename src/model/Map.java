@@ -238,7 +238,7 @@ public class Map {
 
         switch (selectedMap) {
             case TheSevenSeas:
-                this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
+               // this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
                 this.Enemici.add(new Enemico(180, 130, 4, 40, 40, Direzione.DOWN, tileM));
                 break;
 

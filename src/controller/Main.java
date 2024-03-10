@@ -51,6 +51,8 @@ public class Main {
         //Crea la view
         var keyHandler = new KeyHandler(partita);
         var f = new Finestra(800, 600, partita, keyHandler);
+
+
         keyHandler.addObserver(f.getGamePanel());
 
 
@@ -72,8 +74,6 @@ public class Main {
         partita.addObserver(f.getGamePanel());
 
 
-
-
         //LOOP DEL GAME
         while (true) {
             try {
@@ -81,6 +81,8 @@ public class Main {
                 //time.notifyCurrentTime(); TODO spostare in partita model
 
                 f.getGamePanel().repaintTask();
+
+                //f.requestFocus();
 
             } catch (Exception e) {
                 e.printStackTrace();

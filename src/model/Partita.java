@@ -54,7 +54,7 @@ public class Partita extends Observable {
     public Partita() {
         //Crea il giocatore
         //this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
-        this.giocatore = new Giocatore(0, 0, 3, 2, 40, 40);
+        this.giocatore = new Giocatore(0, 0, 3, 4, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
@@ -127,6 +127,11 @@ public class Partita extends Observable {
 
         if (this.statoPartita == StatoPartita.GameOver) {
             StopGame();
+            SaveGame(StatoPartita.GameOver);
+        }
+
+        if (this.statoPartita == StatoPartita.Win) {
+            SaveGame(StatoPartita.Win);
         }
 
         notifica();
@@ -144,8 +149,57 @@ public class Partita extends Observable {
         //reset e stop del game TODO
     }
 
-    public void SaveGame() {
-        //Save del Game TODO
+
+    /**
+     * Save game in caso di win
+     */
+    private void SaveGame(StatoPartita statoPartita) {
+        var GestioneUtente = new GestioneUtente();
+
+        var listaUtenti = GestioneUtente.getUtenti();
+
+        var utenteTrovatoOptional = listaUtenti.stream().filter(utente -> utente.Nickname.equals(this.utente.Nickname)).findFirst();
+
+        Utente utenteTrovato = null;
+        if (utenteTrovatoOptional.isPresent()) {
+            //get dell'utente esistente
+            utenteTrovato = utenteTrovatoOptional.get();
+        } else {
+            //crea nuovo utente
+            this.utente.partiteGiocate=this.utente.partiteGiocate+1;
+            listaUtenti.add(this.utente);
+            GestioneUtente.salvaUtenti(listaUtenti);
+            utenteTrovato = this.utente;
+        }
+
+
+        //Aggiorna i dati
+        if (statoPartita == StatoPartita.Win) {
+            utenteTrovato.partiteVinte = utenteTrovato.partiteVinte + 1;
+        }
+
+        if (statoPartita == StatoPartita.GameOver) {
+            utenteTrovato.partitePerse = utenteTrovato.partitePerse + 1;
+        }
+
+        utenteTrovato.puntiOttenuti = points;
+
+        utenteTrovato.lastLevelArrived = this.lastMapPlayed.ordinal() + 1;
+
+        // Trova l'indice dell'utente nella lista
+        int IndexSpecifico = listaUtenti.indexOf(utenteTrovato);
+
+        listaUtenti.set(IndexSpecifico, utenteTrovato);
+
+        // Verifica se l'indice è valido prima di aggiornare la lista
+        if (IndexSpecifico != -1) {
+            listaUtenti.set(IndexSpecifico, utenteTrovato);
+            GestioneUtente.salvaUtenti(listaUtenti);
+        } else {
+            System.out.println("Errore: Impossibile trovare l'indice dell'utente nella lista.");
+        }
+
+
     }
 
     public void OpenPortal() {
@@ -159,7 +213,7 @@ public class Partita extends Observable {
         GestioneUtente gestioneUtente = new GestioneUtente();
         this.utente = gestioneUtente.getUtenti().get(idUtente);
 
-        this.points=utente.puntiOttenuti;
+        this.points = utente.puntiOttenuti;
 
     }
 }

@@ -40,6 +40,21 @@ public class GestioneUtente {
 
     }
 
+    public void salvaModificheUtente(Utente utente_input) {
+
+        var listaUtenti = getUtenti();
+        var utenteTrovato = listaUtenti.stream().filter(utente -> utente.Nickname.equals(utente_input.Nickname)).findFirst().get();
+
+        int IndexSpecifico = listaUtenti.indexOf(utenteTrovato);
+
+        //Salvo utente in input
+        listaUtenti.set(IndexSpecifico, utente_input);
+
+        salvaUtenti(listaUtenti);
+
+
+    }
+
 
     public ArrayList<Utente> getUtenti() {
 
