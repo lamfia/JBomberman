@@ -54,13 +54,7 @@ public class Main {
         while (true) {
             try {
 
-                //time.notifyCurrentTime(); TODO spostare in partita model
-
-
                 f.getGamePanel().repaintTask();
-
-
-                //f.requestFocus();
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -245,65 +245,71 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         //Load Game
         if (TitleScreenState == 1) {
 
+            int XSpace=100;
 
             int arcDiameter = 20; // Puoi personalizzare il raggio del bordo curvo
             Color colorRect = new Color(0, 0, 255, 150); // 0-255 per RGB, 0-255 per l'alfa (trasparenza
 
             //rect
             g2.setColor(colorRect);
-            g2.fillRoundRect(300, 200, 450, 60, arcDiameter, arcDiameter);
+            g2.fillRoundRect(300-XSpace, 200, 450, 60, arcDiameter, arcDiameter);
 
             //Save 1
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("1) ", 260, 250);
-            drawSavedGame(g2, 0, 230, 220);
+            g2.drawString("1) ", 260-XSpace, 250);
+            drawSavedGame(g2, 0, 230-XSpace, 220);
             if (commandNum == 0) {
-                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230-XSpace, 220, 27, 37, this);
             }
-            int spacebetweenMenuY = 60;
+
+
 
             //rect
             g2.setColor(colorRect);
-            g2.fillRoundRect(300, 250 + spacebetweenMenuY, 450, 60, arcDiameter, arcDiameter);
-
+            g2.fillRoundRect(300-XSpace, 250 +30, 450, 60, arcDiameter, arcDiameter);
             //Save 2
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("2) ", 260, 300 + spacebetweenMenuY);
-            drawSavedGame(g2, 1, 230, 270 + spacebetweenMenuY);
+            g2.drawString("2) ", 260-XSpace, 300 + 30);
+            drawSavedGame(g2, 1, 230-XSpace, 270 + 30);
             if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 230, 270 + spacebetweenMenuY, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230-XSpace, 270 + 30, 27, 37, this);
             }
 
-            //rect
-            g2.setColor(colorRect);
-            g2.fillRoundRect(300, 320 + spacebetweenMenuY, 450, 60, arcDiameter, arcDiameter);
+
 
             //Save 3
+            //rect
+            g2.setColor(colorRect);
+            g2.fillRoundRect(300-XSpace, 320 +32, 450, 60, arcDiameter, arcDiameter);
+
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("3) ", 260, 350 + spacebetweenMenuY);
-            drawSavedGame(g2, 2, 230, 320 + spacebetweenMenuY);
+            g2.drawString("3) ", 260-XSpace, 350 + 50);
+            drawSavedGame(g2, 2, 230-XSpace, 320 + 50);
             if (commandNum == 2) {
-                g2.drawImage(bombMenuImage, 230, 320 + spacebetweenMenuY, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230-XSpace, 320 + 50, 27, 37, this);
             }
 
             //Save 4
+            g2.setColor(colorRect);
+            g2.fillRoundRect(300-XSpace, 400 +25, 450, 60, arcDiameter, arcDiameter);
+
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("4)", 260, 400 + spacebetweenMenuY);
-            drawSavedGame(g2, 3, 230, 370 + spacebetweenMenuY);
+            g2.drawString("4)", 260-XSpace, 400 + 65);
+            drawSavedGame(g2, 3, 230-XSpace, 370 + 80);
             if (commandNum == 3) {
-                g2.drawImage(bombMenuImage, 230, 370 + spacebetweenMenuY, 27, 37, this);
+                g2.drawImage(bombMenuImage, 230-XSpace, 370 + 65, 27, 37, this);
             }
 
             //Return menu
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Return menu", 260, 450 + spacebetweenMenuY);
+            g2.drawString("Return menu", 400-XSpace, 450 + 80);
             if (commandNum == 4) {
-                g2.drawImage(bombMenuImage, 230, 420 + spacebetweenMenuY, 27, 37, this);
+                g2.drawImage(bombMenuImage, 350-XSpace, 420 + 80, 27, 37, this);
             }
 
         }
