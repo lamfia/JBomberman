@@ -244,7 +244,7 @@ public class Map {
 
             case Spaceman:
                 //this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
-                this.Enemici.add(new Enemico(181, 130, 4, 40, 40, Direzione.DOWN, tileM));
+                this.Enemici.add(new Enemico(250, 130, 4, 40, 40, Direzione.DOWN, tileM));
                 break;
         }
     }

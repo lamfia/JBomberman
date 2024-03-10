@@ -4,19 +4,14 @@ package controller;
 import model.Partita;
 import model.StatoPartita;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 
 public class KeyHandler extends Observable implements KeyListener {
 
 
     private boolean uppressed, downpressed, rightpressed, leftpressed;
-
-
 
 
     private Partita partita;
@@ -43,34 +38,23 @@ public class KeyHandler extends Observable implements KeyListener {
 
         if (code == KeyEvent.VK_W) {
 
-            //Title manager
-//            if (partita.isTitleState()) {
-//                notifica(Direzione.UP);
-//            }
-
-            if (partita.statoPartita == StatoPartita.Playing) {
+            if (partita.isPlayingState()) {
                 ApplicationManager.movimento.goUp(false);
             }
 
         }
         if (code == KeyEvent.VK_A) {
-            if (partita.statoPartita == StatoPartita.Playing) {
+            if (partita.isPlayingState()) {
                 ApplicationManager.movimento.goLeft(false);
             }
         }
         if (code == KeyEvent.VK_S) {
-            //Title manager
-//            if (partita.isTitleState()) {
-//                notifica(Direzione.DOWN);
-//            }
-
-            if (partita.statoPartita == StatoPartita.Playing) {
+            if (partita.isPlayingState()) {
                 ApplicationManager.movimento.goDown(false);
             }
         }
         if (code == KeyEvent.VK_D) {
-
-            if (partita.statoPartita == StatoPartita.Playing) {
+            if (partita.isPlayingState()) {
                 ApplicationManager.movimento.goRight(false);
             }
 
@@ -80,28 +64,9 @@ public class KeyHandler extends Observable implements KeyListener {
         //Attack!
         if (code == KeyEvent.VK_SPACE) {
 
-            //Title manager confirm with "space"
-//            if (partita.isTitleState()) {
-//                notifica(Direzione.SPACE);
-//            }else{
-
-                //TODO
-                //Aggiungere logica di ultimo tasto
-                // premuto e continuare il suo movimento
-                //fino ad fare il keyRealease
-                ApplicationManager.attaco.Attacare();
-
-//            }
-
+            ApplicationManager.attaco.Attacare();
 
         }
-
-
-//        //Solo in title e quando si crea l'utente, conferma di nickname
-//        if(code==KeyEvent.VK_ENTER){
-//            System.out.println("Enter!");
-//            //finestra.requestFocus();
-//        }
     }
 
     @Override
@@ -139,7 +104,6 @@ public class KeyHandler extends Observable implements KeyListener {
         String keyText = KeyEvent.getKeyText(keyCode);
         notifyObservers(keyText);
     }
-
 
 
 }

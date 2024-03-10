@@ -394,7 +394,7 @@ public class TileManager {
     public void isWin() {
 
 
-        if (partita.isGameRunning()) {
+        if (partita.isPlayingState()) {
 
             //Se sono tutti gli enemici eliminati
             if (Personaggi.stream().count() == 0) {

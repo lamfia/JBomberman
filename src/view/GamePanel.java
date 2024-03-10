@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class GamePanel extends JPanel implements Observer, Runnable {
+public class GamePanel extends JPanel implements Observer {
     private TileManager tileM;
     private String TempoGioco = "00:00:00";
     //private Image image1;
@@ -37,48 +37,9 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private int dimensionHeight;
 
     private int commandNum = 0;
-    private int MaxcommandNum = 3;
+    private int MaxcommandNum = 2;
     private int MincommandNum = 0;
 
-    Thread gameThread;
-
-    public void startGameThread() {
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    //private int FPS=30;
-    @Override
-    public void run() {
-
-//        double drawInterval=1000000000/FPS;
-//        double nextDrawTime= System.nanoTime()+drawInterval;
-//
-//        while(gameThread !=null){
-//
-//
-//            repaint();
-//
-//
-//            try {
-//                double remainingTime= nextDrawTime-System.nanoTime();
-//
-//                remainingTime=remainingTime/1000000;
-//
-//                if(remainingTime<0){
-//                    remainingTime=0;
-//                }
-//
-//                Thread.sleep((long) remainingTime);
-//
-//                nextDrawTime+=drawInterval;
-//
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-
-    }
 
     //Constructor
     public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight, Partita partita) {
@@ -110,7 +71,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
     }
 
-    public void addGiocatore(Giocatore giocatore) throws IOException {
+    public void addGiocatore(Giocatore giocatore) {
 
         //Default image
         giocatore.movimento.posizione.ImageAttuale = giocatore.movimento.posizione.pathImages.downidle;
@@ -120,19 +81,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         repaint();
 
     }
-
-    //non serve qui, il paint dell'enemico si fa in tilemanager
-//    public void addEnemico(Enemico enemico) throws IOException {
-//
-//        //Default image
-//        enemico.movimento.posizione.ImageAttuale = enemico.movimento.posizione.pathImages.downidle;
-//
-//        this.personaggi.add(enemico);
-//        repaint();
-//
-//    }
-
-    private Graphics grafica;
 
     @Override
     public void paintComponent(Graphics g) {
@@ -149,7 +97,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 drawTitle(g2);
             }
 
-            if (partita.statoPartita == StatoPartita.Playing) {
+            if (partita.statoPartita == StatoPartita.Playing ||partita.statoPartita == StatoPartita.Playing_StageSelect  ) {
 
                 //Draw della mappa selezionatas
                 drawFullImage(g2, ImageIO.read(new File(partita.map.getMapPath())));
@@ -166,6 +114,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             }
 
             if (partita.statoPartita == StatoPartita.Win) {
+                cambioMenuReset(0,1);
                 drawScreenWin(g2);
             }
 
@@ -173,12 +122,6 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-        //Timer del gioco //TODO spostare in partita model
-//        g2.setColor(Color.white);
-//        g2.drawString(TempoGioco, 10, 20);
-
 
     }
 
@@ -216,28 +159,28 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                 g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
             }
 
-            //Load Game
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Load Game", 260, 300);
-            if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
-            }
+            //Load GameTolto non serve perchè è un arcade
+//            g2.setColor(Color.white);
+//            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+//            g2.drawString("Load Game", 260, 300);
+//            if (commandNum == 1) {
+//                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
+//            }
 
             //Stage select
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Stage Select", 260, 350);
-            if (commandNum == 2) {
-                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
+            g2.drawString("Stage Select", 260, 300);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
             }
 
             //Quit game
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Quit Game", 260, 400);
-            if (commandNum == 3) {
-                g2.drawImage(bombMenuImage, 230, 370, 27, 37, this);
+            g2.drawString("Quit Game", 260, 350);
+            if (commandNum == 2) {
+                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
             }
 
         }
@@ -513,12 +456,12 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             var partita = (Partita) arg;
             if (partita.statoPartita == StatoPartita.GameOver) {
                 commandNum = 0;
-                cambioMenuReset(0, 2);
+                cambioMenuReset(0, 1);
             }
 
             if (partita.statoPartita == StatoPartita.Win) {
                 commandNum = 0;
-                cambioMenuReset(0, 2);
+                cambioMenuReset(0, 1);
             }
 
 
@@ -595,20 +538,35 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                     }
 
                 } else {
-                    //start new game!
+                    //start new game arcade!
                     if (lettera.equals("Enter")) {
 
                         partita.utente = newUtente;
 
-                        partita.statoPartita = StatoPartita.Playing;
-                        //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
-                        tileM.RiSetEnemici();
-                        tileM.RiSetPowerUps();
+//                        partita.statoPartita = StatoPartita.Playing;
+//                       //
+//                        //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
+//                        tileM.RiSetEnemici();
+//                        tileM.RiSetPowerUps();
+//                        try {
+//                            partita.newGame(Maps.TheSevenSeas);
+//                        } catch (IOException e) {
+//                            throw new RuntimeException(e);
+//                        }
 
                         this.TitleScreenState = 0;
-
                         NewNickName = "";
                         newUtente = new Utente();
+
+                        try {
+                            partita.newGame(Maps.TheSevenSeas);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        tileM.RiSetEnemici();
+                        partita.changeStatoPartita(StatoPartita.Playing);
+
+
                     }
                 }
 
@@ -666,13 +624,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
                                     break;
                                 //Load Game
-                                case 1:
-                                    //Gestione utente
-                                    TitleScreenState = 1;
-                                    cambioMenuReset(4);
-                                    break;
+//                                case 1:
+//                                    //Gestione utente
+//                                    TitleScreenState = 1;
+//                                    cambioMenuReset(4);
+//                                    break;
                                 //Stage select
-                                case 2:
+                                case 1:
                                     //Secondo title state =2
                                     TitleScreenState = 2;
                                     //Cambio di menu
@@ -680,7 +638,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     break;
 
                                 //Quit
-                                case 3:
+                                case 2:
                                     System.exit(0);
                                     break;
 
@@ -745,7 +703,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     System.out.println("Pirates");
                                     try {
                                         partita.newGame(Maps.TheSevenSeas);
-                                        partita.changeStatoPartita(StatoPartita.Playing);
+                                        tileM.RiSetEnemici();
+                                        partita.changeStatoPartita(StatoPartita.Playing_StageSelect);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -755,7 +714,8 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                     System.out.println("Spaceman");
                                     try {
                                         partita.newGame(Maps.Spaceman);
-                                        partita.changeStatoPartita(StatoPartita.Playing);
+                                        tileM.RiSetEnemici();
+                                        partita.changeStatoPartita(StatoPartita.Playing_StageSelect);
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -782,14 +742,14 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 tileM.RiSetPowerUps();
                                 break;
 
-                            //Save Game
-                            case 1:
-//                                    partita.SaveGame();
-//                                    System.out.println("Save Game");
-                                break;
+//                            //Save Game
+//                            case 1:
+////                                    partita.SaveGame();
+////                                    System.out.println("Save Game");
+//                                break;
 
                             //Quit (Return to menu)
-                            case 2:
+                            case 1:
                                 TitleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
                                 cambioMenuReset(3);
@@ -805,6 +765,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                             case 0:
                                 try {
                                     partita.newGame(Maps.Spaceman);
+                                    tileM.RiSetEnemici();
                                     partita.changeStatoPartita(StatoPartita.Playing);
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
@@ -815,13 +776,13 @@ public class GamePanel extends JPanel implements Observer, Runnable {
                                 break;
 
                             //Save Game
-                            case 1:
-//                                    partita.SaveGame();
-//                                    System.out.println("Save Game");
-                                break;
+//                            case 1:
+////                                    partita.SaveGame();
+////                                    System.out.println("Save Game");
+//                                break;
 
                             //Quit (Return to menu)
-                            case 2:
+                            case 1:
                                 TitleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
                                 cambioMenuReset(3);
@@ -847,6 +808,11 @@ public class GamePanel extends JPanel implements Observer, Runnable {
             utente.puntiOttenuti = 0;
             SalvaModificheUtente(utente);
             partita.LoadGame(saveId);
+            try {
+                partita.newGame(Maps.TheSevenSeas);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
             //Crea utente
             TitleScreenState = 3;
@@ -867,7 +833,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
         try {
 
             //Background image
-            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver.png")));
+            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver2.png")));
 
             //Bomb menu
             var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
@@ -875,20 +841,19 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             //Continue
             if (commandNum == 0) {
-                g2.drawImage(bombMenuImage, 550, 280, 27, 37, this);
+                g2.drawImage(bombMenuImage, 550, 305, 27, 37, this);
             }
 
-            //Save game
-            if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 550, 320, 27, 37, this);
-            }
+//            //Save game
+//            if (commandNum == 1) {
+//                g2.drawImage(bombMenuImage, 550, 320, 27, 37, this);
+//            }
 
             //Quit
-            if (commandNum == 2) {
+            if (commandNum == 1) {
                 g2.drawImage(bombMenuImage, 550, 370, 27, 37, this);
             }
 
-            // }
 
 
         } catch (IOException e) {
@@ -899,7 +864,7 @@ public class GamePanel extends JPanel implements Observer, Runnable {
     private void drawScreenWin(Graphics2D g2) {
 
         try {
-            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/Win2.png")));
+            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/Win3.png")));
 
 
             //Bomb menu
@@ -908,17 +873,17 @@ public class GamePanel extends JPanel implements Observer, Runnable {
 
             //Continue
             if (commandNum == 0) {
-                g2.drawImage(bombMenuImage, 550, 310, 27, 37, this);
+                g2.drawImage(bombMenuImage, 550, 350, 27, 37, this);
             }
 
-            //Save game
-            if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 550, 370, 27, 37, this);
-            }
+//            //Save game
+//            if (commandNum == 1) {
+//                g2.drawImage(bombMenuImage, 550, 370, 27, 37, this);
+//            }
 
             //Quit
-            if (commandNum == 2) {
-                g2.drawImage(bombMenuImage, 550, 435, 27, 37, this);
+            if (commandNum == 1) {
+                g2.drawImage(bombMenuImage, 550, 420, 27, 37, this);
             }
 
             // }

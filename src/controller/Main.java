@@ -21,16 +21,13 @@ public class Main {
 
         //Set del tile state
         partita.setStatoPartita(StatoPartita.Title);
-
         partita.newGame(Maps.TheSevenSeas); //TODO attenzione al tile M quando si commenta questa, creare il tile M con la partita (?)
 
         //Crea la view
         var keyHandler = new KeyHandler(partita);
         var f = new Finestra(800, 600, partita, keyHandler);
 
-
         keyHandler.addObserver(f.getGamePanel());
-
 
         //Add del giocatore
         f.getGamePanel().addGiocatore(partita.giocatore);
@@ -40,15 +37,10 @@ public class Main {
         f.getGamePanel().setTileM(tileM); //TODO questo si puà spostare quando si crea la partita
         ApplicationManager.movimento.setTileM(tileM);
 
-        var time = new Time();
-
         //binding tra observer ed observable
-        time.addObserver(f.getGamePanel());
         partita.giocatore.movimento.addObserver(f.getGamePanel());
         partita.giocatore.attaco.addObserver(f.getGamePanel());
-
         partita.addObserver(f.getGamePanel());
-
 
         //LOOP DEL GAME
         while (true) {

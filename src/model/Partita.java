@@ -2,7 +2,6 @@ package model;
 
 import controller.ApplicationManager;
 import controller.GestioneUtente;
-import controller.TileManager;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -41,9 +40,9 @@ public class Partita extends Observable {
         return false;
     }
 
-    public boolean isGameRunning() {
+    public boolean isPlayingState() {
 
-        if (statoPartita == StatoPartita.Playing) {
+        if (statoPartita == StatoPartita.Playing || statoPartita==StatoPartita.Playing_StageSelect) {
             return true;
         }
 
@@ -54,7 +53,7 @@ public class Partita extends Observable {
     public Partita() {
         //Crea il giocatore
         //this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
-        this.giocatore = new Giocatore(0, 0, 3, 4, 40, 40);
+        this.giocatore = new Giocatore(0, 0, 1, 4, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
@@ -63,7 +62,7 @@ public class Partita extends Observable {
         OpenPortal = false;
         lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
-
+        giocatore.reimpostaViteIniziali();
         this.giocatore.movimento.posizione.pos_x = map.getXInizialeGiocatore();
         this.giocatore.movimento.posizione.pos_y = map.getYInizialeGiocatore();
 
@@ -78,6 +77,7 @@ public class Partita extends Observable {
 
     }
 
+    //TODO cancellare il continue se è in state di stageSelect
     public void continueGame() {
 
         resetGame();
@@ -123,16 +123,19 @@ public class Partita extends Observable {
      */
     public void changeStatoPartita(StatoPartita statoPartita) {
 
+        //Se sta giocando Arcade
+        if (this.statoPartita == StatoPartita.Playing) {
+            if (statoPartita == StatoPartita.Win) {
+                SaveGame(StatoPartita.Win);
+            }
+            if (statoPartita == StatoPartita.GameOver) {
+                SaveGame(StatoPartita.GameOver);
+                StopGame();
+            }
+        }
+
+        //Aggiorno l'attributo
         this.statoPartita = statoPartita;
-
-        if (this.statoPartita == StatoPartita.GameOver) {
-            StopGame();
-            SaveGame(StatoPartita.GameOver);
-        }
-
-        if (this.statoPartita == StatoPartita.Win) {
-            SaveGame(StatoPartita.Win);
-        }
 
         notifica();
 
@@ -166,7 +169,7 @@ public class Partita extends Observable {
             utenteTrovato = utenteTrovatoOptional.get();
         } else {
             //crea nuovo utente
-            this.utente.partiteGiocate=this.utente.partiteGiocate+1;
+            this.utente.partiteGiocate = this.utente.partiteGiocate + 1;
             listaUtenti.add(this.utente);
             GestioneUtente.salvaUtenti(listaUtenti);
             utenteTrovato = this.utente;
