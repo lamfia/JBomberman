@@ -45,7 +45,7 @@ public class Partita extends Observable {
     /**
      * L'ultima mappa giocata.
      */
-    private Maps lastMapPlayed;
+    public Maps lastMapPlayed;
 
     /**
      * L'utente associato alla partita.
@@ -98,6 +98,7 @@ public class Partita extends Observable {
      * @throws IOException Eccezione lanciata in caso di errori di input/output.
      */
     public void newGame(Maps selectedMap) throws IOException {
+        points=0;
         OpenPortal = false;
         lastMapPlayed = selectedMap;
         map = new Map(selectedMap);
@@ -139,6 +140,8 @@ public class Partita extends Observable {
         //Ricreare tutti i tiles, powerups, enemici, personnagio con nuove vite, points a 0, timer al massimo
 
     }
+
+
 
     /**
      * Imposta lo stato della partita con il nuovo stato specificato.
