@@ -12,22 +12,55 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 
+ * Rappresenta una bomba nel gioco
+ *
  * @author Gabriel Guerra
  */
 public class Bomb extends Oggetto {
 
+    /**
+     * Raggio di esplosione della bomba.
+     */
     public int explosionRange;
+
+    /**
+     * Flag che indica se la bomba è esplosa.
+     */
     public boolean explodes;
+
+    /**
+     * Hitbox dell'esplosione sull'asse x.
+     */
     public Rectangle explosion_x;
+
+    /**
+     * Hitbox dell'esplosione sull'asse y.
+     */
     public Rectangle explosion_y;
 
+    /**
+     * Sprite dell'esplosione sull'asse x.
+     */
     public BufferedImage explosion_x_sprite;
+
+    /**
+     * Sprite dell'esplosione sull'asse y.
+     */
     public BufferedImage explosion_y_sprite;
 
-    //Questa è una lista di tutte le bombe che sono presenti in tutto il gioco.
+    /**
+     * Lista di tutte le bombe presenti nel gioco.
+     */
     private static ArrayList<Bomb> allBombs = new ArrayList<>();
 
+
+    /**
+     * Crea una nuova istanza di Bomba con la posizione specificata e il raggio di esplosione.
+     *
+     * @param x             La coordinata x della bomba.
+     * @param y             La coordinata y della bomba.
+     * @param explosionRange Il raggio di esplosione della bomba.
+     */
     public Bomb(int x, int y, int explosionRange) {
         this.x = x;
         this.y = y;
@@ -69,10 +102,20 @@ public class Bomb extends Oggetto {
     }
 
 
+    /**
+     * Restituisce la lista di tutte le bombe attive nel gioco.
+     *
+     * @return La lista di tutte le bombe attive.
+     */
     public static ArrayList<Bomb> getAllBombs() {
         return allBombs;
     }
 
+    /**
+     * Restituisce la lista di hitbox dell'esplosione delle bombe.
+     *
+     * @return La lista di hitbox dell'esplosione delle bombe.
+     */
     public ArrayList<Rectangle> getExplosionHitboxRec() {
 
         if (explosion_x != null && explosion_y != null) {
@@ -85,15 +128,33 @@ public class Bomb extends Oggetto {
         }
 
     }
-
+    /**
+     * Rappresenta un'attività programmata per gestire l'esplosione di una bomba.
+     *
+     * @author Gabriel Guerra
+     */
     private class ExplosionTask extends TimerTask {
 
+        /**
+         * Istanza della bomba associata a questa attività di esplosione.
+         */
         private Bomb bombInstance;
 
+
+        /**
+         * Crea una nuova istanza di ExplosionTask associata alla bomba specificata.
+         *
+         * @param bombInstance La bomba associata a questa attività di esplosione.
+         */
         public ExplosionTask(Bomb bombInstance) {
             this.bombInstance = bombInstance;
         }
 
+
+
+        /**
+         * Esegui l'attività di esplosione.
+         */
         @Override
         public void run() {
             // Quando l'attività viene eseguita dopo X secondi, imposta explodes a true
@@ -133,14 +194,31 @@ public class Bomb extends Oggetto {
         }
     }
 
+
+    /**
+     * Rappresenta un'attività programmata per rimuovere una bomba dalla lista globale dopo un certo periodo.
+     *
+     * @author Gabriel Guerra
+     */
     private class removeBombTask extends TimerTask {
 
+        /**
+         * Istanza della bomba da rimuovere dalla lista globale.
+         */
         private Bomb bombInstance;
 
+        /**
+         * Crea una nuova istanza di removeBombTask associata alla bomba specificata.
+         *
+         * @param bombInstance La bomba da rimuovere dalla lista globale.
+         */
         public removeBombTask(Bomb bombInstance) {
             this.bombInstance = bombInstance;
         }
 
+        /**
+         * Esegui l'attività di rimozione della bomba dalla lista globale.
+         */
         @Override
         public void run() {
             allBombs.remove(this.bombInstance);

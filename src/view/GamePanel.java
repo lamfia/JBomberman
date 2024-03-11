@@ -448,9 +448,9 @@ public class GamePanel extends JPanel implements Observer {
 
 
         //Tempo! TODO mettere questo valore nella classe "partita"
-        if (observable instanceof Time) {
-            TempoGioco = (String) arg;
-        }
+//        if (observable instanceof Time) {
+//            TempoGioco = (String) arg;
+//        }
 
         //Partita info
         if (observable instanceof Partita) {

@@ -9,34 +9,84 @@ import javax.swing.*;
 import java.util.Map;
 import java.util.Observable;
 
+
+/**
+ * Gestisce il movimento dei personaggi sulla mappa di gioco.
+ * Questa classe estende Observable, permettendo la notifica agli osservatori
+ * in caso di aggiornamenti della posizione del personaggio.
+ * La direzione del personaggio e le interazioni con il TileManager vengono gestite
+ * nei metodi di movimento (goUp, goDown, goLeft, goRight).
+ *
+ * @author Gabriel Guerra
+ */
 public class Movimento extends Observable {
+
+    /**
+     * Rappresenta la posizione del personaggio sulla mappa di gioco.
+     */
     public Posizione posizione;
+
+    /**
+     * La velocità corrente del personaggio.
+     */
     public int velocita;
+
+    /**
+     * La velocità iniziale del personaggio.
+     */
     public int velocitaIniziale;
+
+    /**
+     * Intervallo di tempo per cambiare l'immagine durante il movimento.
+     * Misurato in millisecondi.
+     */
     private final long imageChangeInterval = 150; // 0.15 secondi
+
+    /**
+     * Indice dello sprite corrente del personaggio.
+     */
     public int sprite = 0;
+
+    /**
+     * Gestore dei tiles sulla mappa di gioco.
+     */
     public TileManager tileM;
 
     /**
-     * Attributo che se è true, allora può attaversare i destructibiles tiles
-     * default false
+     * Attributo che indica se il personaggio può attraversare i tiles distruttibili.
+     * Il valore di default è false.
      */
     public boolean noClip = false;
 
-    public Movimento(int posX, int posY, int velocita, int witdh, int height) {
+    /**
+     * Tempo dell'ultimo cambio di immagine durante il movimento.
+     * Inizializzato con il valore corrente del sistema al momento della creazione dell'istanza.
+     */
+    private long lastImageChangeTime = System.currentTimeMillis();
 
-        posizione = new Posizione(posX, posY, witdh, height);
+    /**
+     * Costruttore della classe Movimento.
+     *
+     * @param posX     La coordinata x iniziale della posizione del personaggio.
+     * @param posY     La coordinata y iniziale della posizione del personaggio.
+     * @param velocita La velocità iniziale del personaggio.
+     * @param width    Larghezza del personaggio.
+     * @param height   Altezza del personaggio.
+     */
+    public Movimento(int posX, int posY, int velocita, int width, int height) {
+
+        posizione = new Posizione(posX, posY, width, height);
 
         this.velocita = velocita;
         this.velocitaIniziale = velocita;
     }
 
-    private long lastImageChangeTime = System.currentTimeMillis();
-
-    private void GestioneAzione() {
-        //TODO da passare enum di azione
-    }
-
+    /**
+     * Muove il personaggio verso l'alto, gestendo gli aggiornamenti
+     * della posizione, dell'immagine e le interazioni con il TileManager.
+     *
+     * @param isIdle Indica se il personaggio è in stato di "idle".
+     */
     public void goUp(Boolean isIdle) {
 
         posizione.direzione = Direzione.UP;
@@ -130,6 +180,12 @@ public class Movimento extends Observable {
 
     }
 
+    /**
+     * Muove il personaggio verso il basso, gestendo gli aggiornamenti
+     * della posizione, dell'immagine e le interazioni con il TileManager.
+     *
+     * @param isIdle Indica se il personaggio è in stato di "idle".
+     */
     public void goDown(Boolean isIdle) {
 
         posizione.direzione = Direzione.DOWN;
@@ -204,6 +260,12 @@ public class Movimento extends Observable {
         notifica();
     }
 
+    /**
+     * Muove il personaggio verso sinistra, gestendo gli aggiornamenti
+     * della posizione, dell'immagine e le interazioni con il TileManager.
+     *
+     * @param isIdle Indica se il personaggio è in stato di "idle".
+     */
     public void goLeft(Boolean isIdle) {
 
         posizione.direzione = Direzione.LEFT;
@@ -282,6 +344,13 @@ public class Movimento extends Observable {
 
     }
 
+
+    /**
+     * Muove il personaggio verso destra, gestendo gli aggiornamenti
+     * della posizione, dell'immagine e le interazioni con il TileManager.
+     *
+     * @param isIdle Indica se il personaggio è in stato di "idle".
+     */
     public void goRight(Boolean isIdle) {
 
         posizione.direzione = Direzione.RIGHT;
@@ -362,11 +431,12 @@ public class Movimento extends Observable {
         notifica();
     }
 
+
+    /**
+     * Notifica agli osservatori l'aggiornamento della posizione nella view.
+     * Viene chiamato quando il personaggio può muoversi.
+     */
     private void notifica() {
-
-
-//        System.out.println("Enemico X "+posizione.pos_x);
-//        System.out.println("Enemico Y "+posizione.pos_y);
 
         //Se si può muovere allora notifica
         // agli observers di aggiornare la pos nella view
@@ -375,11 +445,18 @@ public class Movimento extends Observable {
 
     }
 
-
+    /**
+     * Imposta il tileManager per il movimento.
+     *
+     * @param tileM Il gestore delle piastrelle da impostare.
+     */
     public void setTileM(TileManager tileM) {
         this.tileM = tileM;
     }
 
+    /**
+     * Reimposta la velocità del movimento alla velocità iniziale.
+     */
     public void resetVelocita() {
 
         velocita = this.velocitaIniziale;

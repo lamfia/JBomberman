@@ -6,23 +6,41 @@ import controller.PathImages;
 import java.awt.*;
 
 /**
- * E' il personaggio principale del gioco
- * il quale è controllato dal giocatore
- *
+ * Rappresenta il personaggio principale del gioco, controllato dal giocatore.
+ * Derivato dalla classe astratta Personaggio.
+ * Possiede un sistema di attacco e un numero di vite che diminuiscono quando il giocatore muore.
  * @author Gabriel Guerra
  */
 public class Giocatore extends Personaggio {
 
-
+    /**
+     * Oggetto che gestisce l'attacco del giocatore
+     */
     public Attaco attaco;
 
+    /**
+     * Numero di vite attuali del giocatore
+     */
     public int vite;
+
+    /**
+     * Numero di vite iniziali del giocatore
+     */
     public int vite_inziali;
 
+    /**
+     * Crea un nuovo giocatore con posizione iniziale, numero di vite, velocità, larghezza e altezza specificati.
+     *
+     * @param posX    La coordinata X iniziale del giocatore.
+     * @param posY    La coordinata Y iniziale del giocatore.
+     * @param vite    Il numero iniziale di vite del giocatore.
+     * @param velocita La velocità di movimento del giocatore.
+     * @param width   La larghezza del giocatore.
+     * @param height  L'altezza del giocatore.
+     */
+    public Giocatore(int posX, int posY, int vite, int velocita, int width, int height) {
 
-    public Giocatore(int posX, int posY, int vite, int velocita, int widht, int height) {
-
-        super(posX, posY, velocita, widht, height);
+        super(posX, posY, velocita, width, height);
 
         //TODO passare qualcosa al ctor?
         this.attaco = new Attaco(0);
@@ -63,8 +81,10 @@ public class Giocatore extends Personaggio {
         super.movimento.posizione.pathImages = pathImages;
     }
 
-
-
+    /**
+     * Metodo chiamato quando il giocatore muore.
+     * Riduce il numero di vite e potrebbe attivare un'animazione di morte.
+     */
     public void morte(){
 
         //TODO FARE ANIMAZIONE DI MORTE , vietare il movimento
@@ -72,9 +92,11 @@ public class Giocatore extends Personaggio {
 
     }
 
+    /**
+     * Reimposta il numero di vite del giocatore ai valori iniziali.
+     */
     public void reimpostaViteIniziali(){
         this.vite=this.vite_inziali;
     }
-
 
 }

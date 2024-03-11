@@ -17,34 +17,19 @@ public abstract class Personaggio  {
      */
     public Movimento movimento ;
 
-    //public  int Salute;
-
-   // public Hitbox hitbox;
-
-    /*
-    Descrive la imaggine con un accesso alla data della stessa
+    /**
+     * Costruttore della classe Personaggio.
+     * @param posX La coordinata x iniziale del personaggio.
+     * @param posY La coordinata y iniziale del personaggio.
+     * @param velocita La velocità del personaggio.
+     * @param width La larghezza del personaggio.
+     * @param height L'altezza del personaggio.
      */
-
-
     public Personaggio(int posX, int posY,int velocita, int width, int height){
 
-        //hitbox (rectangle area)
-       // solidArea = new Rectangle(posX,posY,width,height);
        this.movimento = new Movimento(posX, posY,velocita, width,height);
-
-       //this.Salute= Salute;
-
-       // this.hitbox= new Hitbox(hitboxRec);
-
-
 
     }
 
-//    public void updateHitbox(int x, int y, int width, int height){
-//        this.hitbox.hitboxRec= new Rectangle(x,y,width,height);
-//    }
-//    public void updateHitbox(Rectangle hitboxRec){
-//        this.hitbox.hitboxRec= hitboxRec;
-//    }
 
 }

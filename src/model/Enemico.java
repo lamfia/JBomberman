@@ -4,29 +4,45 @@ import controller.AudioManager;
 import controller.Direzione;
 import controller.PathImages;
 import controller.TileManager;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Rappresenta un nemico nel gioco, derivato dalla classe astratta Personaggio.
+ * Gestisce il movimento automatico e la possibile eliminazione dell'enemico.
+ *
+ * @author Gabriel Guerra
+ */
 public class Enemico extends Personaggio {
 
 
-    // private static ArrayList<Enemico> allEnemies = new ArrayList<>();
+    /**
+     * Flag che indica se il movimento dell'enemico è attivo.
+     */
     private Boolean movimentoAttivo = true;
+
+    /**
+     * Ultima direzione in cui si è mosso l'enemico.
+     */
     private Direzione ultimaDirezione;
 
+    /**
+     * Punteggio assegnato all'enemico quando viene eliminato.
+     */
     public int puntiEnemico;
 
+    /**
+     * Crea un nuovo enemico con posizione iniziale, velocità, dimensioni, direzione iniziale e gestione dei tile specificati.
+     *
+     * @param posX               La coordinata X iniziale dell'enemico.
+     * @param posY               La coordinata Y iniziale dell'enemico.
+     * @param velocita           La velocità di movimento dell'enemico.
+     * @param width              Larghezza dell'enemico.
+     * @param height             Altezza dell'enemico.
+     * @param direzioneIniziale  La direzione iniziale in cui si muove l'enemico.
+     * @param tileManager        Il gestore dei tile per il controllo del movimento.
+     */
     public Enemico(int posX, int posY, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
         super(posX, posY, velocita, width, height);
 
@@ -85,8 +101,9 @@ public class Enemico extends Personaggio {
     }
 
     /**
-     * disattiva il movimento dell'enemico e fa return del punteggio otttenuto dell'enemico
-     * @return
+     * Disattiva il movimento dell'enemico e restituisce il punteggio ottenuto eliminando l'enemico.
+     *
+     * @return Il punteggio ottenuto eliminando l'enemico.
      */
     public int eliminaEnemico() {
 
@@ -97,12 +114,10 @@ public class Enemico extends Personaggio {
         return puntiEnemico;
     }
 
-
     /**
      * TODO
      * Aggiungere un metodo per spostarsi in X e Y secondo un patron
      */
-
 
 //    public void autoMovimento() {
 //        if (movimentoAttivo) {
@@ -135,7 +150,9 @@ public class Enemico extends Personaggio {
 //        return array;
 //    }
 
-
+    /**
+     * Metodo che gestisce il movimento automatico dell'enemico.
+     */
     public void autoMovimento() {
 
         if (movimentoAttivo) {
@@ -175,6 +192,4 @@ public class Enemico extends Personaggio {
         }
 
     }
-
-
 }

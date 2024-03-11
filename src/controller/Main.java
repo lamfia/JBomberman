@@ -21,7 +21,7 @@ public class Main {
 
         //Set del tile state
         partita.setStatoPartita(StatoPartita.Title);
-        partita.newGame(Maps.TheSevenSeas); //TODO attenzione al tile M quando si commenta questa, creare il tile M con la partita (?)
+        partita.newGame(Maps.TheSevenSeas);
 
         //Crea la view
         var keyHandler = new KeyHandler(partita);
@@ -34,7 +34,7 @@ public class Main {
 
         var tileM = new TileManager(f.getGamePanel(), partita.giocatore, partita);
         tileM.showHitboxes = showHitboxes;
-        f.getGamePanel().setTileM(tileM); //TODO questo si puà spostare quando si crea la partita
+        f.getGamePanel().setTileM(tileM);
         ApplicationManager.movimento.setTileM(tileM);
 
         //binding tra observer ed observable

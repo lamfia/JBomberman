@@ -64,7 +64,6 @@ public class Map {
         setPorta();
     }
 
-
     /**
      * Restituisce il percorso dell'immagine di sfondo della mappa.
      *
@@ -80,7 +79,6 @@ public class Map {
 
         return null;
     }
-
 
     /**
      * Restituisce la posizione iniziale x del giocatore sulla mappa.
@@ -152,7 +150,6 @@ public class Map {
                 break;
         }
     }
-
     public void apriPorta() {
         try {
             this.PortaTile.image = ImageIO.read(new File("src/view/res/common/DoorOpen.png"));
@@ -161,7 +158,6 @@ public class Map {
         }
 
     }
-
 
     /**
      * Inizializza la configurazione dei tiles sulla mappa in base alla mappa selezionata.
@@ -309,7 +305,6 @@ public class Map {
         this.Enemici = new ArrayList<>();
     }
 
-
     /**
      * Resetta la configurazione dei powerups sulla mappa, rimuovendo tutti i powerups attuali e reimpostandoli.
      * Viene chiamato per ripristinare la disposizione originale dei powerups sulla mappa.
@@ -331,7 +326,6 @@ public class Map {
     private void removeAllPowerUps() {
         this.PowerUpTiles = new ArrayList<>();
     }
-
 
     /**
      * Inizializza la configurazione dei powerups sulla mappa in base alla mappa selezionata.

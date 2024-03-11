@@ -8,12 +8,10 @@ public class Enemico2 extends Enemico {
 
 
     /**
-     * la sua creazione è uguale a quello normale, aggiungere solo il metodo per attacco
-     * , cambia solo gli sprites e hitbox,
-     * TODO aggiungere metodo atacco enemico,
+     * Rappresenta una variante avanzata di nemico nel gioco, derivata dalla classe Enemico.
+     * Aggiunge un disegno distintivo, più punti e la capacità di attraversare i muri distruttibili.
+     * @author Gabriel Guerra
      */
-
-
     public Enemico2(int posX, int posY, int velocita, int width, int height, Direzione direzioneIniziale, TileManager tileManager) {
         super(posX, posY, velocita, width, height, direzioneIniziale, tileManager);
 
