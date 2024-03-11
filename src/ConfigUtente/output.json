@@ -2,11 +2,11 @@
   {
     "Nickname": "LAMFIAUNO",
     "avatar": "BombermanTheKid",
-    "partiteGiocate": 36,
-    "partiteVinte": 20,
+    "partiteGiocate": 37,
+    "partiteVinte": 21,
     "partitePerse": 26,
-    "lastLevelArrived": 2,
-    "puntiOttenuti": 200
+    "lastLevelArrived": 1,
+    "puntiOttenuti": 100
   },
   {
     "Nickname": "GABRIEL",
@@ -25,5 +25,14 @@
     "partitePerse": 4,
     "lastLevelArrived": 1,
     "puntiOttenuti": 0
+  },
+  {
+    "Nickname": "PPOO",
+    "avatar": "PunkBomberman",
+    "partiteGiocate": 2,
+    "partiteVinte": 1,
+    "partitePerse": 1,
+    "lastLevelArrived": 1,
+    "puntiOttenuti": 100
   }
 ]

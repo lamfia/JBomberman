@@ -9,8 +9,9 @@ public class PowerUpTile extends Tile {
     public  PowerUp powerUp;
     public PowerUpTile(int x, int y, PowerUp powerUp) throws IOException {
 
+
         super(x, y, 40, 40, new Rectangle(x+8,y+8,25,25),
-                "src/view/res/miscellaneous/PowerUp"+ powerUp.toString()+".png", false);
+                "JBomberman/src/view/res/miscellaneous/PowerUp"+ powerUp.toString()+".png", false);
         this.powerUp=powerUp;
 
     }

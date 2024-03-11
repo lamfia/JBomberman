@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 
+ * @author Gabriel Guerra
+ */
 public class Bomb extends Oggetto {
 
     public int explosionRange;

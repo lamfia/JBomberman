@@ -134,7 +134,7 @@ public class GamePanel extends JPanel implements Observer {
 
 
         //Background
-        var background = ImageIO.read(new File("src/view/res/TitleScreen/background column.png"));
+        var background = ImageIO.read(new File("JBomberman/src/view/res/TitleScreen/background column.png"));
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 3; j++) {
                 g2.drawImage(background, 80 * i, 260 * j, 80, 260, this);
@@ -143,11 +143,11 @@ public class GamePanel extends JPanel implements Observer {
         }
 
         //Title bomberman
-        var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
+        var title = ImageIO.read(new File("JBomberman/src/view/res/TitleScreen/bomberman title.png"));
         g2.drawImage(title, 240, 30, 270, 150, this);
 
         //Bomb menu
-        var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+        var bombMenuImage = ImageIO.read(new File("JBomberman/src/view/res/TitleScreen/BombMenu.png"));
 
 
         if (TitleScreenState == 0) {
@@ -833,10 +833,10 @@ public class GamePanel extends JPanel implements Observer {
         try {
 
             //Background image
-            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/GameOver2.png")));
+            drawFullImage(g2, ImageIO.read(new File("JBomberman/src/view/res/common/GameOver2.png")));
 
             //Bomb menu
-            var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+            var bombMenuImage = ImageIO.read(new File("JBomberman/src/view/res/TitleScreen/BombMenu.png"));
 
 
             //Continue
@@ -864,11 +864,11 @@ public class GamePanel extends JPanel implements Observer {
     private void drawScreenWin(Graphics2D g2) {
 
         try {
-            drawFullImage(g2, ImageIO.read(new File("src/view/res/common/Win3.png")));
+            drawFullImage(g2, ImageIO.read(new File("JBomberman/src/view/res/common/Win3.png")));
 
 
             //Bomb menu
-            var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+            var bombMenuImage = ImageIO.read(new File("JBomberman/src/view/res/TitleScreen/BombMenu.png"));
 
 
             //Continue
@@ -904,7 +904,7 @@ public class GamePanel extends JPanel implements Observer {
         g2.fillRect(0, 0, 900, 30);
 
         //Bomberman icon image
-        var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman.png"));
+        var bombermanIcon = ImageIO.read(new File("JBomberman/src/view/res/icons/bomberman.png"));
 
         int totvite = player.vite;
 

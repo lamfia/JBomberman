@@ -40,9 +40,9 @@ public class Map {
     public String getMapPath() {
         switch (selectedMap) {
             case TheSevenSeas:
-                return "src/view/maps/Pirate/pirata.png";
+                return "JBomberman/src/view/maps/Pirate/pirata.png";
             case Spaceman:
-                return "src/view/maps/Spaceman/Spaceman1.png";
+                return "JBomberman/src/view/maps/Spaceman/Spaceman1.png";
         }
 
         return null;
@@ -88,7 +88,7 @@ public class Map {
             case TheSevenSeas:
                 try {
                     PortaTile = new Tile(580, 480, 46, 46,
-                            "src/view/res/common/DoorClosed.png", false);
+                            "JBomberman/src/view/res/common/DoorClosed.png", false);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -96,7 +96,7 @@ public class Map {
             case Spaceman:
                 try {
                     PortaTile = new Tile(581, 480, 46, 46,
-                            "src/view/res/common/DoorClosed.png", false);
+                            "JBomberman/src/view/res/common/DoorClosed.png", false);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -106,7 +106,7 @@ public class Map {
 
     public void apriPorta() {
         try {
-            this.PortaTile.image = ImageIO.read(new File("src/view/res/common/DoorOpen.png"));
+            this.PortaTile.image = ImageIO.read(new File("JBomberman/src/view/res/common/DoorOpen.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -123,7 +123,7 @@ public class Map {
             case TheSevenSeas:
 
                 //Settings del Pirate Map
-                var pathImageTiles = "src/view/maps/Pirate/LifeSave1.png";
+                var pathImageTiles = "JBomberman/src/view/maps/Pirate/LifeSave1.png";
 
 
                 DestructibilesTiles.add(new Tile(80, 80, 46, 46,
@@ -197,7 +197,7 @@ public class Map {
             case Spaceman:
 
                 //Settings del Pirate Map
-                var pathImageTilesStar = "src/view/maps/Spaceman/Star.png";
+                var pathImageTilesStar = "JBomberman/src/view/maps/Spaceman/Star.png";
 
                 DestructibilesTiles.add(new Tile(377, 285, 46, 46,
                         pathImageTilesStar, true));

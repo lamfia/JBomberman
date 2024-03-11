@@ -30,9 +30,9 @@ public class AudioManager {
     Clip clip;
 
     private AudioManager() {
-        pathSounds.add("src/view/res/sound/BackgroundMap1.wav"); //0
-        pathSounds.add("src/view/res/sound/BombExplodes.wav");   //1
-        pathSounds.add("src/view/res/sound/Item Get.wav");   //2
+        pathSounds.add("JBomberman/src/view/res/sound/BackgroundMap1.wav"); //0
+        pathSounds.add("JBomberman/src/view/res/sound/BombExplodes.wav");   //1
+        pathSounds.add("JBomberman/src/view/res/sound/Item Get.wav");   //2
     }
 
     public void setClip(int i) {

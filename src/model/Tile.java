@@ -43,6 +43,7 @@ public class Tile {
 
     /**
      * Questo l'ho usato per creare i tiles destructitibles dellla mappa pirata
+     *
      * @param x
      * @param y
      * @param width
@@ -53,34 +54,41 @@ public class Tile {
      */
     public Tile(int x, int y, int width, int height, String Pathimage, boolean collision) throws IOException {
 
-        this.x = x;
-        this.y = y;
-        this.image = ImageIO.read(new File(Pathimage));
-        this.collision = collision;
+        try {
 
-        this.width=width;
-        this.height=height;
 
-        this.collisionRectangle = new Rectangle(x+3,y+3,40,40);
+            this.x = x;
+            this.y = y;
+            this.image = ImageIO.read(new File(Pathimage));
+            this.collision = collision;
 
+            this.width = width;
+            this.height = height;
+
+            this.collisionRectangle = new Rectangle(x + 3, y + 3, 40, 40);
+        } catch (IOException ex) {
+
+            System.out.println(ex.getMessage());
+        }
     }
 
-    public Tile(int x, int y, int width, int height , Rectangle collisionRectangle, String Pathimage, boolean collision) throws IOException {
+    public Tile(int x, int y, int width, int height, Rectangle collisionRectangle, String Pathimage, boolean collision) throws IOException {
 
         this.x = x;
         this.y = y;
         this.image = ImageIO.read(new File(Pathimage));
         this.collision = collision;
 
-        this.width=width;
-        this.height=height;
+        this.width = width;
+        this.height = height;
 
-        this.collisionRectangle =collisionRectangle;
+        this.collisionRectangle = collisionRectangle;
 
     }
 
     /**
      * Construttore per fare i "walking" tiles
+     *
      * @param x
      * @param y
      * @param width

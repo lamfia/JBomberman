@@ -34,7 +34,7 @@ public class Giocatore extends Personaggio {
         //Set degli sprites
         var pathImages = new PathImages();
 
-        var pathSource = "src/view/res/giocatore/";
+        var pathSource = "JBomberman/src/view/res/giocatore/";
 
         pathImages.down1 = pathSource + "down1.png";
         pathImages.down2 = pathSource + "down2.png";
