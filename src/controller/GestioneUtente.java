@@ -19,7 +19,7 @@ import java.util.List;
 public class GestioneUtente {
 
 
-    private String filePathJson = "JBomberman/src/ConfigUtente/output.json";
+    private String filePathJson = "src/ConfigUtente/output.json";
 
     public void salvaUtenti(ArrayList<Utente> utenti) {
 
@@ -86,7 +86,7 @@ public class GestioneUtente {
 
     public String getPathAvatarIcon(Avatar avatar) {
 
-        String pathRoot = "JBomberman/src/view/res/icons/";
+        String pathRoot = "src/view/res/icons/";
         switch (avatar) {
             case Bomberman -> {
                 return pathRoot + "Bomberman.png";

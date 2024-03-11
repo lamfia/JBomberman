@@ -11,7 +11,7 @@ public class PowerUpTile extends Tile {
 
 
         super(x, y, 40, 40, new Rectangle(x+8,y+8,25,25),
-                "JBomberman/src/view/res/miscellaneous/PowerUp"+ powerUp.toString()+".png", false);
+                "src/view/res/miscellaneous/PowerUp"+ powerUp.toString()+".png", false);
         this.powerUp=powerUp;
 
     }

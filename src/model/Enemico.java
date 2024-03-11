@@ -38,7 +38,7 @@ public class Enemico extends Personaggio {
         //Set degli sprites
         var pathImages = new PathImages();
 
-        var pathSource = "JBomberman/src/view/res/enemico/";
+        var pathSource = "src/view/res/enemico/";
 
         pathImages.down1 = pathSource + "down1.png";
         pathImages.down2 = pathSource + "down2.png";

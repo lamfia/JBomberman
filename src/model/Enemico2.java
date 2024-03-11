@@ -18,7 +18,7 @@ public class Enemico2 extends Enemico {
         super(posX, posY, velocita, width, height, direzioneIniziale, tileManager);
 
 
-        var pathSource = "JBomberman/src/view/res/enemico2/";
+        var pathSource = "src/view/res/enemico2/";
         //Set degli sprites
         var pathImages = new PathImages();
 

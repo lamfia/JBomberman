@@ -25,7 +25,7 @@ public abstract class Oggetto {
 
     public Hitbox hitbox;
 
-    public  String pathSource="JBomberman/src/view/res/";
+    public  String pathSource="src/view/res/";
 
     public void setCurrentImage(String path) {
 
