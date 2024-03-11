@@ -9,20 +9,51 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+
 /**
- * Contiene tutte le impostazioni di ogni mappa, tiles, enemici, powerups, portaleUscita
+ * Questa classe contiene tutte le impostazioni di ogni mappa, inclusi tiles, nemici, power-ups e il portale di uscita.
+ * Le mappe sono specificate tramite l'enumerazione Maps.
+ *
+ * @see Maps
  */
 public class Map {
+    /**
+     * La mappa selezionata.
+     */
+    private Maps selectedMap;
 
-
-    Maps selectedMap;
-
+    /**
+     * Lista degli enemici presenti sulla mappa.
+     */
     public ArrayList<Enemico> Enemici = new ArrayList<>();
+
+    /**
+     * Lista dei tiles attraversabili sulla mappa.
+     */
     public ArrayList<Tile> WalkingTiles = new ArrayList<>();
+
+    /**
+     * Lista dei power-ups presenti sulla mappa.
+     */
     public ArrayList<PowerUpTile> PowerUpTiles = new ArrayList<>();
+
+    /**
+     * Lista dei tiles distruttibili sulla mappa.
+     */
     public ArrayList<Tile> DestructibilesTiles = new ArrayList<>();
+
+    /**
+     * Il tile che rappresenta la porta di uscita sulla mappa.
+     */
     public Tile PortaTile;
 
+    /**
+     * Costruisce una mappa in base alla mappa selezionata.
+     *
+     * @param selectedMap La mappa selezionata.
+     * @throws IOException Eccezione lanciata in caso di errori di input/output.
+     */
 
     public Map(Maps selectedMap) throws IOException {
         this.selectedMap = selectedMap;
@@ -35,7 +66,9 @@ public class Map {
 
 
     /**
-     * Imposta lo sfondo della mappa selezionata
+     * Restituisce il percorso dell'immagine di sfondo della mappa.
+     *
+     * @return Il percorso dell'immagine di sfondo della mappa.
      */
     public String getMapPath() {
         switch (selectedMap) {
@@ -49,6 +82,11 @@ public class Map {
     }
 
 
+    /**
+     * Restituisce la posizione iniziale x del giocatore sulla mappa.
+     *
+     * @return La posizione x iniziale del giocatore.
+     */
     public int getXInizialeGiocatore() {
 
         switch (selectedMap) {
@@ -61,6 +99,11 @@ public class Map {
         return 0;
     }
 
+    /**
+     * Restituisce la posizione iniziale y del giocatore sulla mappa.
+     *
+     * @return La posizione y iniziale del giocatore.
+     */
     public int getYInizialeGiocatore() {
 
         switch (selectedMap) {
@@ -73,13 +116,19 @@ public class Map {
         return 0;
     }
 
-
+    /**
+     * Resetta la configurazione della mappa, rimuovendo gli enemici.
+     */
     public void resetMapConfig() {
         //Reset enimici
         this.Enemici = new ArrayList<>();
         //setEnemici();
     }
 
+    /**
+     * Imposta il tile associato al portale di uscita sulla mappa, in base alla mappa selezionata.
+     * Il portale è rappresentato da un tile specifico con un'immagine di porta chiusa.
+     */
     private void setPorta() {
 
 
@@ -115,7 +164,10 @@ public class Map {
 
 
     /**
-     * Get dei tiles della mappa selezionata
+     * Inizializza la configurazione dei tiles sulla mappa in base alla mappa selezionata.
+     * Vengono impostati i tiles distruttibili e i tiles per la navigazione del giocatore.
+     *
+     * @throws IOException Eccezione lanciata in caso di errori di input/output durante l'inizializzazione.
      */
     private void setTiles() throws IOException {
 
@@ -230,9 +282,10 @@ public class Map {
     }
 
     /**
-     * Questo set viene fatto dopo perchè ha bisogno del tileM
+     * Inizializza la configurazione degli enemici sulla mappa in base alla mappa selezionata.
+     * Aggiunge gli enemici alla lista degli enemici presenti sulla mappa.
      *
-     * @param tileM
+     * @param tileM Il gestore dei tiles necessario per l'inizializzazione degli enemici.
      */
     public void setEnemici(TileManager tileM) {
 
@@ -249,11 +302,19 @@ public class Map {
         }
     }
 
+    /**
+     * Rimuove tutti gli enemici presenti sulla mappa, resettando la lista degli enemici.
+     */
     public void removeAllEnimici() {
         this.Enemici = new ArrayList<>();
     }
 
 
+    /**
+     * Resetta la configurazione dei powerups sulla mappa, rimuovendo tutti i powerups attuali e reimpostandoli.
+     * Viene chiamato per ripristinare la disposizione originale dei powerups sulla mappa.
+     * In caso di errori di input/output durante la reimpostazione, viene lanciata un'eccezione RuntimeException.
+     */
     public void resetPowerUpsTiles() {
         removeAllPowerUps();
 
@@ -264,13 +325,19 @@ public class Map {
         }
     }
 
+    /**
+     * Rimuove tutti i powerups attualmente presenti sulla mappa, resettando la lista dei powerups.
+     */
     private void removeAllPowerUps() {
         this.PowerUpTiles = new ArrayList<>();
     }
 
 
     /**
-     * Get dei powerUps della mappa selezionata
+     * Inizializza la configurazione dei powerups sulla mappa in base alla mappa selezionata.
+     * La disposizione e i tipi di powerups sono specifici per ciascuna mappa.
+     *
+     * @throws IOException Eccezione lanciata in caso di errori di input/output durante l'inizializzazione.
      */
     private void setPowerUps() throws IOException {
 

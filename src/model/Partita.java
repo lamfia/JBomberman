@@ -6,31 +6,57 @@ import controller.GestioneUtente;
 import java.io.IOException;
 import java.util.Observable;
 
+
 /**
- * Classe che ha gli attributi dello stato della partita,
- * playing, win o gameOver.
- * punteggio attuale, vite rimanenti? TODO
- * Timer
- * si crea quando viene fatto new game
- * contiene anche la mappa selezionata
- * Fa la comunicazione diretta con la view tramite il pattern OO
+ * Questa classe gestisce e contiene i dati relativi a una partita.
+ * Estende la classe Observable per supportare il pattern Observer e
+ * comunicare agli obsevers.
+ *
+ * @author Gabriel Guerra
+ * @version 1.0
  */
 public class Partita extends Observable {
 
+    /**
+     * Lo stato attuale della partita.
+     */
     public StatoPartita statoPartita;
 
+    /**
+     * La mappa corrente della partita.
+     */
     public Map map;
 
+    /**
+     * Il punteggio attuale della partita.
+     */
     public int points;
 
+    /**
+     * Il giocatore associato alla partita.
+     */
     public Giocatore giocatore;
 
+    /**
+     * Indica se il portale è aperto o chiuso.
+     */
     public boolean OpenPortal = false;
 
+    /**
+     * L'ultima mappa giocata.
+     */
     private Maps lastMapPlayed;
 
+    /**
+     * L'utente associato alla partita.
+     */
     public Utente utente;
 
+    /**
+     * Verifica se la partita si trova nello stato di schermata del titolo, Game Over o vittoria.
+     *
+     * @return true se la partita è in uno degli stati sopra menzionati, altrimenti false.
+     */
     public boolean isTitleState() {
 
         if (statoPartita == StatoPartita.Title || statoPartita == StatoPartita.GameOver || statoPartita == StatoPartita.Win) {
@@ -40,16 +66,23 @@ public class Partita extends Observable {
         return false;
     }
 
+    /**
+     * Verifica se la partita è nello stato di gioco.
+     *
+     * @return true se la partita è in uno degli stati di gioco, altrimenti false.
+     */
     public boolean isPlayingState() {
 
-        if (statoPartita == StatoPartita.Playing || statoPartita==StatoPartita.Playing_StageSelect) {
+        if (statoPartita == StatoPartita.Playing || statoPartita == StatoPartita.Playing_StageSelect) {
             return true;
         }
 
         return false;
     }
 
-
+    /**
+     * Costruttore predefinito che inizializza la posizione iniziale del giocatore e altri parametri.
+     */
     public Partita() {
         //Crea il giocatore
         //this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
@@ -58,6 +91,12 @@ public class Partita extends Observable {
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
 
+    /**
+     * Avvia una nuova partita sulla mappa selezionata.
+     *
+     * @param selectedMap La mappa selezionata per la nuova partita.
+     * @throws IOException Eccezione lanciata in caso di errori di input/output.
+     */
     public void newGame(Maps selectedMap) throws IOException {
         OpenPortal = false;
         lastMapPlayed = selectedMap;
@@ -71,13 +110,11 @@ public class Partita extends Observable {
 
         this.giocatore.movimento.posizione.AggiornaHitbox();
 
-        // TP del giocatore in posizione iniziale
-//        giocatore.movimento.posizione.pos_x = giocatore.movimento.posizione.pos_x_iniziale;
-//        giocatore.movimento.posizione.pos_y = giocatore.movimento.posizione.pos_y_iniziale;
-
     }
 
-    //TODO cancellare il continue se è in state di stageSelect
+    /**
+     * Riprende una partita in corso. che è stato previamente in GameOver
+     */
     public void continueGame() {
 
         resetGame();
@@ -85,8 +122,10 @@ public class Partita extends Observable {
         this.giocatore.reimpostaViteIniziali();
     }
 
+    /**
+     * Resettare la partita, ripristinando il punteggio e tutti parametri.
+     */
     public void resetGame() {
-
 
         points = 0;
 
@@ -99,20 +138,27 @@ public class Partita extends Observable {
 
         //Ricreare tutti i tiles, powerups, enemici, personnagio con nuove vite, points a 0, timer al massimo
 
-
     }
 
-
+    /**
+     * Imposta lo stato della partita con il nuovo stato specificato.
+     *
+     * @param statoPartita Il nuovo stato della partita da impostare.
+     */
     public void setStatoPartita(StatoPartita statoPartita) {
         this.statoPartita = statoPartita;
     }
 
+    /**
+     * Notifica gli osservatori della modifica dello stato della partita.
+     * Questo metodo è chiamato dopo ogni cambiamento significativo nella partita.
+     * Gli osservatori vengono informati dell'aggiornamento tramite il pattern Observer.
+     */
     public void notifica() {
         setChanged();
         notifyObservers(this);
 
     }
-
 
     /**
      * In caso di cambio dello stato della
@@ -141,20 +187,16 @@ public class Partita extends Observable {
 
     }
 
-
+    /**
+     * Ferma la partita.
+     */
     public void StopGame() {
-        //TODO
     }
-
-
-    public void stopGame() {
-        resetGame();
-        //reset e stop del game TODO
-    }
-
 
     /**
-     * Save game in caso di win
+     * Salva i dati della partita in caso di vittoria o sconfitta.
+     *
+     * @param statoPartita Lo stato della partita (Win o GameOver).
      */
     private void SaveGame(StatoPartita statoPartita) {
         var GestioneUtente = new GestioneUtente();
@@ -205,12 +247,20 @@ public class Partita extends Observable {
 
     }
 
+    /**
+     * Apre il portale nella mappa corrente.
+     */
     public void OpenPortal() {
         OpenPortal = true;
         this.map.apriPorta();
         notifica();
     }
 
+    /**
+     * Carica una partita esistente associata all'utente specificato.
+     *
+     * @param idUtente L'ID dell'utente associato alla partita da caricare.
+     */
     public void LoadGame(int idUtente) {
 
         GestioneUtente gestioneUtente = new GestioneUtente();
@@ -220,3 +270,4 @@ public class Partita extends Observable {
 
     }
 }
+
