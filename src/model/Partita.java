@@ -114,7 +114,7 @@ public class Partita extends Observable {
     }
 
     /**
-     * Riprende una partita in corso. che è stato previamente in GameOver
+     * Riprende una partita in corso. che è stata previamente in GameOver
      */
     public void continueGame() {
 

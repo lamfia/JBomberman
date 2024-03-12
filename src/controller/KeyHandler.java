@@ -8,14 +8,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 
-public class KeyHandler extends Observable implements KeyListener {
 
+/**
+ * Gestisce gli eventi della tastiera durante il gioco.
+ *
+ * @author Gabriel Guerra
+ */
+public class KeyHandler extends Observable implements KeyListener {
 
     private boolean uppressed, downpressed, rightpressed, leftpressed;
 
-
     private Partita partita;
 
+
+    /**
+     * Costruttore che riceve la partita
+     * associata al gestore dei tasti.
+     *
+     * @param partita La partita associata al gestore dei tasti
+     */
     public KeyHandler(Partita partita) {
         this.partita = partita;
     }
@@ -24,7 +35,6 @@ public class KeyHandler extends Observable implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -92,13 +102,10 @@ public class KeyHandler extends Observable implements KeyListener {
 
 
     /**
-     * Notifica al gamepanel di cambiare di opzione Selezionata
+     * Notifica l'osservatore con la lettera premuta.
+     *
+     * @param keyCode Il codice della lettera premuta
      */
-    private void notifica(Direzione direzione) {
-        setChanged();
-        notifyObservers(direzione);
-    }
-
     private void notificaLettera(int keyCode) {
         setChanged();
         String keyText = KeyEvent.getKeyText(keyCode);

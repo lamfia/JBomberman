@@ -16,11 +16,24 @@ import java.util.ArrayList;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * Classe che gestisce le operazioni
+ * sugli utenti, come il salvataggio,
+ * il caricamento e la modifica.
+ *
+ * @author Gabriel Guerra
+ */
 public class GestioneUtente {
 
 
     private String filePathJson = "src/ConfigUtente/output.json";
 
+
+    /**
+     * Salva la lista degli utenti in formato JSON su un file.
+     *
+     * @param utenti La lista degli utenti da salvare
+     */
     public void salvaUtenti(ArrayList<Utente> utenti) {
 
         // Creare un oggetto Gson
@@ -40,6 +53,11 @@ public class GestioneUtente {
 
     }
 
+    /**
+     * Salva le modifiche apportate a un utente specifico.
+     *
+     * @param utente_input L'utente con le modifiche da salvare
+     */
     public void salvaModificheUtente(Utente utente_input) {
 
         var listaUtenti = getUtenti();
@@ -55,7 +73,11 @@ public class GestioneUtente {
 
     }
 
-
+    /**
+     * Carica la lista degli utenti dal file JSON.
+     *
+     * @return La lista degli utenti
+     */
     public ArrayList<Utente> getUtenti() {
 
         // Leggere il file JSON
@@ -84,6 +106,13 @@ public class GestioneUtente {
         return null;
     }
 
+
+    /**
+     * Restituisce il percorso dell'icona associata all'avatar specificato.
+     *
+     * @param avatar L'avatar di cui si vuole ottenere il percorso dell'icona
+     * @return Il percorso dell'icona dell'avatar
+     */
     public String getPathAvatarIcon(Avatar avatar) {
 
         String pathRoot = "src/view/res/icons/";
@@ -107,23 +136,14 @@ public class GestioneUtente {
 
 
     /**
-     * Uso degli Stream
-     * Usato per fare il filtro della lista di utenti con nickname
-     *
-     * @param nickname
+     * Ottiene un utente dalla lista degli utenti in base al suo nickname.
+     * USO DEGLI STREAM
+     * @param nickname Il nickname dell'utente da cercare
+     * @return L'utente corrispondente al nickname specificato
      */
     public Utente getUtente(String nickname) {
         return getUtenti().stream().filter(utente -> utente.Nickname.equals(nickname)).findFirst().get();
     }
 
-//    public static <T> String convertUsingGson(T object) {
-//        Gson gson = new Gson();
-//        return gson.toJson(object);
-//    }
-//
-//    public static <T> T convertFromJson(String jsonString, Class<T> classType) {
-//        Gson gson = new Gson();
-//        return gson.fromJson(jsonString, classType);
-//    }
 
 }

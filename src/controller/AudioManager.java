@@ -17,17 +17,26 @@ import javax.sound.sampled.*;
 public class AudioManager {
     private static AudioManager instance;
 
+    /**
+     * Enabler della musica
+     */
     public boolean enable = true;
+
+    Clip clip;
 
     private ArrayList<String> pathSounds= new ArrayList<>();
 
+
+    /**
+     * Restituisce l'istanza unica di AudioManager.
+     *
+     * @return L'istanza di AudioManager.
+     */
     public static AudioManager getInstance() {
         if (instance == null)
             instance = new AudioManager();
         return instance;
     }
-
-    Clip clip;
 
     private AudioManager() {
         pathSounds.add("src/view/res/sound/BackgroundMap1.wav"); //0
@@ -35,6 +44,11 @@ public class AudioManager {
         pathSounds.add("src/view/res/sound/Item Get.wav");   //2
     }
 
+    /**
+     * Imposta il Clip per il suono con l'indice specificato.
+     *
+     * @param i L'indice del suono.
+     */
     public void setClip(int i) {
         try {
             AudioInputStream audio = AudioSystem.getAudioInputStream(new File(pathSounds.get(i)).getAbsoluteFile());
@@ -45,21 +59,36 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Riproduce del effeto di suono indicato
+     * dal parametro
+     * @param index L'indice del suono.
+     */
     public void playSE(int index){
 
         setClip(index);
         play();
     }
 
+    /**
+     * Riproduce una musica di sottofondo con
+     * l'indice specificato.
+     *
+     * @param index L'indice della musica da riprodurre.
+     */
     public void playMusic(int index){
         setClip(index);
         play();
         loop();
     }
 
+    /**
+     * Interrompe la riproduzione della musica corrente.
+     */
     public void stopMusic() {
         clip.stop();
     }
+
 
     private void play() {
 

@@ -11,15 +11,49 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+/**
+ * Questa classe gestisce i tiles, i personaggi,
+ * le bombe e i power-ups nel gioco.
+ * Gestisce anche il disegno degli elementi
+ * sulla schermata di gioco e controlla
+ * le interazioni tra di essi.
+ */
 public class TileManager {
 
+    /**
+     * Lista dei personaggi nel gioco, inclusi gli enemici
+     */
     ArrayList<Personaggio> Personaggi = new ArrayList<>();
+
+    /**
+     * Rettangolo espanso per le collisioni
+     */
     Rectangle ExpendedeHitbox;
+
+    /**
+     * Riferimento al giocatore
+     */
     Giocatore giocatore;
+
+    /**
+     * Riferimento alla partita
+     */
     Partita partita;
 
+    /**
+     * Flag per mostrare le hitbox
+     * solo ambiente in sviluppo
+     */
     boolean showHitboxes = false;
 
+
+    /**
+     * Costruttore della classe `TileManager`.
+     * @param gp Il pannello di gioco.
+     * @param giocatore Il giocatore principale.
+     * @param partita La partita in corso.
+     */
     public TileManager(GamePanel gp, Giocatore giocatore, Partita partita) {
 
         this.giocatore = giocatore;
@@ -29,17 +63,15 @@ public class TileManager {
         SetEnemici();
 
         Personaggi.addAll(partita.map.Enemici);
-
-        try {
-            getTilesConfig();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     /**
-     * Cancella gli enemici attuali e li ricrea con i parametri iniziali
+     * Rimuove tutti gli enemici attualmente
+     * presenti sulla mappa e li ricrea con
+     * i parametri iniziali.
+     * Questo metodo è utile per reinizializzare
+     * gli enemici durante il gioco, in caso di new game,
+     * game over o continue.
      */
     public void RiSetEnemici() {
 
@@ -51,6 +83,13 @@ public class TileManager {
         Personaggi.addAll(partita.map.Enemici);
     }
 
+    /**
+     * Rimuove tutti gli enemici attualmente
+     * presenti sulla mappa e li ricrea con i
+     * parametri iniziali.
+     * Questo metodo è utile per reinizializzare
+     * gli enemici durante il gioco.
+     */
     public void RiSetPowerUps() {
         this.partita.map.resetPowerUpsTiles();
 
@@ -61,7 +100,13 @@ public class TileManager {
 
     }
 
-
+    /**
+     * Resetta tutti i power-ups presenti sulla
+     * mappa e riporta il giocatore alle impostazioni iniziali.
+     * Questo metodo è utile per ripristinare lo
+     * stato iniziale dei power-ups e del giocatore
+     * durante il gioco.
+     */
     private void SetEnemici() {
         this.partita.map.setEnemici(this);
     }
@@ -69,27 +114,25 @@ public class TileManager {
     /**
      * Add degli altri personaggi oltre al giocatore principale
      *
-     * @param personaggio
+     * @param personaggio personaggio da aggiungere
      */
     public void aggiungPersonaggio(Personaggio personaggio) {
         this.Personaggi.add(personaggio);
     }
 
-    public void getTilesConfig() throws IOException {
 
-        //this.WalkingTiles = this.partita.map.WalkingTiles;
 
-        //this.PowerUpTiles = this.partita.map.PowerUpTiles;
-
-        //this.this.partita.map.DestructibilesTiles = this.partita.map.this.partita.map.DestructibilesTiles;
-
-    }
-
+    //USATO STREAM QUI
     /**
-     * USATO STREAM QUI
-     * Utilizzato gli stream per ottenere il valore di collisione in base alle coordinate x e y
+     * Verifica se il tile associato alla posizione
+     * specificata è bloccato.
+     * Determina se il
+     * tile ha una collisione in base alle coordinate x e y.
      *
-     * @return true or false se è un tile con collission true
+     * @param posizione La posizione del tile da controllare.
+     * @param velocita La velocità del movimento.
+     * @param noClip True se la modalità no-clip è attiva, altrimenti False.
+     * @return True se il tile è bloccato a causa di una collisione, altrimenti False.
      */
     public boolean isTileBlocked(Posizione posizione, int velocita, boolean noClip) {
 
@@ -144,13 +187,24 @@ public class TileManager {
         return isBlocked || !isBlocked2;
     }
 
+
+    /**
+     * Aggiunge una bomba alla posizione
+     * specificata sulla mappa.
+     *
+     * @param x La coordinata x della posizione in cui aggiungere la bomba.
+     * @param y La coordinata y della posizione in cui aggiungere la bomba.
+     */
     public void AggiungiBomba(int x, int y) {
         giocatore.attaco.Aggiungibomba(x, y);
     }
 
     /**
-     * Metodo per fare i draw dei tiles
-     **/
+     * Disegna gli elementi della mappa di gioco
+     * sui graphics passato in ingresso.
+     *
+     * @param g2 Il contesto grafico su cui disegnare gli elementi.
+     */
     public void draw(Graphics g2) {
 
         //Draw dei walking tiles
@@ -335,6 +389,15 @@ public class TileManager {
     private long lastHitTime = 0;
     private final long invulnerabilityDuration = 4000; // 4 secondi di invulnerabilità
 
+
+    /**
+     * Verifica se il gioco è GameOver a causa di una collisione con una bomba esplosa o con un nemico.
+     * Se il giocatore è stato colpito da un'esplosione di bomba o ha intersecato un nemico, controlla se è passato
+     * abbastanza tempo dall'ultimo colpo per determinare se è vulnerabile o meno. Se il giocatore ha esaurito tutte
+     * le vite, cambia lo stato della partita in "Game Over".
+     *
+     * @return true se il gioco è terminato, false altrimenti.
+     */
     private Boolean isGameOver() {
 
         var hitboxGiocatore = giocatore.movimento.posizione.hitbox.getBounds();
@@ -374,8 +437,10 @@ public class TileManager {
         return false;
     }
 
+
     /**
-     * Apre il portale se non ci sono più enemici vivi
+     * Controlla se è possibile aprire il portale per passare al livello successivo. Il portale può essere aperto solo
+     * se non ci sono più nemici vivi sulla mappa.
      */
     public void CanOpenPortal() {
 
@@ -385,12 +450,19 @@ public class TileManager {
     }
 
     /**
-     * Comunicare alla partita di aprire il portale
+     * Comunica alla partita di aprire
+     * il portale per passare al livello successivo.
      */
     private void OpenPortal() {
         partita.OpenPortal();
     }
 
+    /**
+     * Verifica se il giocatore ha vinto la partita.
+     * Il giocatore vince quando non ci sono
+     * più nemici sulla mappa e
+     * interseca il portale aperto.
+     */
     public void isWin() {
 
 
@@ -415,10 +487,13 @@ public class TileManager {
     }
 
     /**
-     * Questa azione controlla il movimento del personaggio
-     * cioè le azioni attive per esempio movimento verso i powerups o attraversamento portale per win
+     * Questo metodo gestisce le azioni relative al movimento del personaggio, come il movimento verso i power-up
+     * o il passaggio attraverso il portale per vincere. Controlla se il giocatore ha terminato il gioco o ha vinto
+     * la partita. Se la posizione passata non è quella del giocatore, il metodo termina. Se il giocatore interseca
+     * un power-up, lo raccoglie e ne applica gli effetti. Inoltre, gestisce la riproduzione dei suoni relativi
+     * all'acquisizione del power-up. Dopo aver raccolto un power-up, lo rimuove dalla mappa.
      *
-     * @param posizione
+     * @param posizione La posizione del personaggio da controllare.
      */
     public void AzioneListener(Posizione posizione) {
         isGameOver();
