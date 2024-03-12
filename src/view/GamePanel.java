@@ -14,23 +14,36 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ *  Questa classe rappresenta il gamePanel del gioco,
+ *  gestiona tutta la sezione visuale del gioco, cosi anche come
+ *  il menu di selezione, paint degli sprites e fps del gioco.
+ *  implementa la classe Observer per essere aggiornata ad ogni iterazione
+ *  con gli observables che sono i models.
+ * @author Gabriel Guerra
+ */
+
+
+
+/**
+ * Questa classe rappresenta il gamepanel del gioco.
+ * Gestisce tutta la parte visuale del gioco, inclusi
+ * i menu di selezione,
+ * il disegno degli sprites e il controllo dei frame per
+ * secondo (FPS).
+ * Implementa l'interfaccia Observer per essere
+ * aggiornata ad ogni iterazione
+ * dagli oggetti osservati (models).
+ *
  * @author Gabriel Guerra
  */
 public class GamePanel extends JPanel implements Observer {
     private TileManager tileM;
-    private String TempoGioco = "00:00:00";
-    //private Image image1;
-    private Image map;
     private Graphics2D externalGraphics;
     private Giocatore player;
-
     private int TitleScreenState = 0; //0: prima title ; 1: load game
     // ; 2:stage select ; 3:CreazioneUtente
-
     public Partita partita;
-
     public String NewNickName = "";
-
     public Utente newUtente = new Utente();
 
     /**
@@ -38,11 +51,9 @@ public class GamePanel extends JPanel implements Observer {
      **/
     private int dimensionWidth;
     private int dimensionHeight;
-
     private int commandNum = 0;
     private int MaxcommandNum = 2;
     private int MincommandNum = 0;
-
 
     //Constructor
     public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight, Partita partita) {
@@ -52,11 +63,16 @@ public class GamePanel extends JPanel implements Observer {
 
         this.partita = partita;
     }
-
     int FPS = 60;
     double drawInterval = 1000000000 / FPS;
     double nextDrawTime = System.nanoTime() + drawInterval;
 
+    /**
+     * Metodo per gestire il repaint del gioco (FPS) .
+     * Viene chiamato ad intervalli regolari (60 per secondo) per aggiornare la grafica.
+     *
+     * @throws InterruptedException Se il thread viene interrotto mentre è in attesa.
+     */
     public void repaintTask() throws InterruptedException {
         repaint();
 
@@ -73,7 +89,11 @@ public class GamePanel extends JPanel implements Observer {
         nextDrawTime += drawInterval;
 
     }
-
+    /**
+     * Aggiunge un giocatore principale al pannello di gioco.
+     *
+     * @param giocatore Il giocatore da aggiungere.
+     */
     public void addGiocatore(Giocatore giocatore) {
 
         //Default image
@@ -84,7 +104,6 @@ public class GamePanel extends JPanel implements Observer {
         repaint();
 
     }
-
     @Override
     public void paintComponent(Graphics g) {
 
@@ -141,12 +160,10 @@ public class GamePanel extends JPanel implements Observer {
         }
 
     }
-
     private void drawFullImage(Graphics2D g2, Image img) {
 
         g2.drawImage(img, 0, 0, dimensionWidth, dimensionHeight, this);
     }
-
     private void drawTitle(Graphics2D g2) throws IOException {
 
 
@@ -367,7 +384,6 @@ public class GamePanel extends JPanel implements Observer {
 
         }
     }
-
     private void drawSavedGame(Graphics2D g2, int idSavedGame, int x, int y) {
 
         var gestioneUtente = new GestioneUtente();
@@ -402,7 +418,6 @@ public class GamePanel extends JPanel implements Observer {
 
 
     }
-
     private Utente getSavedGameEsistente(int idSavedGame) {
         //Get x utente
         var gestioneUtente = new GestioneUtente();
@@ -422,37 +437,39 @@ public class GamePanel extends JPanel implements Observer {
         }
 
     }
-
     private void SalvaModificheUtente(Utente utente) {
         var gestioneUtente = new GestioneUtente();
         gestioneUtente.salvaModificheUtente(utente);
 
     }
-
+    /**
+     * Disegna i tiles sul pannello di gioco utilizzando il manager dei tiles.
+     * Questo metodo richiama il metodo draw del TileManager
+     * per disegnare i tiles sul pannello utilizzando il contesto grafico esterno.
+     */
     public void drawTiles() {
 
         tileM.draw(this.externalGraphics);
     }
-
+    /**
+     * Imposta il tileManage.
+     * @param tileM Il manager dei tiles da impostare per il pannello di gioco.
+     */
     public void setTileM(TileManager tileM) {
         this.tileM = tileM;
     }
-
     private void cambioMenuReset(int maxCommandNum) {
         //Cambio di menu
         commandNum = 0;
         MaxcommandNum = maxCommandNum;
     }
-
     private void cambioMenuReset(int minCommandNum, int maxCommandNum) {
         //Cambio di menu
         MincommandNum = minCommandNum;
         MaxcommandNum = maxCommandNum;
 
     }
-
-    public final static String alphabet = "qwertyuiopasdfghjklzxcvbnm";
-
+    private final static String alphabet = "qwertyuiopasdfghjklzxcvbnm";
     @Override
     public void update(Observable observable, Object arg) {
 
@@ -598,8 +615,6 @@ public class GamePanel extends JPanel implements Observer {
 
 
     }
-
-
     private void gestioneMenu(Direzione direzione) {
         switch (direzione) {
             case UP:
@@ -807,7 +822,6 @@ public class GamePanel extends JPanel implements Observer {
 
         }
     }
-
     private void LoadGame(int saveId) {
 
         var utente = getSavedGameEsistente(saveId);
@@ -836,8 +850,6 @@ public class GamePanel extends JPanel implements Observer {
         tileM.RiSetPowerUps();
 
     }
-
-
     private void drawScreenGameOver(Graphics2D g2) {
 
         try {
@@ -869,7 +881,6 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
-
     private void drawScreenWin(Graphics2D g2) {
 
         try {
@@ -901,7 +912,6 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
-
     private void drawScreenWinNonContinue(Graphics2D g2) {
 
         try {
@@ -933,7 +943,6 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
-
     private void drawInfoGame(Graphics2D g2) throws IOException {
 
         //Timer del gioco //TODO spostare in partita model
