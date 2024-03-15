@@ -1,37 +1,3 @@
 [
-  {
-    "Nickname": "LAMFIAUNO",
-    "partiteGiocate": 69,
-    "partiteVinte": 26,
-    "partitePerse": 28,
-    "lastLevelArrived": 1,
-    "puntiOttenuti": 0
-  },
-  {
-    "Nickname": "GABRIEL",
-    "avatar": "PrettyBomberman",
-    "partiteGiocate": 4,
-    "partiteVinte": 0,
-    "partitePerse": 1,
-    "lastLevelArrived": 1,
-    "puntiOttenuti": 0
-  },
-  {
-    "Nickname": "ASDASDA",
-    "avatar": "PrettyBomberman",
-    "partiteGiocate": 3,
-    "partiteVinte": 0,
-    "partitePerse": 4,
-    "lastLevelArrived": 1,
-    "puntiOttenuti": 0
-  },
-  {
-    "Nickname": "PPOO",
-    "avatar": "PrettyBomberman",
-    "partiteGiocate": 6,
-    "partiteVinte": 4,
-    "partitePerse": 2,
-    "lastLevelArrived": 2,
-    "puntiOttenuti": 0
-  }
+
 ]

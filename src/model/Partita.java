@@ -141,7 +141,6 @@ public class Partita extends Observable {
 
     }
 
-
     /**
      * Imposta lo stato della partita con il nuovo stato specificato.
      *

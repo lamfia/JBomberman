@@ -587,6 +587,7 @@ public class GamePanel extends JPanel implements Observer {
 
 
                         try {
+                            this.partita.cambiaSpritesGiocatore();
                             partita.newGame(Maps.TheSevenSeas);
                         } catch (IOException e) {
                             throw new RuntimeException(e);

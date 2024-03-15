@@ -87,6 +87,7 @@ public class Giocatore extends Personaggio {
     /**
      * Imposta gli sprites delll'avatar scelto specifici
      * Avatar di default è whiteBomberman
+     *
      * @param avatar Avatar da impostare
      */
     public void setSpritesAvatar(Avatar avatar) {
@@ -94,8 +95,20 @@ public class Giocatore extends Personaggio {
 
         if (avatar != null) {
 
+
             switch (avatar) {
-                case avatar.PrettyBomberman -> setSprites("PrettyBomberman");
+                case BombermanTheKid:
+                    setSprites("BThekid");
+                    break;
+                case PrettyBomberman:
+                    setSprites("PrettyBomberman");
+                    break;
+                case PunkBomberman:
+                    setSprites("PunkBomberman");
+                    break;
+                default:
+                    setSprites("WhiteBomberman");
+                    break;
             }
 
         } else {
@@ -136,7 +149,7 @@ public class Giocatore extends Personaggio {
 
         super.movimento.posizione.pathImages = pathImages;
 
-        super.movimento.posizione.ImageAttuale=super.movimento.posizione.pathImages.downidle;
+        super.movimento.posizione.ImageAttuale = super.movimento.posizione.pathImages.downidle;
     }
 
     /**

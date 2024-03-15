@@ -372,7 +372,9 @@ public class TileManager {
             if (ExpendedeHitbox != null) {
 
                 g2.setColor(Color.yellow);
-               // g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
+                //g2.fillRect(ExpendedeHitbox.x, ExpendedeHitbox.y, ExpendedeHitbox.width, ExpendedeHitbox.height);
+                g2.fillRect(giocatore.movimento.posizione.hitbox.x, giocatore.movimento.posizione.hitbox.y,
+                        giocatore.movimento.posizione.hitbox.width, giocatore.movimento.posizione.hitbox.height);
 
             } else {
 
