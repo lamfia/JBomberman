@@ -116,6 +116,10 @@ public class GestioneUtente {
     public String getPathAvatarIcon(Avatar avatar) {
 
         String pathRoot = "src/view/res/icons/";
+        if (avatar == null) {
+            return pathRoot + "Bomberman.png";
+        }
+
         switch (avatar) {
             case Bomberman -> {
                 return pathRoot + "Bomberman.png";
@@ -129,6 +133,7 @@ public class GestioneUtente {
             case PunkBomberman -> {
                 return pathRoot + "PunkBomberman.png";
             }
+
         }
 
         return null;
@@ -138,6 +143,7 @@ public class GestioneUtente {
     /**
      * Ottiene un utente dalla lista degli utenti in base al suo nickname.
      * USO DEGLI STREAM
+     *
      * @param nickname Il nickname dell'utente da cercare
      * @return L'utente corrispondente al nickname specificato
      */

@@ -9,6 +9,7 @@ import java.awt.*;
  * Rappresenta il personaggio principale del gioco, controllato dal giocatore.
  * Derivato dalla classe astratta Personaggio.
  * Possiede un sistema di attacco e un numero di vite che diminuiscono quando il giocatore muore.
+ *
  * @author Gabriel Guerra
  */
 public class Giocatore extends Personaggio {
@@ -28,15 +29,17 @@ public class Giocatore extends Personaggio {
      */
     public int vite_inziali;
 
+    public Avatar avatar;
+
     /**
      * Crea un nuovo giocatore con posizione iniziale, numero di vite, velocità, larghezza e altezza specificati.
      *
-     * @param posX    La coordinata X iniziale del giocatore.
-     * @param posY    La coordinata Y iniziale del giocatore.
-     * @param vite    Il numero iniziale di vite del giocatore.
+     * @param posX     La coordinata X iniziale del giocatore.
+     * @param posY     La coordinata Y iniziale del giocatore.
+     * @param vite     Il numero iniziale di vite del giocatore.
      * @param velocita La velocità di movimento del giocatore.
-     * @param width   La larghezza del giocatore.
-     * @param height  L'altezza del giocatore.
+     * @param width    La larghezza del giocatore.
+     * @param height   L'altezza del giocatore.
      */
     public Giocatore(int posX, int posY, int vite, int velocita, int width, int height) {
 
@@ -45,14 +48,28 @@ public class Giocatore extends Personaggio {
         //TODO passare qualcosa al ctor?
         this.attaco = new Attaco(0);
 
-        this.vite=vite;
-        this.vite_inziali=vite;
+        this.vite = vite;
+        this.vite_inziali = vite;
 
-        //TODO fare set degli sprites un metodo generico per tutti personaggi
         //Set degli sprites
         var pathImages = new PathImages();
 
-        var pathSource = "src/view/res/giocatore/";
+
+        String personaggio = "";
+        if (avatar != null) {
+
+            switch (avatar) {
+                case Avatar.PrettyBomberman -> personaggio = "PrettyBomberman";
+            }
+
+        } else {
+            personaggio = "WhiteBomberman";
+        }
+
+        //personaggio = "PrettyBomberman";
+
+
+        var pathSource = "src/view/res/characters/" + personaggio + "/";
 
         pathImages.down1 = pathSource + "down1.png";
         pathImages.down2 = pathSource + "down2.png";
@@ -85,18 +102,18 @@ public class Giocatore extends Personaggio {
      * Metodo chiamato quando il giocatore muore.
      * Riduce il numero di vite e potrebbe attivare un'animazione di morte.
      */
-    public void morte(){
+    public void morte() {
 
         //TODO FARE ANIMAZIONE DI MORTE , vietare il movimento
-        this.vite = this.vite-1;
+        this.vite = this.vite - 1;
 
     }
 
     /**
      * Reimposta il numero di vite del giocatore ai valori iniziali.
      */
-    public void reimpostaViteIniziali(){
-        this.vite=this.vite_inziali;
+    public void reimpostaViteIniziali() {
+        this.vite = this.vite_inziali;
     }
 
 }

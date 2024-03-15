@@ -579,6 +579,7 @@ public class GamePanel extends JPanel implements Observer {
 //                        } catch (IOException e) {
 //                            throw new RuntimeException(e);
 //                        }
+                        partita.utente.avatar=newUtente.avatar;
 
                         this.TitleScreenState = 0;
                         NewNickName = "";
@@ -945,16 +946,13 @@ public class GamePanel extends JPanel implements Observer {
     }
     private void drawInfoGame(Graphics2D g2) throws IOException {
 
-        //Timer del gioco //TODO spostare in partita model
-//        g2.setColor(Color.white);
-//        g2.drawString(TempoGioco, 100, 20);
 
         Color c = new Color(0, 0, 0f, .4f);
         g2.setColor(c);
         g2.fillRect(0, 0, 900, 30);
 
-        //Bomberman icon image
-        var bombermanIcon = ImageIO.read(new File("src/view/res/icons/bomberman.png"));
+        var gestioneUtente= new GestioneUtente();
+        var AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(partita.utente.avatar)));
 
         int totvite = player.vite;
 
@@ -962,15 +960,13 @@ public class GamePanel extends JPanel implements Observer {
         g2.drawString("Lifes: ", 170, 20);
         int x_spacebetween = 200;
         for (int i = 0; i < totvite; i++) {
-            g2.drawImage(bombermanIcon, x_spacebetween, -8, 55, 45, this);
+            g2.drawImage(AvatarIcon, x_spacebetween, -8, 55, 45, this);
             x_spacebetween += 40;
         }
-
 
         g2.setColor(Color.white);
         g2.drawString("Points: ", 500, 20);
         g2.drawString(String.valueOf(partita.points), 560, 20);
-
 
     }
 }
