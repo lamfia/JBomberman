@@ -29,7 +29,6 @@ public class Giocatore extends Personaggio {
      */
     public int vite_inziali;
 
-    public Avatar avatar;
 
     /**
      * Crea un nuovo giocatore con posizione iniziale, numero di vite, velocità, larghezza e altezza specificati.
@@ -45,29 +44,69 @@ public class Giocatore extends Personaggio {
 
         super(posX, posY, velocita, width, height);
 
-        //TODO passare qualcosa al ctor?
+        //setAvatar(Avatar.Bomberman);
+
         this.attaco = new Attaco(0);
 
         this.vite = vite;
+
         this.vite_inziali = vite;
 
-        //Set degli sprites
+
         var pathImages = new PathImages();
 
+        var pathSource = "src/view/res/characters/" + "WhiteBomberman" + "/";
 
-        String personaggio = "";
+        pathImages.down1 = pathSource + "down1.png";
+        pathImages.down2 = pathSource + "down2.png";
+        pathImages.down3 = pathSource + "down3.png";
+        pathImages.down4 = pathSource + "down4.png";
+        pathImages.downidle = pathSource + "downidle.png";
+
+        pathImages.up1 = pathSource + "up1.png";
+        pathImages.up2 = pathSource + "up2.png";
+        pathImages.up3 = pathSource + "up3.png";
+        pathImages.up4 = pathSource + "up4.png";
+        pathImages.upidle = pathSource + "upidle.png";
+
+        pathImages.right1 = pathSource + "right1.png";
+        pathImages.right2 = pathSource + "right2.png";
+        pathImages.right3 = pathSource + "right3.png";
+        pathImages.right4 = pathSource + "right4.png";
+        pathImages.rightidle = pathSource + "rightidle.png";
+
+        pathImages.left1 = pathSource + "left1.png";
+        pathImages.left2 = pathSource + "left2.png";
+        pathImages.left3 = pathSource + "left3.png";
+        pathImages.left4 = pathSource + "left4.png";
+        pathImages.leftidle = pathSource + "leftidle.png";
+
+        super.movimento.posizione.pathImages = pathImages;
+    }
+
+    /**
+     * Imposta gli sprites delll'avatar scelto specifici
+     * Avatar di default è whiteBomberman
+     * @param avatar Avatar da impostare
+     */
+    public void setSpritesAvatar(Avatar avatar) {
+
+
         if (avatar != null) {
 
             switch (avatar) {
-                case Avatar.PrettyBomberman -> personaggio = "PrettyBomberman";
+                case avatar.PrettyBomberman -> setSprites("PrettyBomberman");
             }
 
         } else {
-            personaggio = "WhiteBomberman";
+            setSprites("WhiteBomberman");
         }
+    }
 
-        //personaggio = "PrettyBomberman";
+    private void setSprites(String personaggio) {
 
+        //Set degli sprites
+        var pathImages = new PathImages();
 
         var pathSource = "src/view/res/characters/" + personaggio + "/";
 
@@ -96,6 +135,8 @@ public class Giocatore extends Personaggio {
         pathImages.leftidle = pathSource + "leftidle.png";
 
         super.movimento.posizione.pathImages = pathImages;
+
+        super.movimento.posizione.ImageAttuale=super.movimento.posizione.pathImages.downidle;
     }
 
     /**

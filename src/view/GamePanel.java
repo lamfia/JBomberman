@@ -585,6 +585,7 @@ public class GamePanel extends JPanel implements Observer {
                         NewNickName = "";
                         newUtente = new Utente();
 
+
                         try {
                             partita.newGame(Maps.TheSevenSeas);
                         } catch (IOException e) {
@@ -834,6 +835,7 @@ public class GamePanel extends JPanel implements Observer {
             SalvaModificheUtente(utente);
             partita.LoadGame(saveId);
             try {
+                this.partita.cambiaSpritesGiocatore();
                 partita.newGame(Maps.TheSevenSeas);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -952,7 +954,15 @@ public class GamePanel extends JPanel implements Observer {
         g2.fillRect(0, 0, 900, 30);
 
         var gestioneUtente= new GestioneUtente();
-        var AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(partita.utente.avatar)));
+
+        BufferedImage AvatarIcon;
+        if (partita.utente==null){
+
+            //Avatar di default Bomberman
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.Bomberman)));
+        }else{
+            AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(partita.utente.avatar)));
+        }
 
         int totvite = player.vite;
 
