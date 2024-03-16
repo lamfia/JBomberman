@@ -14,14 +14,14 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- *  Questa classe rappresenta il gamePanel del gioco,
- *  gestiona tutta la sezione visuale del gioco, cosi anche come
- *  il menu di selezione, paint degli sprites e fps del gioco.
- *  implementa la classe Observer per essere aggiornata ad ogni iterazione
- *  con gli observables che sono i models.
+ * Questa classe rappresenta il gamePanel del gioco,
+ * gestiona tutta la sezione visuale del gioco, cosi anche come
+ * il menu di selezione, paint degli sprites e fps del gioco.
+ * implementa la classe Observer per essere aggiornata ad ogni iterazione
+ * con gli observables che sono i models.
+ *
  * @author Gabriel Guerra
  */
-
 
 
 /**
@@ -55,14 +55,21 @@ public class GamePanel extends JPanel implements Observer {
     private int MaxcommandNum = 2;
     private int MincommandNum = 0;
 
-    //Constructor
-    public GamePanel(Color colorBackGround, int dimensionWidth, int dimensionHeight, Partita partita) {
+    /**
+     * Construttore della classe
+     *
+     * @param dimensionWidth  dimensione dello schermo lungo
+     * @param dimensionHeight dimensione dello schermo largo
+     * @param partita         partita previamente creata
+     */
+    public GamePanel(int dimensionWidth, int dimensionHeight, Partita partita) {
 
         this.dimensionHeight = dimensionHeight;
         this.dimensionWidth = dimensionWidth;
 
         this.partita = partita;
     }
+
     int FPS = 60;
     double drawInterval = 1000000000 / FPS;
     double nextDrawTime = System.nanoTime() + drawInterval;
@@ -89,6 +96,7 @@ public class GamePanel extends JPanel implements Observer {
         nextDrawTime += drawInterval;
 
     }
+
     /**
      * Aggiunge un giocatore principale al pannello di gioco.
      *
@@ -104,6 +112,7 @@ public class GamePanel extends JPanel implements Observer {
         repaint();
 
     }
+
     @Override
     public void paintComponent(Graphics g) {
 
@@ -142,7 +151,7 @@ public class GamePanel extends JPanel implements Observer {
                 //ultima mappa, draw del win non continue
                 if (partita.lastMapPlayed == Maps.Spaceman) {
 
-                    commandNum=1;
+                    commandNum = 1;
                     cambioMenuReset(1, 1);
                     drawScreenWinNonContinue(g2);
                 } else {
@@ -160,10 +169,12 @@ public class GamePanel extends JPanel implements Observer {
         }
 
     }
+
     private void drawFullImage(Graphics2D g2, Image img) {
 
         g2.drawImage(img, 0, 0, dimensionWidth, dimensionHeight, this);
     }
+
     private void drawTitle(Graphics2D g2) throws IOException {
 
 
@@ -176,15 +187,18 @@ public class GamePanel extends JPanel implements Observer {
 
         }
 
-        //Title bomberman
-        var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
-        g2.drawImage(title, 240, 30, 270, 150, this);
 
         //Bomb menu
         var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
 
 
         if (TitleScreenState == 0) {
+
+
+            //Title bomberman
+            var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
+            g2.drawImage(title, 240, 30, 270, 150, this);
+
             //Start
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
@@ -292,30 +306,7 @@ public class GamePanel extends JPanel implements Observer {
 
         //Stage select
         if (TitleScreenState == 2) {
-
-            //Level 1 pirates
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Level 1 - Pirates!", 260, 250);
-            if (commandNum == 0) {
-                g2.drawImage(bombMenuImage, 230, 220, 27, 37, this);
-            }
-
-            //Level 2 spaceMan!
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Level 2 - Spaceman", 260, 300);
-            if (commandNum == 1) {
-                g2.drawImage(bombMenuImage, 230, 270, 27, 37, this);
-            }
-
-            //Return menu
-            g2.setColor(Color.white);
-            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
-            g2.drawString("Return menu", 260, 350);
-            if (commandNum == 2) {
-                g2.drawImage(bombMenuImage, 230, 320, 27, 37, this);
-            }
+            drawStageSelect(g2);
         }
 
         //Crea Utente
@@ -384,6 +375,41 @@ public class GamePanel extends JPanel implements Observer {
 
         }
     }
+
+    private void drawStageSelect(Graphics2D g2) throws IOException {
+
+        var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
+
+        var imageSevenSeas = ImageIO.read(new File(partita.map.getMapPath(Maps.TheSevenSeas)));
+        g2.drawImage(imageSevenSeas, 40, 80, 300, 300, this);
+
+        //Level 1 pirates
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Level 1 - Pirates", 40, 440);
+        if (commandNum == 0) {
+            g2.drawImage(bombMenuImage, 15, 410, 27, 37, this);
+        }
+        var imageSpaceMan = ImageIO.read(new File(partita.map.getMapPath(Maps.Spaceman)));
+        g2.drawImage(imageSpaceMan, 420, 80, 300, 300, this);
+
+        //Level 2 spaceMan!
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Level 2 - Spaceman", 400, 440);
+        if (commandNum == 1) {
+            g2.drawImage(bombMenuImage, 375, 410, 27, 37, this);
+        }
+
+        //Return menu
+        g2.setColor(Color.white);
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 40F));
+        g2.drawString("Return menu", 260, 510);
+        if (commandNum == 2) {
+            g2.drawImage(bombMenuImage, 230, 480, 27, 37, this);
+        }
+    }
+
     private void drawSavedGame(Graphics2D g2, int idSavedGame, int x, int y) {
 
         var gestioneUtente = new GestioneUtente();
@@ -418,6 +444,7 @@ public class GamePanel extends JPanel implements Observer {
 
 
     }
+
     private Utente getSavedGameEsistente(int idSavedGame) {
         //Get x utente
         var gestioneUtente = new GestioneUtente();
@@ -437,11 +464,13 @@ public class GamePanel extends JPanel implements Observer {
         }
 
     }
+
     private void SalvaModificheUtente(Utente utente) {
         var gestioneUtente = new GestioneUtente();
         gestioneUtente.salvaModificheUtente(utente);
 
     }
+
     /**
      * Disegna i tiles sul pannello di gioco utilizzando il manager dei tiles.
      * Questo metodo richiama il metodo draw del TileManager
@@ -451,25 +480,31 @@ public class GamePanel extends JPanel implements Observer {
 
         tileM.draw(this.externalGraphics);
     }
+
     /**
      * Imposta il tileManage.
+     *
      * @param tileM Il manager dei tiles da impostare per il pannello di gioco.
      */
     public void setTileM(TileManager tileM) {
         this.tileM = tileM;
     }
+
     private void cambioMenuReset(int maxCommandNum) {
         //Cambio di menu
         commandNum = 0;
         MaxcommandNum = maxCommandNum;
     }
+
     private void cambioMenuReset(int minCommandNum, int maxCommandNum) {
         //Cambio di menu
         MincommandNum = minCommandNum;
         MaxcommandNum = maxCommandNum;
 
     }
+
     private final static String alphabet = "qwertyuiopasdfghjklzxcvbnm";
+
     @Override
     public void update(Observable observable, Object arg) {
 
@@ -579,7 +614,7 @@ public class GamePanel extends JPanel implements Observer {
 //                        } catch (IOException e) {
 //                            throw new RuntimeException(e);
 //                        }
-                        partita.utente.avatar=newUtente.avatar;
+                        partita.utente.avatar = newUtente.avatar;
 
                         this.TitleScreenState = 0;
                         NewNickName = "";
@@ -602,13 +637,33 @@ public class GamePanel extends JPanel implements Observer {
 
             } else {
 
-                if (lettera.equals("W")) {
-                    gestioneMenu(Direzione.UP);
-                } else if (lettera.equals("S")) {
-                    gestioneMenu(Direzione.DOWN);
-                } else if (lettera.equals("Enter")) {
-                    gestioneMenu(Direzione.SPACE);
+                //Sta in stage Select
+                if (TitleScreenState == 2){
+
+
+                    if (lettera.equals("A")) {
+                        gestioneMenu(Direzione.UP);
+                    } else if (lettera.equals("D")) {
+                        gestioneMenu(Direzione.DOWN);
+                    } else if (lettera.equals("Enter")) {
+                        gestioneMenu(Direzione.SPACE);
+                    } else if (lettera.equals("S")) {
+                        commandNum=2;
+                    }else if (lettera.equals("W")) {
+                        commandNum=0;
+                    }
+
+                }else {
+                    if (lettera.equals("W")) {
+                        gestioneMenu(Direzione.UP);
+                    } else if (lettera.equals("S")) {
+                        gestioneMenu(Direzione.DOWN);
+                    } else if (lettera.equals("Enter")) {
+                        gestioneMenu(Direzione.SPACE);
+                    }
                 }
+
+
             }
 
 
@@ -618,6 +673,7 @@ public class GamePanel extends JPanel implements Observer {
 
 
     }
+
     private void gestioneMenu(Direzione direzione) {
         switch (direzione) {
             case UP:
@@ -751,7 +807,8 @@ public class GamePanel extends JPanel implements Observer {
                                 //return menu
                                 case 2:
                                     TitleScreenState = 0;
-                                    cambioMenuReset(0,2);
+                                    commandNum=0;
+                                    cambioMenuReset(0, 2);
                                     break;
                             }
                         }
@@ -780,7 +837,7 @@ public class GamePanel extends JPanel implements Observer {
                             case 1:
                                 TitleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
-                                cambioMenuReset(0,2);
+                                cambioMenuReset(0, 2);
                                 break;
 
                         }
@@ -813,7 +870,7 @@ public class GamePanel extends JPanel implements Observer {
                             case 1:
                                 TitleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
-                                cambioMenuReset(0,2);
+                                cambioMenuReset(0, 2);
                                 break;
 
                         }
@@ -825,6 +882,7 @@ public class GamePanel extends JPanel implements Observer {
 
         }
     }
+
     private void LoadGame(int saveId) {
 
         var utente = getSavedGameEsistente(saveId);
@@ -854,6 +912,7 @@ public class GamePanel extends JPanel implements Observer {
         tileM.RiSetPowerUps();
 
     }
+
     private void drawScreenGameOver(Graphics2D g2) {
 
         try {
@@ -885,6 +944,7 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
+
     private void drawScreenWin(Graphics2D g2) {
 
         try {
@@ -916,6 +976,7 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
+
     private void drawScreenWinNonContinue(Graphics2D g2) {
 
         try {
@@ -947,6 +1008,7 @@ public class GamePanel extends JPanel implements Observer {
             throw new RuntimeException(e);
         }
     }
+
     private void drawInfoGame(Graphics2D g2) throws IOException {
 
 
@@ -954,14 +1016,14 @@ public class GamePanel extends JPanel implements Observer {
         g2.setColor(c);
         g2.fillRect(0, 0, 900, 30);
 
-        var gestioneUtente= new GestioneUtente();
+        var gestioneUtente = new GestioneUtente();
 
         BufferedImage AvatarIcon;
-        if (partita.utente==null){
+        if (partita.utente == null) {
 
             //Avatar di default Bomberman
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(Avatar.Bomberman)));
-        }else{
+        } else {
             AvatarIcon = ImageIO.read(new File(gestioneUtente.getPathAvatarIcon(partita.utente.avatar)));
         }
 

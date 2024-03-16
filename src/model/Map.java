@@ -80,6 +80,17 @@ public class Map {
         return null;
     }
 
+    public String getMapPath(Maps mappaSelezionata) {
+        switch (mappaSelezionata) {
+            case TheSevenSeas:
+                return "src/view/maps/Pirate/pirata.png";
+            case Spaceman:
+                return "src/view/maps/Spaceman/Spaceman1.png";
+        }
+
+        return null;
+    }
+
     /**
      * Restituisce la posizione iniziale x del giocatore sulla mappa.
      *

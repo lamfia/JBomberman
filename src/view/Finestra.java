@@ -9,7 +9,6 @@ import model.Partita;
 import java.awt.*;
 
 
-
 /**
  * Questa classe rappresenta la finestra principale del gioco
  * Estende la classe JFrame e contiene il pannello di gioco GamePanel.
@@ -19,10 +18,7 @@ import java.awt.*;
  * @author Gabriel Guerra
  */
 public class Finestra extends JFrame {
-
     private GamePanel gamePanel;
-
-
     private static void showFrameOnScreen(Window frame, int screen) {
         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] graphicsDevices = graphicsEnvironment.getScreenDevices();
@@ -35,7 +31,6 @@ public class Finestra extends JFrame {
         frame.setLocationRelativeTo(null);
         frame.setLocation(bounds.x + 500, bounds.y + 200);
     }
-
 
     /**
      * Costruisce una nuova Finestra del gioco.
@@ -65,7 +60,7 @@ public class Finestra extends JFrame {
         setVisible(true);
 
         //GamePanel
-        gamePanel = new GamePanel(Color.gray, dimensionWidht, dimensionHeight, partita);
+        gamePanel = new GamePanel(dimensionWidht, dimensionHeight, partita);
         add(gamePanel);
         gamePanel.setBounds(0, 0, 800, 600);
         gamePanel.setFocusable(true);
@@ -77,7 +72,7 @@ public class Finestra extends JFrame {
     /**
      * Restituisce il pannello di gioco associato a questa finestra.
      *
-     * @return  GamePanel.
+     * @return GamePanel.
      */
     public GamePanel getGamePanel() {
         return gamePanel;
