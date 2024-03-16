@@ -20,7 +20,7 @@ public class Main {
         Partita partita = new Partita();
 
         //Set del tile state
-        partita.setStatoPartita(StatoPartita.Title);
+        partita.changeStatoPartita(StatoPartita.Title);
         partita.newGame(Maps.TheSevenSeas);
 
         //Crea la view

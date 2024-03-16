@@ -42,6 +42,12 @@ public class AudioManager {
         pathSounds.add("src/view/res/sound/BackgroundMap1.wav"); //0
         pathSounds.add("src/view/res/sound/BombExplodes.wav");   //1
         pathSounds.add("src/view/res/sound/Item Get.wav");   //2
+
+        //Music
+        pathSounds.add("src/view/res/sound/TitleScreen.wav");   //3
+        pathSounds.add("src/view/res/sound/Pirates!.wav");   //4
+        pathSounds.add("src/view/res/sound/Spaceman.wav");   //25
+
     }
 
     /**
@@ -77,6 +83,8 @@ public class AudioManager {
      * @param index L'indice della musica da riprodurre.
      */
     public void playMusic(int index){
+
+        stopMusic();
         setClip(index);
         play();
         loop();
@@ -86,7 +94,9 @@ public class AudioManager {
      * Interrompe la riproduzione della musica corrente.
      */
     public void stopMusic() {
-        clip.stop();
+        if (this.clip!=null){
+            clip.stop();
+        }
     }
 
 

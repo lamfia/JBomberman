@@ -1,6 +1,7 @@
 package model;
 
 import controller.ApplicationManager;
+import controller.AudioManager;
 import controller.GestioneUtente;
 
 import java.io.IOException;
@@ -98,6 +99,9 @@ public class Partita extends Observable {
      * @throws IOException Eccezione lanciata in caso di errori di input/output.
      */
     public void newGame(Maps selectedMap) throws IOException {
+
+        Music();
+
         points = 0;
         OpenPortal = false;
         lastMapPlayed = selectedMap;
@@ -146,9 +150,7 @@ public class Partita extends Observable {
      *
      * @param statoPartita Il nuovo stato della partita da impostare.
      */
-    public void setStatoPartita(StatoPartita statoPartita) {
-        this.statoPartita = statoPartita;
-    }
+
 
     /**
      * Notifica gli osservatori della modifica dello stato della partita.
@@ -161,6 +163,25 @@ public class Partita extends Observable {
 
     }
 
+    private void Music(){
+
+        switch (this.statoPartita) {
+            case Title: {
+                AudioManager.getInstance().playMusic(3);
+            }
+            case Playing, Playing_StageSelect: {
+                if (lastMapPlayed == Maps.TheSevenSeas) {
+                    AudioManager.getInstance().playMusic(4);
+                }
+                if (lastMapPlayed == Maps.Spaceman) {
+                    AudioManager.getInstance().playMusic(5);
+                }
+
+            }
+
+        }
+    }
+
     /**
      * In caso di cambio dello stato della
      * partita si notifica alla view
@@ -169,6 +190,8 @@ public class Partita extends Observable {
      * @param statoPartita
      */
     public void changeStatoPartita(StatoPartita statoPartita) {
+
+
 
         //Se sta giocando Arcade
         if (this.statoPartita == StatoPartita.Playing) {
@@ -183,6 +206,8 @@ public class Partita extends Observable {
 
         //Aggiorno l'attributo
         this.statoPartita = statoPartita;
+
+        Music();
 
         notifica();
 

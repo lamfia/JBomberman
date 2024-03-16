@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
 /**
  * Questa classe contiene tutte le impostazioni di ogni mappa, inclusi tiles, nemici, power-ups e il portale di uscita.
  * Le mappe sono specificate tramite l'enumerazione Maps.
@@ -153,7 +152,7 @@ public class Map {
                 break;
             case Spaceman:
                 try {
-                    PortaTile = new Tile(581, 480, 46, 46,
+                    PortaTile = new Tile(581, 480 - (80 * 4), 46, 46,
                             "src/view/res/common/DoorClosed.png", false);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -161,6 +160,7 @@ public class Map {
                 break;
         }
     }
+
     public void apriPorta() {
         try {
             this.PortaTile.image = ImageIO.read(new File("src/view/res/common/DoorOpen.png"));
@@ -223,7 +223,21 @@ public class Map {
                 DestructibilesTiles.add(new Tile(377, 480, 46, 46,
                         pathImageTiles, true)); //10,04
 
-                 DestructibilesTiles.add(new Tile(580, 480, 46, 46,
+                DestructibilesTiles.add(new Tile(580, 480, 46, 46,
+                        pathImageTiles, true)); //10,06
+
+                DestructibilesTiles.add(new Tile(580+(1*45), 480, 46, 46,
+                        pathImageTiles, true)); //10,06
+                 DestructibilesTiles.add(new Tile(580+(2*45), 480, 46, 46,
+                        pathImageTiles, true)); //10,06
+
+                DestructibilesTiles.add(new Tile(580-(8*45), 480, 46, 46,
+                        pathImageTiles, true)); //10,06
+
+                DestructibilesTiles.add(new Tile(580-(11*45), 480, 46, 46,
+                        pathImageTiles, true)); //10,06
+
+              DestructibilesTiles.add(new Tile(580-(11*45), 480-(3*40), 46, 46,
                         pathImageTiles, true)); //10,06
 
                 //Walking tiles
@@ -258,12 +272,87 @@ public class Map {
                 //Settings del Pirate Map
                 var pathImageTilesStar = "src/view/maps/Spaceman/Star.png";
 
+                int x = 80;
+                DestructibilesTiles.add(new Tile(x, 75, 46, 46,
+                        pathImageTilesStar, true));
+                x += 45;
+                DestructibilesTiles.add(new Tile(x, 75, 46, 46,
+                        pathImageTilesStar, true));
+                x += 45;
+                DestructibilesTiles.add(new Tile(x, 75, 46, 46,
+                        pathImageTilesStar, true));
+
+
+                x += 50;
+                int y = 166;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                y += 80;
+                x -= 45;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+
+                y += 80;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                y += 80;
+                x += (50 * 5);
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                x += 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x += 50;
+                y -= (80 * 3);
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x += 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x += 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x += 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                y += (80 * 3);
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                y += 80;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                x -= 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                x -= 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x -= 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                x -= (50 * 5);
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+                x -= 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+                x -= 50;
+                DestructibilesTiles.add(new Tile(x, y, 46, 46,
+                        pathImageTilesStar, true));
+
+
                 DestructibilesTiles.add(new Tile(377, 285, 46, 46,
                         pathImageTilesStar, true));
 
-
-                DestructibilesTiles.add(new Tile(80, 100, 46, 46,
-                        pathImageTilesStar, true));
 
                 //Walking tiles
 
@@ -298,13 +387,23 @@ public class Map {
 
         switch (selectedMap) {
             case TheSevenSeas:
-               // this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
-                this.Enemici.add(new Enemico(180, 130, 4, 40, 40, Direzione.DOWN, tileM));
+                this.Enemici.add(new Enemico2(80, 150, 2, 40, 40, Direzione.UP, tileM));
+                this.Enemici.add(new Enemico(180, 130, 2, 40, 40, Direzione.DOWN, tileM));
+
+                this.Enemici.add(new Enemico(194+(12*40), 130, 2, 40, 40, Direzione.DOWN, tileM));
+
+                this.Enemici.add(new Enemico(194+(12*40), 160+(80*3), 2, 40, 40, Direzione.LEFT, tileM));
                 break;
 
             case Spaceman:
-                //this.Enemici.add(new Enemico2(80, 150, 4, 40, 40, Direzione.UP, tileM));
-                this.Enemici.add(new Enemico(250, 130, 4, 40, 40, Direzione.DOWN, tileM));
+
+                this.Enemici.add(new Enemico(270, 130, 2, 40, 40, Direzione.DOWN, tileM));
+                this.Enemici.add(new Enemico(270 + (5 * 40), 130, 2, 40, 40, Direzione.UP, tileM));
+
+                this.Enemici.add(new Enemico2(110 + (7 * 40), 490, 2, 40, 40, Direzione.RIGHT, tileM));
+
+                this.Enemici.add(new Enemico2(110 + (14 * 40), 170, 2, 40, 40, Direzione.LEFT, tileM));
+
                 break;
         }
     }
@@ -359,9 +458,9 @@ public class Map {
             case Spaceman:
 
                 //PowerUps Tiles
-                PowerUpTiles.add(new PowerUpTile(681, 80, PowerUp.ExtraBomb));
+                PowerUpTiles.add(new PowerUpTile(681, 80 + (80 * 5), PowerUp.ExtraBomb));
                 PowerUpTiles.add(new PowerUpTile(80, 80, PowerUp.SpeedUp));
-                PowerUpTiles.add(new PowerUpTile(80, 360, PowerUp.IncreaseExplosion));
+                PowerUpTiles.add(new PowerUpTile(280, 490, PowerUp.IncreaseExplosion));
 
                 break;
         }

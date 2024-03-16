@@ -196,8 +196,12 @@ public class GamePanel extends JPanel implements Observer {
 
 
             //Title bomberman
+            var J = ImageIO.read(new File("src/view/res/TitleScreen/J.png"));
+            g2.drawImage(J, 215, 90, 40, 100, this);
             var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
             g2.drawImage(title, 240, 30, 270, 150, this);
+
+
 
             //Start
             g2.setColor(Color.white);
@@ -235,6 +239,11 @@ public class GamePanel extends JPanel implements Observer {
 
         //Load Game
         if (TitleScreenState == 1) {
+            //Title bomberman
+            var J = ImageIO.read(new File("src/view/res/TitleScreen/J.png"));
+            g2.drawImage(J, 215, 90, 40, 100, this);
+            var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
+            g2.drawImage(title, 240, 30, 270, 150, this);
 
             int XSpace = 100;
 
@@ -311,6 +320,11 @@ public class GamePanel extends JPanel implements Observer {
 
         //Crea Utente
         if (TitleScreenState == 3) {
+
+            var J = ImageIO.read(new File("src/view/res/TitleScreen/J.png"));
+            g2.drawImage(J, 215, 90, 40, 100, this);
+            var title = ImageIO.read(new File("src/view/res/TitleScreen/bomberman title.png"));
+            g2.drawImage(title, 240, 30, 270, 150, this);
 
             g2.setColor(Color.white);
             g2.setFont(g2.getFont().deriveFont(Font.BOLD, 30F));
