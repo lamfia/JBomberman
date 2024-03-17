@@ -22,6 +22,7 @@ public class Partita extends Observable {
      * Lo stato attuale della partita.
      */
     public StatoPartita statoPartita;
+    public StatoPartita precedenteStatoPartita;
 
     /**
      * La mappa corrente della partita.
@@ -100,7 +101,7 @@ public class Partita extends Observable {
      */
     public void newGame(Maps selectedMap) throws IOException {
 
-        Music();
+        // Music();
 
         points = 0;
         OpenPortal = false;
@@ -123,8 +124,28 @@ public class Partita extends Observable {
     public void continueGame() {
 
         resetGame();
+
+        if (precedenteStatoPartita == StatoPartita.Playing_StageSelect) {
+
+            this.statoPartita = StatoPartita.Playing_StageSelect;
+
+        } else {
+
+            this.statoPartita = StatoPartita.Playing;
+
+        }
+
+
+        this.giocatore.reimpostaViteIniziali();
+        Music();
+    }
+
+    public void continueGameStageSelected() {
+
+        resetGame();
         this.statoPartita = StatoPartita.Playing;
         this.giocatore.reimpostaViteIniziali();
+        Music();
     }
 
     /**
@@ -133,7 +154,7 @@ public class Partita extends Observable {
     public void resetGame() {
 
         points = 0;
-
+        // Music();
         //reset del personaggio abilities
         try {
             newGame(lastMapPlayed);
@@ -163,11 +184,15 @@ public class Partita extends Observable {
 
     }
 
-    private void Music(){
+    private void Music() {
+
+
+        AudioManager.getInstance().stopMusic();
 
         switch (this.statoPartita) {
             case Title: {
                 AudioManager.getInstance().playMusic(3);
+                break;
             }
             case Playing, Playing_StageSelect: {
                 if (lastMapPlayed == Maps.TheSevenSeas) {
@@ -176,8 +201,14 @@ public class Partita extends Observable {
                 if (lastMapPlayed == Maps.Spaceman) {
                     AudioManager.getInstance().playMusic(5);
                 }
-
+                break;
             }
+            case GameOver:
+                AudioManager.getInstance().StopMusicPlay(6);
+                break;
+            case Win:
+                AudioManager.getInstance().StopMusicPlay(7);
+                break;
 
         }
     }
@@ -192,7 +223,6 @@ public class Partita extends Observable {
     public void changeStatoPartita(StatoPartita statoPartita) {
 
 
-
         //Se sta giocando Arcade
         if (this.statoPartita == StatoPartita.Playing) {
             if (statoPartita == StatoPartita.Win) {
@@ -203,6 +233,10 @@ public class Partita extends Observable {
                 StopGame();
             }
         }
+        this.precedenteStatoPartita = this.statoPartita;
+
+//        if (precedenteStatoPartita!=null)
+//         System.out.println(precedenteStatoPartita.toString());
 
         //Aggiorno l'attributo
         this.statoPartita = statoPartita;

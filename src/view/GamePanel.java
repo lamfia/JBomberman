@@ -40,11 +40,12 @@ public class GamePanel extends JPanel implements Observer {
     private TileManager tileM;
     private Graphics2D externalGraphics;
     private Giocatore player;
-    private int TitleScreenState = 0; //0: prima title ; 1: load game
+    private int titleScreenState = 0; //0: prima title ; 1: load game
     // ; 2:stage select ; 3:CreazioneUtente
     public Partita partita;
     public String NewNickName = "";
     public Utente newUtente = new Utente();
+
 
     /**
      * Dimensioni del gamePanel
@@ -192,7 +193,7 @@ public class GamePanel extends JPanel implements Observer {
         var bombMenuImage = ImageIO.read(new File("src/view/res/TitleScreen/BombMenu.png"));
 
 
-        if (TitleScreenState == 0) {
+        if (titleScreenState == 0) {
 
 
             //Title bomberman
@@ -238,7 +239,7 @@ public class GamePanel extends JPanel implements Observer {
         }
 
         //Load Game
-        if (TitleScreenState == 1) {
+        if (titleScreenState == 1) {
             //Title bomberman
             var J = ImageIO.read(new File("src/view/res/TitleScreen/J.png"));
             g2.drawImage(J, 215, 90, 40, 100, this);
@@ -314,12 +315,12 @@ public class GamePanel extends JPanel implements Observer {
 
 
         //Stage select
-        if (TitleScreenState == 2) {
+        if (titleScreenState == 2) {
             drawStageSelect(g2);
         }
 
         //Crea Utente
-        if (TitleScreenState == 3) {
+        if (titleScreenState == 3) {
 
             var J = ImageIO.read(new File("src/view/res/TitleScreen/J.png"));
             g2.drawImage(J, 215, 90, 40, 100, this);
@@ -530,6 +531,7 @@ public class GamePanel extends JPanel implements Observer {
 
             var partita = (Partita) arg;
             if (partita.statoPartita == StatoPartita.GameOver) {
+                titleScreenState=1;
                 commandNum = 0;
                 cambioMenuReset(0, 1);
             }
@@ -555,7 +557,7 @@ public class GamePanel extends JPanel implements Observer {
 
         //Attack!
         if (observable instanceof Attaco) {
-            System.out.println(arg.toString());
+            //System.out.println(arg.toString());
             tileM.AggiungiBomba(giocatore.movimento.posizione.pos_x, giocatore.movimento.posizione.pos_y + 5);
         }
 
@@ -565,8 +567,9 @@ public class GamePanel extends JPanel implements Observer {
             String lettera = (String) arg;
             //System.out.println(direzione.toString());
 
+            //System.out.println(titleScreenState);
             //Sta in creazione utente
-            if (this.TitleScreenState == 3) {
+            if (this.titleScreenState == 3) {
 
                 //Se nickname is null allora lo deve inserire
                 if (newUtente.Nickname == null) {
@@ -630,7 +633,7 @@ public class GamePanel extends JPanel implements Observer {
 //                        }
                         partita.utente.avatar = newUtente.avatar;
 
-                        this.TitleScreenState = 0;
+                        this.titleScreenState = 0;
                         NewNickName = "";
                         newUtente = new Utente();
 
@@ -652,7 +655,7 @@ public class GamePanel extends JPanel implements Observer {
             } else {
 
                 //Sta in stage Select
-                if (TitleScreenState == 2){
+                if (titleScreenState == 2){
 
 
                     if (lettera.equals("A")) {
@@ -705,12 +708,12 @@ public class GamePanel extends JPanel implements Observer {
                     //Primo title state =0
                     case Title:
 
-                        if (TitleScreenState == 0) {
+                        if (titleScreenState == 0) {
                             switch (commandNum) {
 
                                 //Start
                                 case 0:
-                                    TitleScreenState = 1;
+                                    titleScreenState = 1;
                                     cambioMenuReset(4);
 
 //                                    partita.statoPartita = StatoPartita.Playing;
@@ -729,7 +732,7 @@ public class GamePanel extends JPanel implements Observer {
                                 //Stage select
                                 case 1:
                                     //Secondo title state =2
-                                    TitleScreenState = 2;
+                                    titleScreenState = 2;
                                     //Cambio di menu
                                     cambioMenuReset(2);
                                     break;
@@ -740,7 +743,7 @@ public class GamePanel extends JPanel implements Observer {
                                     break;
 
                             }
-                        } else if (TitleScreenState == 1) {
+                        } else if (titleScreenState == 1) {
                             Utente utente = null;
                             //Load save
                             switch (commandNum) {
@@ -785,13 +788,13 @@ public class GamePanel extends JPanel implements Observer {
 
                                 //return menu
                                 case 4:
-                                    TitleScreenState = 0;
+                                    titleScreenState = 0;
                                     cambioMenuReset(3);
                                     break;
 
 
                             }
-                        } else if (TitleScreenState == 2) {
+                        } else if (titleScreenState == 2) {
 
                             //Stage Select state
                             switch (commandNum) {
@@ -820,7 +823,7 @@ public class GamePanel extends JPanel implements Observer {
                                     break;
                                 //return menu
                                 case 2:
-                                    TitleScreenState = 0;
+                                    titleScreenState = 0;
                                     commandNum=0;
                                     cambioMenuReset(0, 2);
                                     break;
@@ -849,7 +852,7 @@ public class GamePanel extends JPanel implements Observer {
 
                             //Quit (Return to menu)
                             case 1:
-                                TitleScreenState = 0;
+                                titleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
                                 cambioMenuReset(0, 2);
                                 break;
@@ -882,7 +885,7 @@ public class GamePanel extends JPanel implements Observer {
 
                             //Quit (Return to menu)
                             case 1:
-                                TitleScreenState = 0;
+                                titleScreenState = 0;
                                 partita.changeStatoPartita(StatoPartita.Title);
                                 cambioMenuReset(0, 2);
                                 break;
@@ -915,12 +918,12 @@ public class GamePanel extends JPanel implements Observer {
             }
         } else {
             //Crea utente
-            TitleScreenState = 3;
+            titleScreenState = 3;
             cambioMenuReset(5);
             return;
         }
 
-        partita.statoPartita = StatoPartita.Playing;
+        partita.changeStatoPartita(StatoPartita.Playing);
         //partita.resetGame(); //TODO mettere bene qui il reset di tutti i tiles
         tileM.RiSetEnemici();
         tileM.RiSetPowerUps();
