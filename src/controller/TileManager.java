@@ -50,9 +50,10 @@ public class TileManager {
 
     /**
      * Costruttore della classe `TileManager`.
-     * @param gp Il pannello di gioco.
+     *
+     * @param gp        Il pannello di gioco.
      * @param giocatore Il giocatore principale.
-     * @param partita La partita in corso.
+     * @param partita   La partita in corso.
      */
     public TileManager(GamePanel gp, Giocatore giocatore, Partita partita) {
 
@@ -121,8 +122,8 @@ public class TileManager {
     }
 
 
-
     //USATO STREAM QUI
+
     /**
      * Verifica se il tile associato alla posizione
      * specificata è bloccato.
@@ -130,8 +131,8 @@ public class TileManager {
      * tile ha una collisione in base alle coordinate x e y.
      *
      * @param posizione La posizione del tile da controllare.
-     * @param velocita La velocità del movimento.
-     * @param noClip True se la modalità no-clip è attiva, altrimenti False.
+     * @param velocita  La velocità del movimento.
+     * @param noClip    True se la modalità no-clip è attiva, altrimenti False.
      * @return True se il tile è bloccato a causa di una collisione, altrimenti False.
      */
     public boolean isTileBlocked(Posizione posizione, int velocita, boolean noClip) {
@@ -292,7 +293,6 @@ public class TileManager {
         }
 
 
-
         //Draw dei PowerUpds
         for (Tile PowerUpTile : this.partita.map.PowerUpTiles) {
             g2.drawImage(PowerUpTile.image, PowerUpTile.x, PowerUpTile.y, PowerUpTile.width, PowerUpTile.height, null);
@@ -304,7 +304,6 @@ public class TileManager {
                         PowerUpTile.collisionRectangle.width, PowerUpTile.collisionRectangle.height);
             }
         }
-
 
 
         if (showHitboxes == true) {
@@ -427,6 +426,8 @@ public class TileManager {
 
 
                 giocatore.morte();
+
+                System.out.println(giocatore.movimento.posizione.pos_x);
 
                 if (giocatore.vite <= 0) {
                     System.out.println("Game Over!");

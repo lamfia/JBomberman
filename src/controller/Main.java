@@ -14,7 +14,7 @@ public class Main {
 
         //Variabili di avvio
         Boolean showHitboxes = false;
-        AudioManager.getInstance().enable = false  ;
+        AudioManager.getInstance().enable = true  ;
 
         //Creazione di partita
         Partita partita = new Partita();

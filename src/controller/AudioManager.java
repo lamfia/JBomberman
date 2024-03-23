@@ -66,6 +66,9 @@ public class AudioManager {
             clip = AudioSystem.getClip();
             clip.open(audio);
 
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-15.0f); // Reduce volume by 10 decibels.
+
         } catch (Exception e) {
         }
     }
