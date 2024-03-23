@@ -446,9 +446,9 @@ public class GamePanel extends JPanel implements Observer {
                 g2.drawString("Level reached: " + utente.lastLevelArrived, x + 220, y + 24);
                 g2.drawString("Points: " + utente.puntiOttenuti, x + 360, y + 24);
 
-                //TrashIcon
-                var TrashIcon = ImageIO.read(new File("src/view/res/miscellaneous/TrashIcon.png"));
-                g2.drawImage(TrashIcon, x + 530, y - 15, 50, 50, this);
+                //TrashIcon TODO mettere logica
+//                var TrashIcon = ImageIO.read(new File("src/view/res/miscellaneous/TrashIcon.png"));
+//                g2.drawImage(TrashIcon, x + 530, y - 15, 50, 50, this);
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
