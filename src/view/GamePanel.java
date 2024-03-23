@@ -17,7 +17,7 @@ import java.util.*;
  * Questa classe rappresenta il gamePanel del gioco,
  * gestiona tutta la sezione visuale del gioco, cosi anche come
  * il menu di selezione, paint degli sprites e fps del gioco.
- * implementa la classe Observer per essere aggiornata ad ogni iterazione
+ * Implementa la classe Observer per essere aggiornata ad ogni iterazione
  * con gli observables che sono i models.
  *
  * @author Gabriel Guerra

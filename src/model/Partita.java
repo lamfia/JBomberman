@@ -128,22 +128,12 @@ public class Partita extends Observable {
         if (precedenteStatoPartita == StatoPartita.Playing_StageSelect) {
 
             this.statoPartita = StatoPartita.Playing_StageSelect;
-
         } else {
 
             this.statoPartita = StatoPartita.Playing;
-
         }
 
 
-        this.giocatore.reimpostaViteIniziali();
-        Music();
-    }
-
-    public void continueGameStageSelected() {
-
-        resetGame();
-        this.statoPartita = StatoPartita.Playing;
         this.giocatore.reimpostaViteIniziali();
         Music();
     }
