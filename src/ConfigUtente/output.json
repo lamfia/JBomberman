@@ -1,10 +1,19 @@
 [
   {
-    "Nickname": "LAMFIA",
+    "Nickname": "GABRIEL",
     "avatar": "Bomberman",
-    "partiteGiocate": 32,
-    "partiteVinte": 1,
-    "partitePerse": 24,
+    "partiteGiocate": 10,
+    "partiteVinte": 6,
+    "partitePerse": 0,
+    "lastLevelArrived": 2,
+    "puntiOttenuti": 0
+  },
+  {
+    "Nickname": "BILLY",
+    "avatar": "BombermanTheKid",
+    "partiteGiocate": 1,
+    "partiteVinte": 0,
+    "partitePerse": 1,
     "lastLevelArrived": 1,
     "puntiOttenuti": 0
   }

@@ -282,7 +282,6 @@ public class Map {
                 DestructibilesTiles.add(new Tile(x, 75, 46, 46,
                         pathImageTilesStar, true));
 
-
                 x += 50;
                 int y = 166;
                 DestructibilesTiles.add(new Tile(x, y, 46, 46,
@@ -388,7 +387,7 @@ public class Map {
         switch (selectedMap) {
             case TheSevenSeas:
                 this.Enemici.add(new Enemico2(80, 150, 2, 40, 40, Direzione.UP, tileM));
-                this.Enemici.add(new Enemico(180, 130, 2, 40, 40, Direzione.DOWN, tileM));
+                this.Enemici.add(new Enemico(180, 140, 2, 40, 40, Direzione.UP, tileM));
 
                 this.Enemici.add(new Enemico(194+(12*40), 130, 2, 40, 40, Direzione.DOWN, tileM));
 

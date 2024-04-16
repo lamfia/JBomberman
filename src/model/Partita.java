@@ -88,7 +88,7 @@ public class Partita extends Observable {
     public Partita() {
         //Crea il giocatore
         //this.giocatore = new Giocatore(380, 200, 1, 2, 40, 40);
-        this.giocatore = new Giocatore(0, 0, 1, 4, 40, 40);
+        this.giocatore = new Giocatore(0, 0, 2, 4, 40, 40);
         ApplicationManager.movimento = giocatore.movimento;
         ApplicationManager.attaco = giocatore.attaco; //Press spacebar to attack!
     }
